@@ -23,7 +23,29 @@
       "Bash(python3 -c ' *)",
       "Bash(grep -rn \"api/config\\\\|getModelLabel\\\\|model badge\\\\|/api/config\" app components lib)",
       "Bash(awk -F= '/^\\(LLM_MODEL|LLM_BASE_URL|POLY_PIZZA_API_KEY|LLM_API_KEY\\)=/{print $1\"=\"\\(length\\($2\\)>0?\"SET\":\"EMPTY\"\\)}' .env.local)",
-      "Bash(node --check scripts/fetch-assets.mjs)"
+      "Bash(node --check scripts/fetch-assets.mjs)",
+      "Bash(git commit -q -m 'phase 3: asset library + live fetch + self-healing LLM *)",
+      "Bash(curl -s http://localhost:62821/api/config)",
+      "Bash(python3 /private/tmp/claude-501/-Users-ameyajoshi-Claude-Projects-tinker/d0db8dca-147d-4a0b-ab1a-f8da753ef504/scratchpad/smoke.py)",
+      "Bash(git checkout *)",
+      "Bash(rm -f public/models/flux-capacitor.glb)",
+      "Bash(python3 -c \"import json; print\\('assets in manifest:', len\\(json.load\\(open\\('lib/assetManifest.generated.json'\\)\\)['assets']\\)\\)\")",
+      "Bash(bash /private/tmp/claude-501/-Users-ameyajoshi-Claude-Projects-tinker/d0db8dca-147d-4a0b-ab1a-f8da753ef504/scratchpad/switch_test.sh)",
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)",
+      "Bash(ls -la /private/tmp/claude-501/-Users-ameyajoshi-Claude-Projects-tinker/7dd83d4c-2e56-45e5-af40-7528cc724047/tasks/ 2>/dev/null *)",
+      "Bash(cp \"/private/tmp/claude-501/-Users-ameyajoshi-Claude-Projects-tinker/7dd83d4c-2e56-45e5-af40-7528cc724047/scratchpad/test-failover.mjs\" scripts/_tmp-test-failover.mjs)",
+      "Bash(sed -i '' 's#../lib/llm.ts#../lib/llm.ts#' scripts/_tmp-test-failover.mjs)",
+      "Bash(rm scripts/_tmp-test-failover.mjs)",
+      "Bash(cp \"/private/tmp/claude-501/-Users-ameyajoshi-Claude-Projects-tinker/7dd83d4c-2e56-45e5-af40-7528cc724047/scratchpad/verify.mjs\" scripts/_tmp-verify.mjs)",
+      "Bash(timeout 180 node scripts/_tmp-verify.mjs 62950)",
+      "Bash(rm -f scripts/_tmp-verify.mjs)",
+      "Bash(node scripts/_tmp-verify.mjs 62950)",
+      "Bash(node /tmp/test-rejection.mjs 63753)",
+      "Bash(git ls-remote *)",
+      "Bash(rm -f public/models/bicycle.glb)",
+      "Bash(grep -E '^\\\\+.*\\\\.0[,]?$')",
+      "Bash(git add *)"
     ]
   }
 }

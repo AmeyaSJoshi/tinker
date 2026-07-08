@@ -7,13 +7,20 @@ export const BASE_SELECTION_ID = "__base_asset__";
 interface SceneState {
   /** The realistic GLB base model, if this build started from the asset library. */
   baseAsset: BaseAsset | null;
+  /** Model ids the learner has rejected for the CURRENT build topic ("no, a real bike"). */
+  rejectedModelIds: string[];
   parts: Part[];
   selectedPartId: string | null;
   conceptsLearned: string[];
   messages: ChatMessage[];
 
-  /** Load a realistic GLB as the scene's base: sets it and clears any parts. */
+  /** Load a realistic GLB as a FRESH build's base: sets it, clears parts + rejections. */
   loadBaseAsset: (asset: BaseAsset) => void;
+  /**
+   * Swap the current base model for a replacement (the learner rejected the old
+   * one). Remembers the rejected model's id so it's never re-picked this topic.
+   */
+  swapBaseAsset: (asset: BaseAsset) => void;
   /** Apply a validated tutor response to the scene per the manifest rules. */
   applyManifest: (response: TutorResponse) => void;
   selectPart: (id: string | null) => void;
@@ -32,6 +39,7 @@ function mergeConcepts(existing: string[], parts: Part[]): string[] {
 
 export const useSceneStore = create<SceneState>((set) => ({
   baseAsset: null,
+  rejectedModelIds: [],
   parts: [],
   selectedPartId: null,
   conceptsLearned: [],
@@ -40,6 +48,8 @@ export const useSceneStore = create<SceneState>((set) => ({
   loadBaseAsset: (asset) =>
     set((state) => ({
       baseAsset: asset,
+      // A new build topic — start the rejection list over.
+      rejectedModelIds: [],
       // A new base model replaces whatever was in the scene.
       parts: [],
       selectedPartId: null,
@@ -47,6 +57,22 @@ export const useSceneStore = create<SceneState>((set) => ({
         new Set([...state.conceptsLearned, ...asset.concepts]),
       ),
     })),
+
+  swapBaseAsset: (asset) =>
+    set((state) => {
+      const rejectedId = state.baseAsset?.sourceModelId;
+      return {
+        baseAsset: asset,
+        rejectedModelIds: rejectedId
+          ? Array.from(new Set([...state.rejectedModelIds, rejectedId]))
+          : state.rejectedModelIds,
+        parts: [],
+        selectedPartId: null,
+        conceptsLearned: Array.from(
+          new Set([...state.conceptsLearned, ...asset.concepts]),
+        ),
+      };
+    }),
 
   applyManifest: (response) =>
     set((state) => {
@@ -124,6 +150,7 @@ export const useSceneStore = create<SceneState>((set) => ({
   clearScene: () =>
     set({
       baseAsset: null,
+      rejectedModelIds: [],
       parts: [],
       selectedPartId: null,
       conceptsLearned: [],

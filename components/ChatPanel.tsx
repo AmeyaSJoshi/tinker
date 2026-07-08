@@ -20,6 +20,16 @@ const CREATE_RE =
   /\b(build|make|create|design|construct|model|show me|give me|generate|render|i want|i'?d like)\b/i;
 
 /**
+ * Words that signal the learner is rejecting the CURRENT base model rather
+ * than asking for an edit ("no, a real bike", "that's not right", "wrong
+ * one"). Checked only when a base model is loaded — a plain keyword heuristic
+ * beats an extra LLM round-trip here since it just needs to be reliable, not
+ * subtle.
+ */
+const REJECT_RE =
+  /\b(not this|not that|wrong (one|model|thing)|a real |an actual |that'?s not (it|right)|no,? i (wanted|meant)|try (a different|another)|different (one|model))\b/i;
+
+/**
  * Decide whether a message should first try to resolve to a realistic base
  * MODEL (via /api/resolve-asset). A clear "build/make" verb always qualifies;
  * so does the very first message when nothing exists yet, unless it's obviously
@@ -62,6 +72,7 @@ export default function ChatPanel() {
   const addMessage = useSceneStore((s) => s.addMessage);
   const applyManifest = useSceneStore((s) => s.applyManifest);
   const loadBaseAsset = useSceneStore((s) => s.loadBaseAsset);
+  const swapBaseAsset = useSceneStore((s) => s.swapBaseAsset);
   const clearScene = useSceneStore((s) => s.clearScene);
 
   const [input, setInput] = useState("");
@@ -127,12 +138,15 @@ export default function ChatPanel() {
   }
 
   /** Try to resolve a build request to a realistic base MODEL. Null = use primitives. */
-  async function resolveAsset(phrase: string): Promise<BaseAsset | null> {
+  async function resolveAsset(
+    phrase: string,
+    excludeIds?: string[],
+  ): Promise<BaseAsset | null> {
     try {
       const res = await fetch("/api/resolve-asset", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phrase }),
+        body: JSON.stringify({ phrase, excludeIds }),
       });
       if (!res.ok) return null;
       const data = await res.json();
@@ -198,6 +212,37 @@ export default function ChatPanel() {
     setLoading(true);
 
     try {
+      // Rejecting the current base model ("no, a real bike") re-resolves the
+      // SAME topic with the old model excluded, instead of falling through to
+      // the tutor (which would just edit primitives onto the wrong model).
+      if (before.baseAsset && REJECT_RE.test(trimmed)) {
+        const rejected = before.baseAsset;
+        const noun = rejected.name.toLowerCase();
+        const exclude = rejected.sourceModelId
+          ? Array.from(new Set([...before.rejectedModelIds, rejected.sourceModelId]))
+          : before.rejectedModelIds;
+
+        setLiveStatus(`🔍 Let me find a better ${noun}…`);
+        const next = await resolveAsset(rejected.name, exclude);
+        setLiveStatus(null);
+
+        if (next) {
+          swapBaseAsset(next);
+          addMessage({
+            role: "tutor",
+            content: `Let me find a better ${noun}… ${next.intro}`,
+          });
+          setSuggestedActions(baseAssetSuggestions(next));
+        } else {
+          addMessage({
+            role: "tutor",
+            content: `I couldn't find a better match for "${noun}" online — want to describe it differently, or should I build one from scratch instead?`,
+          });
+          setSuggestedActions([`Build a ${noun} from scratch`, "Describe it differently"]);
+        }
+        return;
+      }
+
       if (looksLikeCreate(trimmed, hasScene)) {
         setLiveStatus(`🔍 Finding you a realistic ${coreNoun(trimmed)}…`);
         const asset = await resolveAsset(trimmed);

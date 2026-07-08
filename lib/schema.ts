@@ -99,6 +99,8 @@ export interface BaseAsset {
   concepts: string[];
   /** World-space extent (after scale + yOffset) — used to auto-frame the camera. */
   boundingBox: { min: Vec3; max: Vec3; size: Vec3 };
+  /** Poly Pizza's own model id, tracked so a rejected model is never re-picked. */
+  sourceModelId?: string;
 }
 
 export const tutorResponseSchema = z.object({
@@ -115,11 +117,17 @@ export const tutorResponseSchema = z.object({
    * When `action` is "create_base" and the build resolves to a realistic GLB
    * from the asset library, this names the asset. The scene then renders that
    * model as its base instead of primitive parts. Absent for primitive builds.
+   *
+   * Only reasoning/action/reply are truly required — everything below is
+   * optional-with-a-safe-default so a response is rejected ONLY when it's
+   * genuinely unusable, not because the model omitted a minor field.
    */
-  baseAssetId: z.string().optional(),
-  parts: z.array(partSchema).default([]),
-  removedPartIds: z.array(z.string()).default([]),
-  followUpQuestion: z.string().optional(),
-  suggestedActions: z.array(z.string()).default([]),
+  baseAssetId: z.string().nullable().optional(),
+  parts: z.array(partSchema).optional().default([]),
+  removedPartIds: z.array(z.string()).optional().default([]),
+  followUpQuestion: z.string().nullable().optional(),
+  suggestedActions: z.array(z.string()).optional().default([]),
+  /** Reserved for Phase 5 quiz mode; unused today. */
+  quiz: z.unknown().nullable().optional(),
 });
 export type TutorResponse = z.infer<typeof tutorResponseSchema>;

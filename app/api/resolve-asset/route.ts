@@ -3,19 +3,22 @@ import type { BaseAsset } from "@/lib/schema";
 import {
   appendAssetEntry,
   getAsset,
+  getValidationVerdict,
   matchAsset,
+  setValidationVerdict,
+  sourceModelIdOf,
   type AssetEntry,
 } from "@/lib/assetManifest";
 import { computeAutoManifest } from "@/lib/autoManifest";
+import { resolveValidatedModel } from "@/lib/assetResolver";
 import {
   appendCredit,
   creditFor,
   downloadGlb,
   hasApiKey,
   OversizeError,
-  type PolyModel,
-  rankModels,
   searchModels,
+  type PolyModel,
   slugify,
 } from "@/lib/polypizza";
 
@@ -25,11 +28,11 @@ export const dynamic = "force-dynamic";
 
 /** How long the client will wait for a live fetch before we say "use primitives". */
 const LIVE_BUDGET_MS = 10_000;
-/** How many ranked candidates to try before giving up on a keyword. */
-const MAX_CANDIDATES = 6;
 
 interface ResolveRequestBody {
   phrase: string;
+  /** Poly Pizza model ids the learner already rejected — never re-pick these. */
+  excludeIds?: string[];
 }
 
 /**
@@ -57,6 +60,7 @@ function toBaseAsset(entry: AssetEntry): BaseAsset {
     intro: entry.intro,
     concepts: entry.concepts,
     boundingBox: entry.boundingBox,
+    sourceModelId: sourceModelIdOf(entry) ?? undefined,
   };
 }
 
@@ -77,27 +81,44 @@ function titleCase(s: string): string {
 }
 
 /**
- * Keep only candidates whose TITLE plausibly names the requested noun. Poly
- * Pizza's relevance ordering is noisy and rankModels re-sorts purely by
- * license/poly-count, so without this a fictional or unknown noun (e.g. "flux
- * capacitor") would grab an unrelated low-poly CC0 model and mislabel it — first
- * a "Sci Fi Wall Power Cell", then a "Capacitor Rifle".
+ * Find a genuinely-matching model for `noun`, backed by the LLM semantic
+ * validator (never a plain title-substring check — that's exactly what let
+ * "bear" match "Bear Trap" and "peanut" match "Peanut Butter" before).
  *
- * We require EVERY significant token of the noun to appear in the title. A real
- * "Flux Capacitor" model would still qualify (and beat primitives), but a
- * "Capacitor Rifle" (only "capacitor") won't. An empty result means "no real
- * match" → the caller falls back to letting the LLM build it from primitives.
+ * A clean request (no exclusions) checks the validation cache first, so a
+ * repeat phrase never re-spends an LLM call: a null cached verdict means "we
+ * already confirmed nothing qualifies," so we go straight to primitives.
  */
-function relevantCandidates(models: PolyModel[], noun: string): PolyModel[] {
-  const tokens = noun
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter((w) => w.length >= 3);
-  if (tokens.length === 0) return models;
-  return models.filter((m) => {
-    const title = (m.title ?? "").toLowerCase();
-    return tokens.every((t) => title.includes(t));
-  });
+async function findValidatedModel(
+  phrase: string,
+  noun: string,
+  excludeIds: string[],
+): Promise<PolyModel | null> {
+  const excludeSet = new Set(excludeIds);
+
+  if (excludeSet.size === 0) {
+    const cached = getValidationVerdict(phrase);
+    if (cached) {
+      if (cached.modelId === null) return null;
+      try {
+        const raw = await searchModels(noun, 24);
+        const found = raw.find((m) => m.id === cached.modelId);
+        if (found) return found;
+      } catch {
+        // Fall through to a fresh validation below.
+      }
+    }
+  }
+
+  const winner = await resolveValidatedModel(phrase, noun, excludeSet);
+
+  // Only cache "clean" resolutions — an exclusion-driven retry is a one-off
+  // rejection, not the general verdict for this phrase.
+  if (excludeSet.size === 0) {
+    await setValidationVerdict(phrase, winner ? winner.id : null);
+  }
+
+  return winner;
 }
 
 /** A simple teacherly intro for live-fetched assets (prefetch generates richer ones). */
@@ -106,66 +127,74 @@ function templatedIntro(noun: string): string {
 }
 
 /**
- * In-flight de-dupe: two requests for the same slug share one download promise,
- * and the promise outlives a timed-out request so the file still lands for next
- * time. Each entry resolves to the finished asset or null (never rejects).
+ * In-flight de-dupe: two requests for the same (slug, exclusion set) share one
+ * download promise, and the promise outlives a timed-out request so the file
+ * still lands for next time. Each entry resolves to the finished asset or null
+ * (never rejects).
  */
 const inFlight = new Map<string, Promise<AssetEntry | null>>();
 
-function startFetch(noun: string, slug: string): Promise<AssetEntry | null> {
-  const existing = inFlight.get(slug);
+function startFetch(
+  phrase: string,
+  noun: string,
+  slug: string,
+  excludeIds: string[],
+): Promise<AssetEntry | null> {
+  const key = `${slug}::${excludeIds.slice().sort().join(",")}`;
+  const existing = inFlight.get(key);
   if (existing) return existing;
 
   const task = (async (): Promise<AssetEntry | null> => {
     try {
-      const models = await searchModels(noun, 24);
-      // Only accept models whose title actually names the noun; otherwise fall
-      // back to primitives rather than surfacing a mislabeled random model.
-      const ranked = relevantCandidates(rankModels(models), noun).slice(0, MAX_CANDIDATES);
-      if (ranked.length === 0) {
-        console.log(`[resolve-asset] no title-relevant model for "${noun}" — using primitives`);
+      // Never download a bad match just because it's the best available: the
+      // validator either hands back a real single-object winner or nothing.
+      const model = await findValidatedModel(phrase, noun, excludeIds);
+      if (!model) {
+        console.log(`[resolve-asset] no validated model for "${noun}" — using primitives`);
         return null;
       }
-      for (const model of ranked) {
-        try {
-          const dl = await downloadGlb(model, slug);
-          const geo = await computeAutoManifest(dl.filePath);
-          const entry: AssetEntry = {
-            id: slug,
-            name: titleCase(noun),
-            url: dl.publicPath,
-            scale: geo.scale,
-            yOffset: geo.yOffset,
-            boundingBox: geo.boundingBox,
-            anchors: geo.anchors,
-            aliases: [],
-            concepts: [],
-            intro: templatedIntro(noun),
-            license: model.license,
-            author: model.creator?.name ?? "Unknown",
-            authorUrl: model.creator?.url,
-            attributionUrl: `https://poly.pizza/m/${model.id}`,
-            triCount: model.triCount,
-            source: "live",
-          };
-          await appendAssetEntry(entry);
-          await appendCredit(creditFor(model, slug));
-          return entry;
-        } catch (err) {
-          if (err instanceof OversizeError) continue; // try the next candidate
-          console.warn(`[resolve-asset] candidate failed for "${noun}":`, err);
+      try {
+        const dl = await downloadGlb(model, slug);
+        const geo = await computeAutoManifest(dl.filePath);
+        const entry: AssetEntry = {
+          id: slug,
+          name: titleCase(noun),
+          url: dl.publicPath,
+          scale: geo.scale,
+          yOffset: geo.yOffset,
+          boundingBox: geo.boundingBox,
+          anchors: geo.anchors,
+          aliases: [],
+          concepts: [],
+          intro: templatedIntro(noun),
+          license: model.license,
+          author: model.creator?.name ?? "Unknown",
+          authorUrl: model.creator?.url,
+          attributionUrl: `https://poly.pizza/m/${model.id}`,
+          triCount: model.triCount,
+          sourceModelId: model.id,
+          source: "live",
+        };
+        await appendAssetEntry(entry);
+        await appendCredit(creditFor(model, slug));
+        return entry;
+      } catch (err) {
+        if (err instanceof OversizeError) {
+          console.warn(`[resolve-asset] validated model for "${noun}" was oversized`);
+        } else {
+          console.warn(`[resolve-asset] download failed for "${noun}":`, err);
         }
+        return null;
       }
-      return null;
     } catch (err) {
       console.warn(`[resolve-asset] live fetch failed for "${noun}":`, err);
       return null;
     } finally {
-      inFlight.delete(slug);
+      inFlight.delete(key);
     }
   })();
 
-  inFlight.set(slug, task);
+  inFlight.set(key, task);
   return task;
 }
 
@@ -184,13 +213,23 @@ export async function POST(request: Request) {
     return NextResponse.json<ResolveResponse>({ status: "primitives" });
   }
 
-  // 1. Local library — instant.
-  const local = matchAsset(phrase);
-  if (local) {
-    return NextResponse.json<ResolveResponse>({
-      status: "library",
-      asset: toBaseAsset(local),
-    });
+  const excludeIds = Array.isArray(body?.excludeIds)
+    ? body.excludeIds.filter((x): x is string => typeof x === "string" && x.length > 0)
+    : [];
+
+  // Exclusions mean the learner just rejected the current match ("no, a real
+  // bike") — they want something DIFFERENT, so the instant library/cache
+  // shortcuts (which would just hand back the same rejected model) are skipped
+  // in favor of a fresh, validated live search.
+  if (excludeIds.length === 0) {
+    // 1. Local library — instant.
+    const local = matchAsset(phrase);
+    if (local) {
+      return NextResponse.json<ResolveResponse>({
+        status: "library",
+        asset: toBaseAsset(local),
+      });
+    }
   }
 
   const noun = extractNoun(phrase) || phrase;
@@ -199,13 +238,15 @@ export async function POST(request: Request) {
     return NextResponse.json<ResolveResponse>({ status: "primitives", noun });
   }
 
-  // A previous live fetch may already have cached this exact slug.
-  const cached = getAsset(slug);
-  if (cached) {
-    return NextResponse.json<ResolveResponse>({
-      status: "library",
-      asset: toBaseAsset(cached),
-    });
+  if (excludeIds.length === 0) {
+    // A previous live fetch may already have cached this exact slug.
+    const cached = getAsset(slug);
+    if (cached) {
+      return NextResponse.json<ResolveResponse>({
+        status: "library",
+        asset: toBaseAsset(cached),
+      });
+    }
   }
 
   // 2. Live fetch — but only if we have a key, and only within the budget.
@@ -213,7 +254,7 @@ export async function POST(request: Request) {
     return NextResponse.json<ResolveResponse>({ status: "primitives", noun });
   }
 
-  const task = startFetch(noun, slug);
+  const task = startFetch(phrase, noun, slug, excludeIds);
   const timer = new Promise<typeof TIMEOUT>((resolve) =>
     setTimeout(() => resolve(TIMEOUT), LIVE_BUDGET_MS),
   );

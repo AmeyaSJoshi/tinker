@@ -5,8 +5,13 @@ import {
   type Part,
   type TutorResponse,
 } from "@/lib/schema";
-import { buildSystemPrompt } from "@/lib/tutorPrompt";
-import { callTutor, noteTutorOutcome, type LlmMessage } from "@/lib/llm";
+import { buildExplainPrompt, buildSystemPrompt } from "@/lib/tutorPrompt";
+import {
+  callTutor,
+  generateText,
+  noteTutorOutcome,
+  type LlmMessage,
+} from "@/lib/llm";
 import { getAsset, type AssetEntry } from "@/lib/assetManifest";
 import { resolveAnchor } from "@/lib/anchorResolver";
 
@@ -19,15 +24,107 @@ interface TutorRequestBody {
   baseAssetId?: string;
 }
 
-/** Returned when the model never yields schema-valid JSON — scene stays put. */
-const FALLBACK: TutorResponse = {
-  reasoning: "The model failed to return a valid manifest; emitting a safe no-op so the scene is preserved.",
+/** Only used when we don't even have a usable `message` to build a dynamic reply from. */
+const STATIC_FALLBACK: TutorResponse = {
+  reasoning: "",
   action: "explain",
   reply: "Hmm, I got a bit tangled up — can you try rephrasing that?",
+  baseAssetId: null,
   parts: [],
   removedPartIds: [],
+  followUpQuestion: null,
   suggestedActions: [],
+  quiz: null,
 };
+
+/** Trim a learner message for safe embedding inside a dynamic fallback reply. */
+function trimForDisplay(s: string, max = 60): string {
+  const t = s.trim();
+  return t.length > max ? `${t.slice(0, max).trimEnd()}…` : t;
+}
+
+const BUILD_FALLBACK_TEMPLATES: ((msg: string) => string)[] = [
+  (msg) =>
+    `I had trouble designing that part — try asking a bit more specifically, like "add two wings to the sides" instead of "${trimForDisplay(msg)}".`,
+  (msg) =>
+    `I couldn't quite turn "${trimForDisplay(msg)}" into a buildable part — naming a shape and where it goes helps, like "add a fin to the back".`,
+];
+
+/** A friendly, non-canned fallback reply, tailored to build vs. explain and the failed message. */
+function dynamicFallbackMessage(kind: "build" | "explain", message: string): string {
+  if (kind === "explain") {
+    return `I had trouble putting that explanation together — try asking about a specific part by name, like "how does the heat shield work?" instead of "${trimForDisplay(message)}".`;
+  }
+  const template = BUILD_FALLBACK_TEMPLATES[message.length % BUILD_FALLBACK_TEMPLATES.length];
+  return template(message);
+}
+
+/** Build a safe no-op response with a dynamic, specific message instead of a canned line. */
+function fallbackResponse(kind: "build" | "explain", message: string): TutorResponse {
+  return {
+    reasoning: "",
+    action: "explain",
+    reply: dynamicFallbackMessage(kind, message),
+    baseAssetId: null,
+    parts: [],
+    removedPartIds: [],
+    followUpQuestion: null,
+    suggestedActions: [],
+    quiz: null,
+  };
+}
+
+/** Log every fallback firing with full diagnostics so failures are debuggable. */
+function logFallback(stage: string, rawText: string | null, zodError: string): void {
+  console.error(
+    `[TUTOR-FALLBACK] ${stage}\n--- raw model output ---\n${rawText ?? "(empty)"}\n--- zod error ---\n${
+      zodError || "(none)"
+    }`,
+  );
+}
+
+/**
+ * Words that signal an EXPLAIN turn (a question) vs a BUILD turn (a change).
+ * Used only as the fallback when the cheap LLM classifier call itself fails.
+ */
+const EXPLAIN_HEURISTIC_RE =
+  /\b(how does|how do|how did|why (is|does|do|are|did)|what (is|are|does|makes)|explain|tell me about|describe|what'?s the (point|purpose|reason)|what happens)\b/i;
+const BUILD_HEURISTIC_RE =
+  /\b(add|remove|delete|attach|build|make|create|change|modify|move|resize|bigger|smaller|replace|swap|turn (it|this) into|give (it|the)|put a|upgrade|redesign|shrink|grow|widen|rotate)\b/i;
+
+function heuristicIntent(message: string): "build" | "explain" {
+  const looksLikeQuestion = /\?\s*$/.test(message.trim()) || EXPLAIN_HEURISTIC_RE.test(message);
+  const looksLikeBuild = BUILD_HEURISTIC_RE.test(message);
+  return looksLikeQuestion && !looksLikeBuild ? "explain" : "build";
+}
+
+/**
+ * Decide BUILD vs EXPLAIN before touching the JSON build schema at all, so a
+ * pure question can never produce the old "tangled up" fallback. Tries one
+ * cheap LLM call first; falls back to a keyword heuristic if that call fails.
+ * An empty scene is always a BUILD — there's nothing yet to ask about.
+ */
+async function classifyIntent(message: string, hasScene: boolean): Promise<"build" | "explain"> {
+  if (!hasScene) return "build";
+
+  const prompt = `Classify the learner's message in a 3D-model tutoring app as exactly one word: BUILD or EXPLAIN.
+
+BUILD = they want to add, remove, resize, move, or otherwise change the 3D scene.
+EXPLAIN = they're asking a question about something that already exists (e.g. "how does X work", "why is it shaped like that"), with NO change to the scene.
+
+Message: "${message}"
+
+Reply with ONLY one word: BUILD or EXPLAIN.`;
+
+  try {
+    const raw = (await generateText(prompt)).trim().toUpperCase();
+    if (raw.includes("EXPLAIN")) return "explain";
+    if (raw.includes("BUILD")) return "build";
+  } catch (err) {
+    console.warn("[tutor] intent classifier call failed, using heuristic:", err);
+  }
+  return heuristicIntent(message);
+}
 
 /**
  * Serialize the current scene so the (stateless) model knows what already
@@ -116,6 +213,53 @@ function validate(text: string | null): TutorResponse | null {
     return null;
   }
   const result = tutorResponseSchema.safeParse(parsed);
+  return result.success ? result.data : null;
+}
+
+/**
+ * Extract the first balanced `{...}` block from raw text (brace-counting, so
+ * nested objects don't confuse it). Returns null if the braces never close.
+ */
+function extractLargestJsonObject(text: string): string | null {
+  const start = text.indexOf("{");
+  if (start === -1) return null;
+  let depth = 0;
+  for (let i = start; i < text.length; i++) {
+    if (text[i] === "{") depth++;
+    else if (text[i] === "}") {
+      depth--;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  return null;
+}
+
+/**
+ * Last-ditch repair pass before giving up on a response: pull out the largest
+ * balanced JSON object, parse it, drop any keys the schema doesn't know about,
+ * and let Zod's own defaults fill in the rest. Only succeeds if what remains
+ * still satisfies the (now very loose) schema.
+ */
+function salvage(text: string | null): TutorResponse | null {
+  if (!text) return null;
+  const block = extractLargestJsonObject(text);
+  if (!block) return null;
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(block);
+  } catch {
+    return null;
+  }
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return null;
+
+  const allowedKeys = new Set(Object.keys(tutorResponseSchema.shape));
+  const stripped: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+    if (allowedKeys.has(key)) stripped[key] = value;
+  }
+
+  const result = tutorResponseSchema.safeParse(stripped);
   return result.success ? result.data : null;
 }
 
@@ -240,25 +384,54 @@ export async function POST(request: Request) {
   try {
     body = (await request.json()) as TutorRequestBody;
   } catch {
-    return NextResponse.json(FALLBACK);
+    return NextResponse.json(STATIC_FALLBACK);
   }
 
   const { message, history = [], currentParts = [], baseAssetId } = body;
   if (typeof message !== "string" || message.trim() === "") {
-    return NextResponse.json(FALLBACK);
+    return NextResponse.json(STATIC_FALLBACK);
   }
 
   // If the scene is built on a realistic GLB, load it so we can describe its
   // anchors to the model and resolve anchor-based attachments afterwards.
   const baseAsset = baseAssetId ? getAsset(baseAssetId) : null;
-
-  const systemPrompt = buildSystemPrompt();
+  const hasScene = baseAsset != null || currentParts.length > 0;
 
   // Compose the scene context: the base model (if any) comes first, then the
   // primitive parts already added on top of it.
   const sceneContext = baseAsset
     ? `${describeBaseAsset(baseAsset)}\n\n${describeScene(currentParts)}`
     : describeScene(currentParts);
+
+  // BUILD vs EXPLAIN is decided BEFORE any JSON schema is involved. A pure
+  // question never enters the build path, so it can never produce the old
+  // "tangled up" fallback — its only failure mode is a plain-text LLM error.
+  const intent = await classifyIntent(message, hasScene);
+
+  if (intent === "explain") {
+    try {
+      const reply = (await generateText(buildExplainPrompt(sceneContext, message))).trim();
+      noteTutorOutcome(true);
+      const response: TutorResponse = {
+        reasoning: "",
+        action: "explain",
+        reply,
+        baseAssetId: null,
+        parts: [],
+        removedPartIds: [],
+        followUpQuestion: null,
+        suggestedActions: [],
+        quiz: null,
+      };
+      return NextResponse.json(response);
+    } catch (err) {
+      noteTutorOutcome(false);
+      logFallback("explain call failed", null, err instanceof Error ? err.message : String(err));
+      return NextResponse.json(fallbackResponse("explain", message));
+    }
+  }
+
+  const systemPrompt = buildSystemPrompt();
 
   // System + full conversation + a final user turn carrying the live scene
   // state and the new message. Everything travels each call (stateless model).
@@ -272,15 +445,16 @@ export async function POST(request: Request) {
   ];
 
   try {
-    // Attempt 1.
+    // Attempt 1: raw validate, then a salvage pass before giving up on it.
     let text = await callTutor(baseMessages);
-    let validated = validate(text);
+    let validated = validate(text) ?? salvage(text);
     if (validated) {
       noteTutorOutcome(true);
       return NextResponse.json(
         sanityPass(resolveAttachments(validated, baseAsset), currentParts),
       );
     }
+    logFallback("attempt 1 failed validation + salvage", text, validationError(text));
 
     // Attempt 2: append the validation error and ask for corrected JSON.
     const errorDetail = validationError(text);
@@ -294,7 +468,7 @@ export async function POST(request: Request) {
     ];
 
     text = await callTutor(retryMessages);
-    validated = validate(text);
+    validated = validate(text) ?? salvage(text);
     if (validated) {
       noteTutorOutcome(true);
       return NextResponse.json(
@@ -302,13 +476,15 @@ export async function POST(request: Request) {
       );
     }
 
-    // Valid transport, unusable content — count it and degrade gracefully.
+    // Valid transport, unusable content even after salvage — count it and
+    // degrade gracefully with a specific, non-canned message.
+    logFallback("attempt 2 (retry) failed validation + salvage", text, validationError(text));
     noteTutorOutcome(false);
-    return NextResponse.json(FALLBACK);
+    return NextResponse.json(fallbackResponse("build", message));
   } catch (err) {
     // Both models failed (timeout / rate limit / network). Never crash.
     noteTutorOutcome(false);
-    console.error("[tutor] request failed:", err);
-    return NextResponse.json(FALLBACK);
+    logFallback("transport error (both models failed)", null, err instanceof Error ? err.message : String(err));
+    return NextResponse.json(fallbackResponse("build", message));
   }
 }

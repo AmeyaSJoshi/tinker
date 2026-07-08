@@ -38,12 +38,61 @@ export interface AssetEntry {
   triCount?: number;
   /** How this entry got here — prefetched offline or fetched live at runtime. */
   source: "prefetch" | "live";
+  /** Poly Pizza's own model id (the `m/<id>` in attributionUrl), for rejection-exclusion. */
+  sourceModelId?: string;
+}
+
+/** One cached semantic-validation outcome, keyed by normalized request phrase. */
+export interface ValidationCacheEntry {
+  /** Poly Pizza model id of the validated winner, or null = "no valid match". */
+  modelId: string | null;
+  ts: string;
 }
 
 export interface GeneratedManifest {
   version: number;
   generatedAt: string | null;
   assets: Record<string, AssetEntry>;
+  /** Cached asset-candidate validation verdicts, so repeat phrases skip the LLM call. */
+  validationCache?: Record<string, ValidationCacheEntry>;
+}
+
+function normalizePhraseKey(phrase: string): string {
+  return phrase.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+/** Look up a cached validation verdict for this exact request phrase, if any. */
+export function getValidationVerdict(phrase: string): ValidationCacheEntry | null {
+  const generated = readGenerated();
+  return generated.validationCache?.[normalizePhraseKey(phrase)] ?? null;
+}
+
+/** Persist a validation verdict (winning model id, or null for "no match"). */
+export function setValidationVerdict(
+  phrase: string,
+  modelId: string | null,
+): Promise<void> {
+  const key = normalizePhraseKey(phrase);
+  writeChain = writeChain.then(async () => {
+    const current = readGenerated();
+    const next: GeneratedManifest = {
+      ...current,
+      version: current.version ?? 1,
+      validationCache: {
+        ...(current.validationCache ?? {}),
+        [key]: { modelId, ts: new Date().toISOString() },
+      },
+    };
+    await fs.promises.writeFile(GENERATED_PATH, JSON.stringify(next, null, 2));
+  });
+  return writeChain;
+}
+
+/** The Poly Pizza model id an asset came from, from its own field or the attribution URL. */
+export function sourceModelIdOf(entry: AssetEntry): string | null {
+  if (entry.sourceModelId) return entry.sourceModelId;
+  const match = entry.attributionUrl.match(/\/m\/([^/]+)$/);
+  return match ? match[1] : null;
 }
 
 const GENERATED_PATH = path.join(

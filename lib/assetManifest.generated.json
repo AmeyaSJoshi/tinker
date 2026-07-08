@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-08T03:32:32.168Z",
+  "generatedAt": "2026-07-08T05:02:32.000Z",
   "assets": {
     "rocket": {
       "id": "rocket",
@@ -161,60 +161,60 @@
       "id": "satellite",
       "name": "Satellite",
       "url": "/models/satellite.glb",
-      "scale": 8.11076316249218,
-      "yOffset": 6.500636234538673e-31,
+      "scale": 1.9684908225144158,
+      "yOffset": 2.499999999436669,
       "boundingBox": {
         "min": [
-          -19.0602934439426,
+          -8.269132382968513,
           0,
-          -15.004911862696511
+          -7.333362439732842
         ],
         "max": [
-          -13.382759206026119,
+          8.269132382968513,
           5,
-          -9.327377624780029
+          5.5891534881751825
         ],
         "size": [
-          5.677534237916483,
+          16.538264765937026,
           5,
-          5.677534237916483
+          12.922515927908025
         ]
       },
       "anchors": {
         "top": [
-          -16.22152632498436,
+          0,
           5,
-          -12.16614474373827
+          -0.8721044757788299
         ],
         "bottom": [
-          -16.22152632498436,
           0,
-          -12.16614474373827
+          0,
+          -0.8721044757788299
         ],
         "front": [
-          -16.22152632498436,
+          0,
           2.5,
-          -9.327377624780029
+          5.5891534881751825
         ],
         "rear": [
-          -16.22152632498436,
+          0,
           2.5,
-          -15.004911862696511
+          -7.333362439732842
         ],
         "left_side": [
-          -19.0602934439426,
+          -8.269132382968513,
           2.5,
-          -12.16614474373827
+          -0.8721044757788299
         ],
         "right_side": [
-          -13.382759206026119,
+          8.269132382968513,
           2.5,
-          -12.16614474373827
+          -0.8721044757788299
         ],
         "center": [
-          -16.22152632498436,
+          0,
           2.5,
-          -12.16614474373827
+          -0.8721044757788299
         ]
       },
       "aliases": [
@@ -227,12 +227,13 @@
         "solar power"
       ],
       "intro": "Let's explore a Satellite. Click any part to learn what it does, then tell me what to add — we'll uncover the science together as we build it up.",
-      "license": "CC0 1.0",
-      "author": "Kenney",
+      "license": "CC-BY 3.0",
+      "author": "AroniaStudios",
       "authorUrl": "",
-      "attributionUrl": "https://poly.pizza/m/IDRrztoAMB",
-      "triCount": 390,
-      "source": "prefetch"
+      "attributionUrl": "https://poly.pizza/m/K7kE2DCBY8",
+      "triCount": 0,
+      "source": "prefetch",
+      "sourceModelId": "K7kE2DCBY8"
     },
     "volcano": {
       "id": "volcano",
@@ -386,7 +387,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/1yCRUwFnwX",
       "triCount": 0,
-      "source": "prefetch"
+      "source": "prefetch",
+      "sourceModelId": "1yCRUwFnwX"
     },
     "brain": {
       "id": "brain",
@@ -618,7 +620,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/4zE4UQ4siZa",
       "triCount": 339,
-      "source": "prefetch"
+      "source": "prefetch",
+      "sourceModelId": "4zE4UQ4siZa"
     },
     "helicopter": {
       "id": "helicopter",
@@ -928,7 +931,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/EMcTJiXibv",
       "triCount": 1120,
-      "source": "prefetch"
+      "source": "prefetch",
+      "sourceModelId": "EMcTJiXibv"
     },
     "train": {
       "id": "train",
@@ -1005,7 +1009,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/WY84FHug9s",
       "triCount": 0,
-      "source": "prefetch"
+      "source": "prefetch",
+      "sourceModelId": "WY84FHug9s"
     },
     "bridge": {
       "id": "bridge",
@@ -1088,60 +1093,60 @@
       "id": "castle",
       "name": "Castle",
       "url": "/models/castle.glb",
-      "scale": 0.9255308578107372,
-      "yOffset": 0.007589665121181664,
+      "scale": 5.336784923047892,
+      "yOffset": 0.00025222945972472663,
       "boundingBox": {
         "min": [
-          11.837674471989265,
+          -5.612783801055658,
           0,
-          -0.7080118057182185
+          -5.304592691570727
         ],
         "max": [
-          27.376715845063018,
+          5.612783801055658,
           5,
-          3.983238099591838
+          5.1387949852326456
         ],
         "size": [
-          15.539041373073752,
+          11.225567602111315,
           5,
-          4.691249905310056
+          10.443387676803372
         ]
       },
       "anchors": {
         "top": [
-          19.607195158526142,
+          0,
           5,
-          1.6376131469368098
+          -0.08289885316904089
         ],
         "bottom": [
-          19.607195158526142,
           0,
-          1.6376131469368098
+          0,
+          -0.08289885316904089
         ],
         "front": [
-          19.607195158526142,
+          0,
           2.5,
-          3.983238099591838
+          5.1387949852326456
         ],
         "rear": [
-          19.607195158526142,
+          0,
           2.5,
-          -0.7080118057182185
+          -5.304592691570727
         ],
         "left_side": [
-          11.837674471989265,
+          -5.612783801055658,
           2.5,
-          1.6376131469368098
+          -0.08289885316904089
         ],
         "right_side": [
-          27.376715845063018,
+          5.612783801055658,
           2.5,
-          1.6376131469368098
+          -0.08289885316904089
         ],
         "center": [
-          19.607195158526142,
+          0,
           2.5,
-          1.6376131469368098
+          -0.08289885316904089
         ]
       },
       "aliases": [
@@ -1157,9 +1162,10 @@
       "license": "CC0 1.0",
       "author": "Quaternius",
       "authorUrl": "",
-      "attributionUrl": "https://poly.pizza/m/AhhyXvO6Fd",
-      "triCount": 0,
-      "source": "prefetch"
+      "attributionUrl": "https://poly.pizza/m/opTOmcN3o9",
+      "triCount": 7050,
+      "source": "prefetch",
+      "sourceModelId": "opTOmcN3o9"
     },
     "windmill": {
       "id": "windmill",
@@ -1242,60 +1248,60 @@
       "id": "wind-turbine",
       "name": "Wind Turbine",
       "url": "/models/wind-turbine.glb",
-      "scale": 1.694922452648771,
-      "yOffset": 0.000004375908278165226,
+      "scale": 3.896112331562276,
+      "yOffset": 2.655516046640925e-7,
       "boundingBox": {
         "min": [
-          146.77811589490275,
+          328.37440164467614,
           0,
-          -0.9400778423518112
+          -2.5137853746254324
         ],
         "max": [
-          149.60056503196395,
+          332.8296172508704,
           5,
-          0.7545854584333419
+          2.5137853746060177
         ],
         "size": [
-          2.8224491370611986,
+          4.455215606194258,
           5,
-          1.694663300785153
+          5.02757074923145
         ]
       },
       "anchors": {
         "top": [
-          148.18934046343335,
+          330.6020094477733,
           5,
-          -0.09274619195923467
+          -9.707346038112519e-12
         ],
         "bottom": [
-          148.18934046343335,
+          330.6020094477733,
           0,
-          -0.09274619195923467
+          -9.707346038112519e-12
         ],
         "front": [
-          148.18934046343335,
+          330.6020094477733,
           2.5,
-          0.7545854584333419
+          2.5137853746060177
         ],
         "rear": [
-          148.18934046343335,
+          330.6020094477733,
           2.5,
-          -0.9400778423518112
+          -2.5137853746254324
         ],
         "left_side": [
-          146.77811589490275,
+          328.37440164467614,
           2.5,
-          -0.09274619195923467
+          -9.707346038112519e-12
         ],
         "right_side": [
-          149.60056503196395,
+          332.8296172508704,
           2.5,
-          -0.09274619195923467
+          -9.707346038112519e-12
         ],
         "center": [
-          148.18934046343335,
+          330.6020094477733,
           2.5,
-          -0.09274619195923467
+          -9.707346038112519e-12
         ]
       },
       "aliases": [
@@ -1311,9 +1317,10 @@
       "license": "CC0 1.0",
       "author": "Kay Lousberg",
       "authorUrl": "",
-      "attributionUrl": "https://poly.pizza/m/79RIeBw3Wk",
+      "attributionUrl": "https://poly.pizza/m/n9lfMIPumB",
       "triCount": 0,
-      "source": "prefetch"
+      "source": "prefetch",
+      "sourceModelId": "n9lfMIPumB"
     },
     "solar-panel": {
       "id": "solar-panel",
@@ -1704,60 +1711,60 @@
       "id": "tree",
       "name": "Tree",
       "url": "/models/tree.glb",
-      "scale": 0.7281452270633071,
-      "yOffset": 0.00728882679759419,
+      "scale": 2.0156727298177146,
+      "yOffset": 0.08558628935606487,
       "boundingBox": {
         "min": [
-          144.41798222298965,
+          -1.850150480821632,
           0,
-          -1.091023243985479
+          -2.3670821686906733
         ],
         "max": [
-          162.57391192325338,
-          4.999999999999999,
-          1.0919836776310352
+          1.9576854452215222,
+          5,
+          3.2226520863237416
         ],
         "size": [
-          18.155929700263727,
-          4.999999999999999,
-          2.1830069216165144
+          3.807835926043154,
+          5,
+          5.589734255014415
         ]
       },
       "anchors": {
         "top": [
-          153.4959470731215,
-          4.999999999999999,
-          0.0004802168227781012
+          0.053767482199945094,
+          5,
+          0.4277849588165341
         ],
         "bottom": [
-          153.4959470731215,
+          0.053767482199945094,
           0,
-          0.0004802168227781012
+          0.4277849588165341
         ],
         "front": [
-          153.4959470731215,
-          2.4999999999999996,
-          1.0919836776310352
+          0.053767482199945094,
+          2.5,
+          3.2226520863237416
         ],
         "rear": [
-          153.4959470731215,
-          2.4999999999999996,
-          -1.091023243985479
+          0.053767482199945094,
+          2.5,
+          -2.3670821686906733
         ],
         "left_side": [
-          144.41798222298965,
-          2.4999999999999996,
-          0.0004802168227781012
+          -1.850150480821632,
+          2.5,
+          0.4277849588165341
         ],
         "right_side": [
-          162.57391192325338,
-          2.4999999999999996,
-          0.0004802168227781012
+          1.9576854452215222,
+          2.5,
+          0.4277849588165341
         ],
         "center": [
-          153.4959470731215,
-          2.4999999999999996,
-          0.0004802168227781012
+          0.053767482199945094,
+          2.5,
+          0.4277849588165341
         ]
       },
       "aliases": [
@@ -1773,9 +1780,10 @@
       "license": "CC0 1.0",
       "author": "Quaternius",
       "authorUrl": "",
-      "attributionUrl": "https://poly.pizza/m/etFGNvsiFv",
+      "attributionUrl": "https://poly.pizza/m/2paAm1ja4w",
       "triCount": 0,
-      "source": "prefetch"
+      "source": "prefetch",
+      "sourceModelId": "2paAm1ja4w"
     },
     "house": {
       "id": "house",
@@ -2006,6 +2014,1612 @@
       "attributionUrl": "https://poly.pizza/m/3gEvVZoTN7e",
       "triCount": 192,
       "source": "prefetch"
+    },
+    "bear": {
+      "id": "bear",
+      "name": "Bear",
+      "url": "/models/bear.glb",
+      "scale": 0.007152032283323848,
+      "yOffset": -6.382458505859088,
+      "boundingBox": {
+        "min": [
+          -4.289967851649808,
+          0,
+          3.2370663851252397
+        ],
+        "max": [
+          0.036530434371373294,
+          5,
+          6.497248536701354
+        ],
+        "size": [
+          4.326498286021182,
+          5,
+          3.2601821515761147
+        ]
+      },
+      "anchors": {
+        "top": [
+          -2.1267187086392174,
+          5,
+          4.8671574609132975
+        ],
+        "bottom": [
+          -2.1267187086392174,
+          0,
+          4.8671574609132975
+        ],
+        "front": [
+          -2.1267187086392174,
+          2.5,
+          6.497248536701354
+        ],
+        "rear": [
+          -2.1267187086392174,
+          2.5,
+          3.2370663851252397
+        ],
+        "left_side": [
+          -4.289967851649808,
+          2.5,
+          4.8671574609132975
+        ],
+        "right_side": [
+          0.036530434371373294,
+          2.5,
+          4.8671574609132975
+        ],
+        "center": [
+          -2.1267187086392174,
+          2.5,
+          4.8671574609132975
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic bear to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "jiang liu",
+      "attributionUrl": "https://poly.pizza/m/3Eb9oLfZYIc",
+      "triCount": 0,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "3Eb9oLfZYIc"
+    },
+    "car": {
+      "id": "car",
+      "name": "Car",
+      "url": "/models/car.glb",
+      "scale": 13.558794749497336,
+      "yOffset": 0.8276692661571181,
+      "boundingBox": {
+        "min": [
+          -2.840235556376314,
+          0,
+          -5.360265831330669
+        ],
+        "max": [
+          2.8403690933693517,
+          5,
+          5.569112162292399
+        ],
+        "size": [
+          5.680604649745666,
+          5,
+          10.929377993623067
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.00006676849651876537,
+          5,
+          0.10442316548086472
+        ],
+        "bottom": [
+          0.00006676849651876537,
+          0,
+          0.10442316548086472
+        ],
+        "front": [
+          0.00006676849651876537,
+          2.5,
+          5.569112162292399
+        ],
+        "rear": [
+          0.00006676849651876537,
+          2.5,
+          -5.360265831330669
+        ],
+        "left_side": [
+          -2.840235556376314,
+          2.5,
+          0.10442316548086472
+        ],
+        "right_side": [
+          2.8403690933693517,
+          2.5,
+          0.10442316548086472
+        ],
+        "center": [
+          0.00006676849651876537,
+          2.5,
+          0.10442316548086472
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic car to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kay Lousberg",
+      "attributionUrl": "https://poly.pizza/m/BG0KAhmGDt",
+      "triCount": 1194,
+      "source": "live"
+    },
+    "water-bottle": {
+      "id": "water-bottle",
+      "name": "Water Bottle",
+      "url": "/models/water-bottle.glb",
+      "scale": 3.484242951505712,
+      "yOffset": 0.00370475172676746,
+      "boundingBox": {
+        "min": [
+          -0.8701204286139702,
+          0,
+          -0.8701205338144524
+        ],
+        "max": [
+          0.8701204286139702,
+          5.000000000000001,
+          0.8701203445427571
+        ],
+        "size": [
+          1.7402408572279404,
+          5.000000000000001,
+          1.7402408783572096
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5.000000000000001,
+          -9.463584765834199e-8
+        ],
+        "bottom": [
+          0,
+          0,
+          -9.463584765834199e-8
+        ],
+        "front": [
+          0,
+          2.5000000000000004,
+          0.8701203445427571
+        ],
+        "rear": [
+          0,
+          2.5000000000000004,
+          -0.8701205338144524
+        ],
+        "left_side": [
+          -0.8701204286139702,
+          2.5000000000000004,
+          -9.463584765834199e-8
+        ],
+        "right_side": [
+          0.8701204286139702,
+          2.5000000000000004,
+          -9.463584765834199e-8
+        ],
+        "center": [
+          0,
+          2.5000000000000004,
+          -9.463584765834199e-8
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic water bottle to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "attributionUrl": "https://poly.pizza/m/KpxDpidn1Z",
+      "triCount": 260,
+      "source": "live"
+    },
+    "computer": {
+      "id": "computer",
+      "name": "Computer",
+      "url": "/models/computer.glb",
+      "scale": 14.939752468228043,
+      "yOffset": 5.960464469327528e-7,
+      "boundingBox": {
+        "min": [
+          -2.6022126813546453,
+          0,
+          -2.499999838860969
+        ],
+        "max": [
+          -0.20171819554038137,
+          5,
+          2.525210033464542
+        ],
+        "size": [
+          2.400494485814264,
+          5,
+          5.025209872325512
+        ]
+      },
+      "anchors": {
+        "top": [
+          -1.4019654384475133,
+          5,
+          0.012605097301786605
+        ],
+        "bottom": [
+          -1.4019654384475133,
+          0,
+          0.012605097301786605
+        ],
+        "front": [
+          -1.4019654384475133,
+          2.5,
+          2.525210033464542
+        ],
+        "rear": [
+          -1.4019654384475133,
+          2.5,
+          -2.499999838860969
+        ],
+        "left_side": [
+          -2.6022126813546453,
+          2.5,
+          0.012605097301786605
+        ],
+        "right_side": [
+          -0.20171819554038137,
+          2.5,
+          0.012605097301786605
+        ],
+        "center": [
+          -1.4019654384475133,
+          2.5,
+          0.012605097301786605
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic computer to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "attributionUrl": "https://poly.pizza/m/7KNoiQlSxi",
+      "triCount": 324,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "7KNoiQlSxi"
+    },
+    "mouse": {
+      "id": "mouse",
+      "name": "Mouse",
+      "url": "/models/mouse.glb",
+      "scale": 197.4458863450971,
+      "yOffset": -0.000002199766568450146,
+      "boundingBox": {
+        "min": [
+          -8.300075697393764,
+          0,
+          -7.769661672080199
+        ],
+        "max": [
+          3.4742135322684327,
+          5,
+          7.769691065582502
+        ],
+        "size": [
+          11.774289229662196,
+          5,
+          15.5393527376627
+        ]
+      },
+      "anchors": {
+        "top": [
+          -2.4129310825626655,
+          5,
+          0.000014696751151621612
+        ],
+        "bottom": [
+          -2.4129310825626655,
+          0,
+          0.000014696751151621612
+        ],
+        "front": [
+          -2.4129310825626655,
+          2.5,
+          7.769691065582502
+        ],
+        "rear": [
+          -2.4129310825626655,
+          2.5,
+          -7.769661672080199
+        ],
+        "left_side": [
+          -8.300075697393764,
+          2.5,
+          0.000014696751151621612
+        ],
+        "right_side": [
+          3.4742135322684327,
+          2.5,
+          0.000014696751151621612
+        ],
+        "center": [
+          -2.4129310825626655,
+          2.5,
+          0.000014696751151621612
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic mouse to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
+      "triCount": 100,
+      "source": "live"
+    },
+    "phone": {
+      "id": "phone",
+      "name": "Phone",
+      "url": "/models/phone.glb",
+      "scale": 339.5675588835977,
+      "yOffset": 0,
+      "boundingBox": {
+        "min": [
+          -17.343042535845008,
+          0,
+          -38.24800716995047
+        ],
+        "max": [
+          17.343042535845008,
+          5,
+          38.24800716995047
+        ],
+        "size": [
+          34.686085071690016,
+          5,
+          76.49601433990094
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0
+        ],
+        "bottom": [
+          0,
+          0,
+          0
+        ],
+        "front": [
+          0,
+          2.5,
+          38.24800716995047
+        ],
+        "rear": [
+          0,
+          2.5,
+          -38.24800716995047
+        ],
+        "left_side": [
+          -17.343042535845008,
+          2.5,
+          0
+        ],
+        "right_side": [
+          17.343042535845008,
+          2.5,
+          0
+        ],
+        "center": [
+          0,
+          2.5,
+          0
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic phone to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "smallbigsquare",
+      "attributionUrl": "https://poly.pizza/m/4DRZmTs3jq",
+      "triCount": 182,
+      "source": "live"
+    },
+    "bean": {
+      "id": "bean",
+      "name": "Bean",
+      "url": "/models/bean.glb",
+      "scale": 0.06388675331568895,
+      "yOffset": 0.000015396707648206664,
+      "boundingBox": {
+        "min": [
+          -4.538592513378785,
+          0,
+          -8.914677192315656
+        ],
+        "max": [
+          4.634261308243771,
+          5,
+          8.914677192315656
+        ],
+        "size": [
+          9.172853821622557,
+          5,
+          17.829354384631312
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.04783439743249307,
+          5,
+          0
+        ],
+        "bottom": [
+          0.04783439743249307,
+          0,
+          0
+        ],
+        "front": [
+          0.04783439743249307,
+          2.5,
+          8.914677192315656
+        ],
+        "rear": [
+          0.04783439743249307,
+          2.5,
+          -8.914677192315656
+        ],
+        "left_side": [
+          -4.538592513378785,
+          2.5,
+          0
+        ],
+        "right_side": [
+          4.634261308243771,
+          2.5,
+          0
+        ],
+        "center": [
+          0.04783439743249307,
+          2.5,
+          0
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic bean to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "attributionUrl": "https://poly.pizza/m/5jAiqW0J0Ni",
+      "triCount": 220,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "5jAiqW0J0Ni"
+    },
+    "glasses": {
+      "id": "glasses",
+      "name": "Glasses",
+      "url": "/models/glasses.glb",
+      "scale": 6.435688894560063,
+      "yOffset": 2.707326327978481,
+      "boundingBox": {
+        "min": [
+          -6.615496824381209,
+          0,
+          -9.368692685553695
+        ],
+        "max": [
+          6.615496824381209,
+          5,
+          1.055361695214164
+        ],
+        "size": [
+          13.230993648762418,
+          5,
+          10.42405438076786
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -4.156665495169765
+        ],
+        "bottom": [
+          0,
+          0,
+          -4.156665495169765
+        ],
+        "front": [
+          0,
+          2.5,
+          1.055361695214164
+        ],
+        "rear": [
+          0,
+          2.5,
+          -9.368692685553695
+        ],
+        "left_side": [
+          -6.615496824381209,
+          2.5,
+          -4.156665495169765
+        ],
+        "right_side": [
+          6.615496824381209,
+          2.5,
+          -4.156665495169765
+        ],
+        "center": [
+          0,
+          2.5,
+          -4.156665495169765
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic glasses to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "iPoly3D",
+      "attributionUrl": "https://poly.pizza/m/j3zHqDAnzH",
+      "triCount": 882,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "j3zHqDAnzH"
+    },
+    "bike": {
+      "id": "bike",
+      "name": "Bike",
+      "url": "/models/bike.glb",
+      "scale": 2.36850319064316,
+      "yOffset": 0.005445188938133731,
+      "boundingBox": {
+        "min": [
+          -4.272604465505825,
+          0,
+          -1.4720555450117239
+        ],
+        "max": [
+          4.285292601175191,
+          5,
+          1.4720555450117239
+        ],
+        "size": [
+          8.557897066681015,
+          5,
+          2.9441110900234477
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.006344067834682665,
+          5,
+          0
+        ],
+        "bottom": [
+          0.006344067834682665,
+          0,
+          0
+        ],
+        "front": [
+          0.006344067834682665,
+          2.5,
+          1.4720555450117239
+        ],
+        "rear": [
+          0.006344067834682665,
+          2.5,
+          -1.4720555450117239
+        ],
+        "left_side": [
+          -4.272604465505825,
+          2.5,
+          0
+        ],
+        "right_side": [
+          4.285292601175191,
+          2.5,
+          0
+        ],
+        "center": [
+          0.006344067834682665,
+          2.5,
+          0
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic bike to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "attributionUrl": "https://poly.pizza/m/19VoUuA2pcN",
+      "triCount": 1714,
+      "sourceModelId": "19VoUuA2pcN",
+      "source": "live"
+    },
+    "me-a-spoon": {
+      "id": "me-a-spoon",
+      "name": "Me A Spoon",
+      "url": "/models/me-a-spoon.glb",
+      "scale": 179.85611936902424,
+      "yOffset": 0,
+      "boundingBox": {
+        "min": [
+          -43.12829250176097,
+          0,
+          -10.791366920935602
+        ],
+        "max": [
+          43.12829250176097,
+          5,
+          10.791366920935602
+        ],
+        "size": [
+          86.25658500352193,
+          5,
+          21.582733841871203
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0
+        ],
+        "bottom": [
+          0,
+          0,
+          0
+        ],
+        "front": [
+          0,
+          2.5,
+          10.791366920935602
+        ],
+        "rear": [
+          0,
+          2.5,
+          -10.791366920935602
+        ],
+        "left_side": [
+          -43.12829250176097,
+          2.5,
+          0
+        ],
+        "right_side": [
+          43.12829250176097,
+          2.5,
+          0
+        ],
+        "center": [
+          0,
+          2.5,
+          0
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic me a spoon to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/YNDbNrxQ1I",
+      "triCount": 46,
+      "source": "live"
+    },
+    "thermos": {
+      "id": "thermos",
+      "name": "Thermos",
+      "url": "/models/thermos.glb",
+      "scale": 0.000013558027127409102,
+      "yOffset": -5.3267967542422,
+      "boundingBox": {
+        "min": [
+          -2.444269941336959,
+          0,
+          11.513424946617386
+        ],
+        "max": [
+          -1.0558569956920216,
+          5.000000000000001,
+          13.037146367461345
+        ],
+        "size": [
+          1.3884129456449372,
+          5.000000000000001,
+          1.523721420843959
+        ]
+      },
+      "anchors": {
+        "top": [
+          -1.7500634685144902,
+          5.000000000000001,
+          12.275285657039365
+        ],
+        "bottom": [
+          -1.7500634685144902,
+          0,
+          12.275285657039365
+        ],
+        "front": [
+          -1.7500634685144902,
+          2.5000000000000004,
+          13.037146367461345
+        ],
+        "rear": [
+          -1.7500634685144902,
+          2.5000000000000004,
+          11.513424946617386
+        ],
+        "left_side": [
+          -2.444269941336959,
+          2.5000000000000004,
+          12.275285657039365
+        ],
+        "right_side": [
+          -1.0558569956920216,
+          2.5000000000000004,
+          12.275285657039365
+        ],
+        "center": [
+          -1.7500634685144902,
+          2.5000000000000004,
+          12.275285657039365
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic thermos to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "attributionUrl": "https://poly.pizza/m/dm0ZTuKAs45",
+      "triCount": 920,
+      "source": "live"
+    },
+    "human": {
+      "id": "human",
+      "name": "Human",
+      "url": "/models/human.glb",
+      "scale": 1.032790765899397,
+      "yOffset": -0.003469456592603061,
+      "boundingBox": {
+        "min": [
+          -2.683791901386857,
+          0,
+          -0.41249634608775637
+        ],
+        "max": [
+          2.683791901386857,
+          5,
+          0.5611994788643032
+        ],
+        "size": [
+          5.367583802773714,
+          5,
+          0.9736958249520595
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0.07435156638827342
+        ],
+        "bottom": [
+          0,
+          0,
+          0.07435156638827342
+        ],
+        "front": [
+          0,
+          2.5,
+          0.5611994788643032
+        ],
+        "rear": [
+          0,
+          2.5,
+          -0.41249634608775637
+        ],
+        "left_side": [
+          -2.683791901386857,
+          2.5,
+          0.07435156638827342
+        ],
+        "right_side": [
+          2.683791901386857,
+          2.5,
+          0.07435156638827342
+        ],
+        "center": [
+          0,
+          2.5,
+          0.07435156638827342
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic human to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "attributionUrl": "https://poly.pizza/m/HMnuH5geEG",
+      "triCount": 1216,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "HMnuH5geEG"
+    },
+    "star": {
+      "id": "star",
+      "name": "Star",
+      "url": "/models/star.glb",
+      "scale": 6.173314185251277,
+      "yOffset": 2.3008257428488017,
+      "boundingBox": {
+        "min": [
+          -2.628656003607105,
+          0,
+          -1.0392476628653082
+        ],
+        "max": [
+          2.6286551412050763,
+          5,
+          1.0392476628635166
+        ],
+        "size": [
+          5.257311144812181,
+          5,
+          2.0784953257288246
+        ]
+      },
+      "anchors": {
+        "top": [
+          -4.312010144502665e-7,
+          5,
+          -8.958389585700388e-13
+        ],
+        "bottom": [
+          -4.312010144502665e-7,
+          0,
+          -8.958389585700388e-13
+        ],
+        "front": [
+          -4.312010144502665e-7,
+          2.5,
+          1.0392476628635166
+        ],
+        "rear": [
+          -4.312010144502665e-7,
+          2.5,
+          -1.0392476628653082
+        ],
+        "left_side": [
+          -2.628656003607105,
+          2.5,
+          -8.958389585700388e-13
+        ],
+        "right_side": [
+          2.6286551412050763,
+          2.5,
+          -8.958389585700388e-13
+        ],
+        "center": [
+          -4.312010144502665e-7,
+          2.5,
+          -8.958389585700388e-13
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic star to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "attributionUrl": "https://poly.pizza/m/Tyau1aS2r0",
+      "triCount": 0,
+      "source": "live"
+    },
+    "woman": {
+      "id": "woman",
+      "name": "Woman",
+      "url": "/models/woman.glb",
+      "scale": 1.0666966280357884,
+      "yOffset": 0.01950917676448749,
+      "boundingBox": {
+        "min": [
+          -2.680586170852803,
+          0,
+          -0.7367251812318997
+        ],
+        "max": [
+          2.680586170852803,
+          5,
+          0.660339825973263
+        ],
+        "size": [
+          5.361172341705606,
+          5,
+          1.3970650072051627
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -0.03819267762931833
+        ],
+        "bottom": [
+          0,
+          0,
+          -0.03819267762931833
+        ],
+        "front": [
+          0,
+          2.5,
+          0.660339825973263
+        ],
+        "rear": [
+          0,
+          2.5,
+          -0.7367251812318997
+        ],
+        "left_side": [
+          -2.680586170852803,
+          2.5,
+          -0.03819267762931833
+        ],
+        "right_side": [
+          2.680586170852803,
+          2.5,
+          -0.03819267762931833
+        ],
+        "center": [
+          0,
+          2.5,
+          -0.03819267762931833
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic woman to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "attributionUrl": "https://poly.pizza/m/zMyPlQXBzq",
+      "triCount": 0,
+      "source": "live"
+    },
+    "camera": {
+      "id": "camera",
+      "name": "Camera",
+      "url": "/models/camera.glb",
+      "scale": 3.4742101869894957,
+      "yOffset": 1.927958477500052,
+      "boundingBox": {
+        "min": [
+          -1.7037964260389995,
+          0,
+          -2.0827521486834306
+        ],
+        "max": [
+          1.179648253016821,
+          5,
+          4.887286244189206
+        ],
+        "size": [
+          2.8834446790558204,
+          5,
+          6.970038392872636
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.2620740865110892,
+          5,
+          1.4022670477528878
+        ],
+        "bottom": [
+          -0.2620740865110892,
+          0,
+          1.4022670477528878
+        ],
+        "front": [
+          -0.2620740865110892,
+          2.5,
+          4.887286244189206
+        ],
+        "rear": [
+          -0.2620740865110892,
+          2.5,
+          -2.0827521486834306
+        ],
+        "left_side": [
+          -1.7037964260389995,
+          2.5,
+          1.4022670477528878
+        ],
+        "right_side": [
+          1.179648253016821,
+          2.5,
+          1.4022670477528878
+        ],
+        "center": [
+          -0.2620740865110892,
+          2.5,
+          1.4022670477528878
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic camera to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Rick Reitano",
+      "attributionUrl": "https://poly.pizza/m/6RNCP1PTavR",
+      "triCount": 232,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "6RNCP1PTavR"
+    },
+    "lanyard": {
+      "id": "lanyard",
+      "name": "Lanyard",
+      "url": "/models/lanyard.glb",
+      "scale": 10.953918138062903,
+      "yOffset": -5.640261558725682,
+      "boundingBox": {
+        "min": [
+          -1.6967157211152808,
+          0,
+          -0.6705460804255474
+        ],
+        "max": [
+          0.8316342040422878,
+          4.999999999999999,
+          1.8233210661302055
+        ],
+        "size": [
+          2.5283499251575687,
+          4.999999999999999,
+          2.493867146555753
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.4325407585364965,
+          4.999999999999999,
+          0.576387492852329
+        ],
+        "bottom": [
+          -0.4325407585364965,
+          0,
+          0.576387492852329
+        ],
+        "front": [
+          -0.4325407585364965,
+          2.4999999999999996,
+          1.8233210661302055
+        ],
+        "rear": [
+          -0.4325407585364965,
+          2.4999999999999996,
+          -0.6705460804255474
+        ],
+        "left_side": [
+          -1.6967157211152808,
+          2.4999999999999996,
+          0.576387492852329
+        ],
+        "right_side": [
+          0.8316342040422878,
+          2.4999999999999996,
+          0.576387492852329
+        ],
+        "center": [
+          -0.4325407585364965,
+          2.4999999999999996,
+          0.576387492852329
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic lanyard to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "S. Paul Michael",
+      "attributionUrl": "https://poly.pizza/m/61c0YuAgEhE",
+      "triCount": 4080,
+      "source": "live"
+    },
+    "scissors": {
+      "id": "scissors",
+      "name": "Scissors",
+      "url": "/models/scissors.glb",
+      "scale": 62.89545354050415,
+      "yOffset": 2.43285906803124,
+      "boundingBox": {
+        "min": [
+          -43.88637314270874,
+          0,
+          -93.34377141244062
+        ],
+        "max": [
+          43.1228838264476,
+          5,
+          125.29145380554864
+        ],
+        "size": [
+          87.00925696915634,
+          5,
+          218.63522521798927
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.3817446581305717,
+          5,
+          15.973841196554012
+        ],
+        "bottom": [
+          -0.3817446581305717,
+          0,
+          15.973841196554012
+        ],
+        "front": [
+          -0.3817446581305717,
+          2.5,
+          125.29145380554864
+        ],
+        "rear": [
+          -0.3817446581305717,
+          2.5,
+          -93.34377141244062
+        ],
+        "left_side": [
+          -43.88637314270874,
+          2.5,
+          15.973841196554012
+        ],
+        "right_side": [
+          43.1228838264476,
+          2.5,
+          15.973841196554012
+        ],
+        "center": [
+          -0.3817446581305717,
+          2.5,
+          15.973841196554012
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic scissors to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "MilkAndBanana",
+      "attributionUrl": "https://poly.pizza/m/bPoDmWdmdj",
+      "triCount": 596,
+      "source": "live"
+    },
+    "frog": {
+      "id": "frog",
+      "name": "Frog",
+      "url": "/models/frog.glb",
+      "scale": 3.330282293214865,
+      "yOffset": 0.049768908184067685,
+      "boundingBox": {
+        "min": [
+          -5.868689563119891,
+          0,
+          -4.962374417561594
+        ],
+        "max": [
+          5.792381360887115,
+          5.000000000000001,
+          5.733046327002582
+        ],
+        "size": [
+          11.661070924007007,
+          5.000000000000001,
+          10.695420744564176
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.03815410111638817,
+          5.000000000000001,
+          0.3853359547204942
+        ],
+        "bottom": [
+          -0.03815410111638817,
+          0,
+          0.3853359547204942
+        ],
+        "front": [
+          -0.03815410111638817,
+          2.5000000000000004,
+          5.733046327002582
+        ],
+        "rear": [
+          -0.03815410111638817,
+          2.5000000000000004,
+          -4.962374417561594
+        ],
+        "left_side": [
+          -5.868689563119891,
+          2.5000000000000004,
+          0.3853359547204942
+        ],
+        "right_side": [
+          5.792381360887115,
+          2.5000000000000004,
+          0.3853359547204942
+        ],
+        "center": [
+          -0.03815410111638817,
+          2.5000000000000004,
+          0.3853359547204942
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic frog to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "attributionUrl": "https://poly.pizza/m/9Z2V8fpazF",
+      "triCount": 0,
+      "source": "live"
+    },
+    "peanuts": {
+      "id": "peanuts",
+      "name": "Peanuts",
+      "url": "/models/peanuts.glb",
+      "scale": 5,
+      "yOffset": 2.5,
+      "boundingBox": {
+        "min": [
+          -8.757994771003723,
+          0,
+          -3.5838350653648376
+        ],
+        "max": [
+          8.31198513507843,
+          5,
+          3.429270088672638
+        ],
+        "size": [
+          17.069979906082153,
+          5,
+          7.013105154037476
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.22300481796264648,
+          5,
+          -0.07728248834609985
+        ],
+        "bottom": [
+          -0.22300481796264648,
+          0,
+          -0.07728248834609985
+        ],
+        "front": [
+          -0.22300481796264648,
+          2.5,
+          3.429270088672638
+        ],
+        "rear": [
+          -0.22300481796264648,
+          2.5,
+          -3.5838350653648376
+        ],
+        "left_side": [
+          -8.757994771003723,
+          2.5,
+          -0.07728248834609985
+        ],
+        "right_side": [
+          8.31198513507843,
+          2.5,
+          -0.07728248834609985
+        ],
+        "center": [
+          -0.22300481796264648,
+          2.5,
+          -0.07728248834609985
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic peanuts to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "attributionUrl": "https://poly.pizza/m/1KRzEPIJwax",
+      "triCount": 160,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "1KRzEPIJwax"
+    },
+    "peanut": {
+      "id": "peanut",
+      "name": "Peanut",
+      "url": "/models/peanut.glb",
+      "scale": 5,
+      "yOffset": 2.5,
+      "boundingBox": {
+        "min": [
+          -8.757994771003723,
+          0,
+          -3.5838350653648376
+        ],
+        "max": [
+          8.31198513507843,
+          5,
+          3.429270088672638
+        ],
+        "size": [
+          17.069979906082153,
+          5,
+          7.013105154037476
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.22300481796264648,
+          5,
+          -0.07728248834609985
+        ],
+        "bottom": [
+          -0.22300481796264648,
+          0,
+          -0.07728248834609985
+        ],
+        "front": [
+          -0.22300481796264648,
+          2.5,
+          3.429270088672638
+        ],
+        "rear": [
+          -0.22300481796264648,
+          2.5,
+          -3.5838350653648376
+        ],
+        "left_side": [
+          -8.757994771003723,
+          2.5,
+          -0.07728248834609985
+        ],
+        "right_side": [
+          8.31198513507843,
+          2.5,
+          -0.07728248834609985
+        ],
+        "center": [
+          -0.22300481796264648,
+          2.5,
+          -0.07728248834609985
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic peanut to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "attributionUrl": "https://poly.pizza/m/1KRzEPIJwax",
+      "triCount": 160,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "1KRzEPIJwax"
+    },
+    "clock": {
+      "id": "clock",
+      "name": "Clock",
+      "url": "/models/clock.glb",
+      "scale": 0.036340729831161114,
+      "yOffset": 2.594241300760352,
+      "boundingBox": {
+        "min": [
+          -1.8052667607864363,
+          0,
+          0
+        ],
+        "max": [
+          0.5462412234054352,
+          5,
+          1.9804953320882612
+        ],
+        "size": [
+          2.351507984191872,
+          5,
+          1.9804953320882612
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.6295127686905005,
+          5,
+          0.9902476660441306
+        ],
+        "bottom": [
+          -0.6295127686905005,
+          0,
+          0.9902476660441306
+        ],
+        "front": [
+          -0.6295127686905005,
+          2.5,
+          1.9804953320882612
+        ],
+        "rear": [
+          -0.6295127686905005,
+          2.5,
+          0
+        ],
+        "left_side": [
+          -1.8052667607864363,
+          2.5,
+          0.9902476660441306
+        ],
+        "right_side": [
+          0.5462412234054352,
+          2.5,
+          0.9902476660441306
+        ],
+        "center": [
+          -0.6295127686905005,
+          2.5,
+          0.9902476660441306
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic clock to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "attributionUrl": "https://poly.pizza/m/0bcQotWTmTi",
+      "triCount": 74,
+      "source": "live",
+      "authorUrl": "",
+      "sourceModelId": "0bcQotWTmTi"
+    },
+    "juice": {
+      "id": "juice",
+      "name": "Juice",
+      "url": "/models/juice.glb",
+      "scale": 7.037921731867737,
+      "yOffset": 2.078044962079946,
+      "boundingBox": {
+        "min": [
+          -6.619714233097899,
+          0,
+          -9.255557126323133
+        ],
+        "max": [
+          6.642348387951998,
+          5,
+          6.847292446486349
+        ],
+        "size": [
+          13.262062621049896,
+          5,
+          16.102849572809482
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.011317077427049238,
+          5,
+          -1.204132339918392
+        ],
+        "bottom": [
+          0.011317077427049238,
+          0,
+          -1.204132339918392
+        ],
+        "front": [
+          0.011317077427049238,
+          2.5,
+          6.847292446486349
+        ],
+        "rear": [
+          0.011317077427049238,
+          2.5,
+          -9.255557126323133
+        ],
+        "left_side": [
+          -6.619714233097899,
+          2.5,
+          -1.204132339918392
+        ],
+        "right_side": [
+          6.642348387951998,
+          2.5,
+          -1.204132339918392
+        ],
+        "center": [
+          0.011317077427049238,
+          2.5,
+          -1.204132339918392
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic juice to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "MilkAndBanana",
+      "attributionUrl": "https://poly.pizza/m/NO45sbSt99",
+      "triCount": 1076,
+      "source": "live"
+    },
+    "nintendo-switch": {
+      "id": "nintendo-switch",
+      "name": "Nintendo Switch",
+      "url": "/models/nintendo-switch.glb",
+      "scale": 1.4008462916418054,
+      "yOffset": 2.4548766641567483,
+      "boundingBox": {
+        "min": [
+          -5.814836171478011,
+          0,
+          -0.6698272765483966
+        ],
+        "max": [
+          5.814836171478011,
+          5,
+          0.4628003990486024
+        ],
+        "size": [
+          11.629672342956022,
+          5,
+          1.132627675596999
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -0.1035134387498971
+        ],
+        "bottom": [
+          0,
+          0,
+          -0.1035134387498971
+        ],
+        "front": [
+          0,
+          2.5,
+          0.4628003990486024
+        ],
+        "rear": [
+          0,
+          2.5,
+          -0.6698272765483966
+        ],
+        "left_side": [
+          -5.814836171478011,
+          2.5,
+          -0.1035134387498971
+        ],
+        "right_side": [
+          5.814836171478011,
+          2.5,
+          -0.1035134387498971
+        ],
+        "center": [
+          0,
+          2.5,
+          -0.1035134387498971
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic nintendo switch to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Jasmine Roberts",
+      "attributionUrl": "https://poly.pizza/m/600PeFCBopv",
+      "triCount": 1202,
+      "source": "live"
     }
   }
 }

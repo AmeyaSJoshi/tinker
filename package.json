@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fetch-assets": "tsx scripts/fetch-assets.mjs"
+    "fetch-assets": "tsx scripts/fetch-assets.mjs",
+    "audit-assets": "tsx scripts/audit-assets.mjs"
   },
   "dependencies": {
     "@gltf-transform/core": "^4.4.1",

@@ -16,6 +16,22 @@
     "attribution": "\"Animated Robot\" by Quaternius, https://poly.pizza/m/QCm7qe9uNJ. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "bear",
+    "name": "Bear",
+    "author": "jiang liu",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/3Eb9oLfZYIc",
+    "attribution": "\"Bear\" by jiang liu, https://poly.pizza/m/3Eb9oLfZYIc. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "bike",
+    "name": "Bicycle",
+    "author": "Poly by Google",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/19VoUuA2pcN",
+    "attribution": "\"Bicycle\" by Poly by Google, https://poly.pizza/m/19VoUuA2pcN. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
     "slug": "brain",
     "name": "Brain",
     "author": "Poly by Google",
@@ -30,6 +46,70 @@
     "license": "CC0 1.0",
     "url": "https://poly.pizza/m/Iw8iXLqVs5",
     "attribution": "\"Bridge\" by Quaternius, https://poly.pizza/m/Iw8iXLqVs5. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "camera",
+    "name": "Camera (Unity-esque)",
+    "author": "Rick Reitano",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/6RNCP1PTavR",
+    "attribution": "\"Camera (Unity-esque)\" by Rick Reitano, https://poly.pizza/m/6RNCP1PTavR. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "car",
+    "name": "Car Hatchback",
+    "author": "Kay Lousberg",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/BG0KAhmGDt",
+    "attribution": "\"Car Hatchback\" by Kay Lousberg, https://poly.pizza/m/BG0KAhmGDt. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "castle",
+    "name": "Castle",
+    "author": "Quaternius",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/opTOmcN3o9",
+    "attribution": "\"Castle\" by Quaternius, https://poly.pizza/m/opTOmcN3o9. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "clock",
+    "name": "Clock",
+    "author": "Poly by Google",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/0bcQotWTmTi",
+    "attribution": "\"Clock\" by Poly by Google, https://poly.pizza/m/0bcQotWTmTi. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "computer",
+    "name": "Computer",
+    "author": "CreativeTrio",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/7KNoiQlSxi",
+    "attribution": "\"Computer\" by CreativeTrio, https://poly.pizza/m/7KNoiQlSxi. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "mouse",
+    "name": "Computer Mouse",
+    "author": "CreativeTrio",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/V2Ebx3pvo4",
+    "attribution": "\"Computer Mouse\" by CreativeTrio, https://poly.pizza/m/V2Ebx3pvo4. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "frog",
+    "name": "Frog",
+    "author": "Quaternius",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/9Z2V8fpazF",
+    "attribution": "\"Frog\" by Quaternius, https://poly.pizza/m/9Z2V8fpazF. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "glasses",
+    "name": "Glasses",
+    "author": "iPoly3D",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/j3zHqDAnzH",
+    "attribution": "\"Glasses\" by iPoly3D, https://poly.pizza/m/j3zHqDAnzH. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "slug": "human-heart",
@@ -56,6 +136,22 @@
     "attribution": "\"House\" by Kenney, https://poly.pizza/m/7VSVwAg2T3. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "juice",
+    "name": "Juicer",
+    "author": "MilkAndBanana",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/NO45sbSt99",
+    "attribution": "\"Juicer\" by MilkAndBanana, https://poly.pizza/m/NO45sbSt99. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "bean",
+    "name": "Kidney bean",
+    "author": "Poly by Google",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/5jAiqW0J0Ni",
+    "attribution": "\"Kidney bean\" by Poly by Google, https://poly.pizza/m/5jAiqW0J0Ni. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
     "slug": "lighthouse",
     "name": "Lighthouse",
     "author": "Robert Mirabelle",
@@ -72,12 +168,36 @@
     "attribution": "\"Locomotive Front\" by Quaternius, https://poly.pizza/m/WY84FHug9s. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
-    "slug": "castle",
-    "name": "Modular Castle Kit",
+    "slug": "human",
+    "name": "Man",
     "author": "Quaternius",
     "license": "CC0 1.0",
-    "url": "https://poly.pizza/m/AhhyXvO6Fd",
-    "attribution": "\"Modular Castle Kit\" by Quaternius, https://poly.pizza/m/AhhyXvO6Fd. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+    "url": "https://poly.pizza/m/HMnuH5geEG",
+    "attribution": "\"Man\" by Quaternius, https://poly.pizza/m/HMnuH5geEG. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "nintendo-switch",
+    "name": "Nintendo Switch",
+    "author": "Jasmine Roberts",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/600PeFCBopv",
+    "attribution": "\"Nintendo Switch\" by Jasmine Roberts, https://poly.pizza/m/600PeFCBopv. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "peanuts",
+    "name": "Peanut",
+    "author": "Poly by Google",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/1KRzEPIJwax",
+    "attribution": "\"Peanut\" by Poly by Google, https://poly.pizza/m/1KRzEPIJwax. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "peanut",
+    "name": "Peanut",
+    "author": "Poly by Google",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/1KRzEPIJwax",
+    "attribution": "\"Peanut\" by Poly by Google, https://poly.pizza/m/1KRzEPIJwax. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
     "slug": "race-car",
@@ -105,11 +225,19 @@
   },
   {
     "slug": "satellite",
-    "name": "Satellite Dish",
-    "author": "Kenney",
+    "name": "Satellite",
+    "author": "AroniaStudios",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/K7kE2DCBY8",
+    "attribution": "\"Satellite\" by AroniaStudios, https://poly.pizza/m/K7kE2DCBY8. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "scissors",
+    "name": "Scissors",
+    "author": "MilkAndBanana",
     "license": "CC0 1.0",
-    "url": "https://poly.pizza/m/IDRrztoAMB",
-    "attribution": "\"Satellite Dish\" by Kenney, https://poly.pizza/m/IDRrztoAMB. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+    "url": "https://poly.pizza/m/bPoDmWdmdj",
+    "attribution": "\"Scissors\" by MilkAndBanana, https://poly.pizza/m/bPoDmWdmdj. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "slug": "shark",
@@ -128,6 +256,14 @@
     "attribution": "\"Skeleton\" by Quaternius, https://poly.pizza/m/wODZYCgX5Z. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "phone",
+    "name": "Smartphone",
+    "author": "smallbigsquare",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/4DRZmTs3jq",
+    "attribution": "\"Smartphone\" by smallbigsquare, https://poly.pizza/m/4DRZmTs3jq. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "solar-panel",
     "name": "Solar Panel",
     "author": "Quaternius",
@@ -142,6 +278,14 @@
     "license": "CC0 1.0",
     "url": "https://poly.pizza/m/htfBk9vPfw",
     "attribution": "\"Spaceship\" by Quaternius, https://poly.pizza/m/htfBk9vPfw. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "star",
+    "name": "Star",
+    "author": "Quaternius",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/Tyau1aS2r0",
+    "attribution": "\"Star\" by Quaternius, https://poly.pizza/m/Tyau1aS2r0. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "slug": "submarine",
@@ -168,20 +312,36 @@
     "attribution": "\"Telescope\" by CreativeTrio, https://poly.pizza/m/RjyTCQvA8b. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
-    "slug": "tree",
-    "name": "Trees",
-    "author": "Quaternius",
-    "license": "CC0 1.0",
-    "url": "https://poly.pizza/m/etFGNvsiFv",
-    "attribution": "\"Trees\" by Quaternius, https://poly.pizza/m/etFGNvsiFv. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+    "slug": "thermos",
+    "name": "Thermos",
+    "author": "Poly by Google",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/dm0ZTuKAs45",
+    "attribution": "\"Thermos\" by Poly by Google, https://poly.pizza/m/dm0ZTuKAs45. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
-    "slug": "wind-turbine",
-    "name": "Turbine",
-    "author": "Kay Lousberg",
+    "slug": "lanyard",
+    "name": "Time Hotel 5.20 (Lanyard)",
+    "author": "S. Paul Michael",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/61c0YuAgEhE",
+    "attribution": "\"Time Hotel 5.20 (Lanyard)\" by S. Paul Michael, https://poly.pizza/m/61c0YuAgEhE. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "tree",
+    "name": "Tree",
+    "author": "Quaternius",
     "license": "CC0 1.0",
-    "url": "https://poly.pizza/m/79RIeBw3Wk",
-    "attribution": "\"Turbine\" by Kay Lousberg, https://poly.pizza/m/79RIeBw3Wk. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+    "url": "https://poly.pizza/m/2paAm1ja4w",
+    "attribution": "\"Tree\" by Quaternius, https://poly.pizza/m/2paAm1ja4w. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "me-a-spoon",
+    "name": "Utensil Spoon",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/YNDbNrxQ1I",
+    "attribution": "\"Utensil Spoon\" by Kenney, https://poly.pizza/m/YNDbNrxQ1I. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "slug": "volcano",
@@ -192,6 +352,14 @@
     "attribution": "\"Volcano\" by Poly by Google, https://poly.pizza/m/8gkFBBcS6aM. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
+    "slug": "water-bottle",
+    "name": "Water Bottle",
+    "author": "Quaternius",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/KpxDpidn1Z",
+    "attribution": "\"Water Bottle\" by Quaternius, https://poly.pizza/m/KpxDpidn1Z. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "whale",
     "name": "Whale",
     "author": "Quaternius",
@@ -200,11 +368,27 @@
     "attribution": "\"Whale\" by Quaternius, https://poly.pizza/m/JGFwp6xWgk. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "wind-turbine",
+    "name": "Wind Turbine",
+    "author": "Kay Lousberg",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/n9lfMIPumB",
+    "attribution": "\"Wind Turbine\" by Kay Lousberg, https://poly.pizza/m/n9lfMIPumB. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "windmill",
     "name": "Windmill",
     "author": "Quaternius",
     "license": "CC0 1.0",
     "url": "https://poly.pizza/m/WUbU1Nct2W",
     "attribution": "\"Windmill\" by Quaternius, https://poly.pizza/m/WUbU1Nct2W. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "woman",
+    "name": "Woman in Dress",
+    "author": "Quaternius",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/zMyPlQXBzq",
+    "attribution": "\"Woman in Dress\" by Quaternius, https://poly.pizza/m/zMyPlQXBzq. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   }
 ]
