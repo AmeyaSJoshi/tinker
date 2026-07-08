@@ -1,0 +1,2011 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-08T03:32:32.168Z",
+  "assets": {
+    "rocket": {
+      "id": "rocket",
+      "name": "Rocket",
+      "url": "/models/rocket.glb",
+      "scale": 0.43413824157564557,
+      "yOffset": 3.998136861993268,
+      "boundingBox": {
+        "min": [
+          -1.1016220577569886,
+          0,
+          -1.0980505525346682
+        ],
+        "max": [
+          1.009122998477882,
+          5,
+          1.0266034568587306
+        ],
+        "size": [
+          2.1107450562348706,
+          5,
+          2.1246540093933985
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.04624952963955331,
+          5,
+          -0.03572354783796883
+        ],
+        "bottom": [
+          -0.04624952963955331,
+          0,
+          -0.03572354783796883
+        ],
+        "front": [
+          -0.04624952963955331,
+          2.5,
+          1.0266034568587306
+        ],
+        "rear": [
+          -0.04624952963955331,
+          2.5,
+          -1.0980505525346682
+        ],
+        "left_side": [
+          -1.1016220577569886,
+          2.5,
+          -0.03572354783796883
+        ],
+        "right_side": [
+          1.009122998477882,
+          2.5,
+          -0.03572354783796883
+        ],
+        "center": [
+          -0.04624952963955331,
+          2.5,
+          -0.03572354783796883
+        ]
+      },
+      "aliases": [
+        "spaceship",
+        "space rocket",
+        "launch vehicle"
+      ],
+      "concepts": [
+        "thrust",
+        "aerodynamics",
+        "propulsion"
+      ],
+      "intro": "Welcome to the thrilling world of rockets! As you hold this 3D model in your hands, imagine the force that lifts it off the ground—thrust, created by burning fuel and expelling gases at incredible speeds. Notice the sleek shape, designed to cut through air with minimal resistance, and the fins that keep it stable. Soon, you’ll see how Newton’s laws of motion come to life as your rocket soars. Get ready to explore the balance of forces, the magic of propulsion, and the engineering that makes spaceflight possible—all in a model you’ll build yourself. Let’s begin!",
+      "license": "CC0 1.0",
+      "author": "hat_my_guy",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/9awwTQWYux",
+      "triCount": 672,
+      "source": "prefetch"
+    },
+    "space-shuttle": {
+      "id": "space-shuttle",
+      "name": "Space Shuttle",
+      "url": "/models/space-shuttle.glb",
+      "scale": 4.685922561628025,
+      "yOffset": 0.01179815040254644,
+      "boundingBox": {
+        "min": [
+          -7.889449933688088,
+          0,
+          -15.11087940310239
+        ],
+        "max": [
+          7.889449933688088,
+          5,
+          19.010767099298352
+        ],
+        "size": [
+          15.778899867376175,
+          5,
+          34.12164650240074
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          1.9499438480979814
+        ],
+        "bottom": [
+          0,
+          0,
+          1.9499438480979814
+        ],
+        "front": [
+          0,
+          2.5,
+          19.010767099298352
+        ],
+        "rear": [
+          0,
+          2.5,
+          -15.11087940310239
+        ],
+        "left_side": [
+          -7.889449933688088,
+          2.5,
+          1.9499438480979814
+        ],
+        "right_side": [
+          7.889449933688088,
+          2.5,
+          1.9499438480979814
+        ],
+        "center": [
+          0,
+          2.5,
+          1.9499438480979814
+        ]
+      },
+      "aliases": [
+        "shuttle",
+        "orbiter"
+      ],
+      "concepts": [
+        "orbit",
+        "re-entry",
+        "spaceflight"
+      ],
+      "intro": "Let's explore a Space Shuttle. Click any part to learn what it does, then tell me what to add — we'll uncover the science together as we build it up.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/htfBk9vPfw",
+      "triCount": 540,
+      "source": "prefetch"
+    },
+    "satellite": {
+      "id": "satellite",
+      "name": "Satellite",
+      "url": "/models/satellite.glb",
+      "scale": 8.11076316249218,
+      "yOffset": 6.500636234538673e-31,
+      "boundingBox": {
+        "min": [
+          -19.0602934439426,
+          0,
+          -15.004911862696511
+        ],
+        "max": [
+          -13.382759206026119,
+          5,
+          -9.327377624780029
+        ],
+        "size": [
+          5.677534237916483,
+          5,
+          5.677534237916483
+        ]
+      },
+      "anchors": {
+        "top": [
+          -16.22152632498436,
+          5,
+          -12.16614474373827
+        ],
+        "bottom": [
+          -16.22152632498436,
+          0,
+          -12.16614474373827
+        ],
+        "front": [
+          -16.22152632498436,
+          2.5,
+          -9.327377624780029
+        ],
+        "rear": [
+          -16.22152632498436,
+          2.5,
+          -15.004911862696511
+        ],
+        "left_side": [
+          -19.0602934439426,
+          2.5,
+          -12.16614474373827
+        ],
+        "right_side": [
+          -13.382759206026119,
+          2.5,
+          -12.16614474373827
+        ],
+        "center": [
+          -16.22152632498436,
+          2.5,
+          -12.16614474373827
+        ]
+      },
+      "aliases": [
+        "space satellite",
+        "orbiter probe"
+      ],
+      "concepts": [
+        "orbit",
+        "communications",
+        "solar power"
+      ],
+      "intro": "Let's explore a Satellite. Click any part to learn what it does, then tell me what to add — we'll uncover the science together as we build it up.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/IDRrztoAMB",
+      "triCount": 390,
+      "source": "prefetch"
+    },
+    "volcano": {
+      "id": "volcano",
+      "name": "Volcano",
+      "url": "/models/volcano.glb",
+      "scale": 0.034403078610997576,
+      "yOffset": 0.00014855248716135096,
+      "boundingBox": {
+        "min": [
+          -3.384330415350778,
+          0,
+          -3.396390076070542
+        ],
+        "max": [
+          3.5365266093179533,
+          5,
+          4.3644415046273775
+        ],
+        "size": [
+          6.920857024668731,
+          5,
+          7.76083158069792
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.0760980969835876,
+          5,
+          0.4840257142784177
+        ],
+        "bottom": [
+          0.0760980969835876,
+          0,
+          0.4840257142784177
+        ],
+        "front": [
+          0.0760980969835876,
+          2.5,
+          4.3644415046273775
+        ],
+        "rear": [
+          0.0760980969835876,
+          2.5,
+          -3.396390076070542
+        ],
+        "left_side": [
+          -3.384330415350778,
+          2.5,
+          0.4840257142784177
+        ],
+        "right_side": [
+          3.5365266093179533,
+          2.5,
+          0.4840257142784177
+        ],
+        "center": [
+          0.0760980969835876,
+          2.5,
+          0.4840257142784177
+        ]
+      },
+      "aliases": [
+        "volcanic mountain",
+        "eruption"
+      ],
+      "concepts": [
+        "magma",
+        "plate tectonics",
+        "eruption"
+      ],
+      "intro": "Imagine holding a miniature mountain in your hands—one that hums with hidden energy, like a giant cauldron of molten rock deep below the Earth’s surface. This is your volcano, a breathtaking force of nature where pressure and heat collide to create dramatic eruptions. As you build your 3D model, you’ll explore how layers of rock, lava, and ash stack up over time, just like the real thing. Think about the science behind the bubbling magma, the engineering of its cone-shaped body, and the mysteries of its explosive power—each piece you place brings you closer to unraveling its fiery secrets.",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/8gkFBBcS6aM",
+      "triCount": 414,
+      "source": "prefetch"
+    },
+    "human-heart": {
+      "id": "human-heart",
+      "name": "Human Heart",
+      "url": "/models/human-heart.glb",
+      "scale": 6.205758788009311,
+      "yOffset": 3.2225615587191547,
+      "boundingBox": {
+        "min": [
+          -3.014105811057169,
+          0,
+          -1.7774382967502687
+        ],
+        "max": [
+          3.014105811057169,
+          4.999999999999999,
+          1.777438303374042
+        ],
+        "size": [
+          6.028211622114338,
+          4.999999999999999,
+          3.5548766001243104
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          4.999999999999999,
+          3.3118866538117686e-9
+        ],
+        "bottom": [
+          0,
+          0,
+          3.3118866538117686e-9
+        ],
+        "front": [
+          0,
+          2.4999999999999996,
+          1.777438303374042
+        ],
+        "rear": [
+          0,
+          2.4999999999999996,
+          -1.7774382967502687
+        ],
+        "left_side": [
+          -3.014105811057169,
+          2.4999999999999996,
+          3.3118866538117686e-9
+        ],
+        "right_side": [
+          3.014105811057169,
+          2.4999999999999996,
+          3.3118866538117686e-9
+        ],
+        "center": [
+          0,
+          2.4999999999999996,
+          3.3118866538117686e-9
+        ]
+      },
+      "aliases": [
+        "heart",
+        "anatomical heart"
+      ],
+      "concepts": [
+        "circulation",
+        "anatomy",
+        "pumping"
+      ],
+      "intro": "Let's explore a Human Heart. Click any part to learn what it does, then tell me what to add — we'll uncover the science together as we build it up.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/1yCRUwFnwX",
+      "triCount": 0,
+      "source": "prefetch"
+    },
+    "brain": {
+      "id": "brain",
+      "name": "Brain",
+      "url": "/models/brain.glb",
+      "scale": 0.027753975171677325,
+      "yOffset": -2.775397468464141e-16,
+      "boundingBox": {
+        "min": [
+          -2.8222118109053778,
+          0,
+          -1.4934792387679532
+        ],
+        "max": [
+          3.1150771047745596,
+          5,
+          3.278650063180779
+        ],
+        "size": [
+          5.937288915679938,
+          5,
+          4.772129301948732
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.1464326469345909,
+          5,
+          0.892585412206413
+        ],
+        "bottom": [
+          0.1464326469345909,
+          0,
+          0.892585412206413
+        ],
+        "front": [
+          0.1464326469345909,
+          2.5,
+          3.278650063180779
+        ],
+        "rear": [
+          0.1464326469345909,
+          2.5,
+          -1.4934792387679532
+        ],
+        "left_side": [
+          -2.8222118109053778,
+          2.5,
+          0.892585412206413
+        ],
+        "right_side": [
+          3.1150771047745596,
+          2.5,
+          0.892585412206413
+        ],
+        "center": [
+          0.1464326469345909,
+          2.5,
+          0.892585412206413
+        ]
+      },
+      "aliases": [
+        "human brain",
+        "cerebrum"
+      ],
+      "concepts": [
+        "neurons",
+        "anatomy",
+        "cognition"
+      ],
+      "intro": "Welcome to the most complex structure in the known universe—your brain! As you hold this 3D model in your hands, imagine billions of neurons humming with activity, weaving thoughts, memories, and movements into existence. You’re about to explore how folds of gray matter store knowledge, how electrical signals zip along pathways, and how this soft, spongy organ controls everything from your heartbeat to your dreams. With each layer you uncover, you’ll glimpse the engineering marvels of evolution—from synaptic connections to the blood-brain barrier—and maybe even spark your own ideas about how we think, learn, and create. Let’s dive in!",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/5mPRPZkI3qt",
+      "triCount": 3070,
+      "source": "prefetch"
+    },
+    "skeleton": {
+      "id": "skeleton",
+      "name": "Skeleton",
+      "url": "/models/skeleton.glb",
+      "scale": 0.982395971339174,
+      "yOffset": -0.018972066043742977,
+      "boundingBox": {
+        "min": [
+          -2.2640509977958345,
+          0,
+          -0.6254863047491538
+        ],
+        "max": [
+          2.2594667990763884,
+          5,
+          0.6802799776246686
+        ],
+        "size": [
+          4.523517796872223,
+          5,
+          1.3057662823738223
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.0022920993597230765,
+          5,
+          0.02739683643775742
+        ],
+        "bottom": [
+          -0.0022920993597230765,
+          0,
+          0.02739683643775742
+        ],
+        "front": [
+          -0.0022920993597230765,
+          2.5,
+          0.6802799776246686
+        ],
+        "rear": [
+          -0.0022920993597230765,
+          2.5,
+          -0.6254863047491538
+        ],
+        "left_side": [
+          -2.2640509977958345,
+          2.5,
+          0.02739683643775742
+        ],
+        "right_side": [
+          2.2594667990763884,
+          2.5,
+          0.02739683643775742
+        ],
+        "center": [
+          -0.0022920993597230765,
+          2.5,
+          0.02739683643775742
+        ]
+      },
+      "aliases": [
+        "human skeleton",
+        "bones"
+      ],
+      "concepts": [
+        "anatomy",
+        "bones",
+        "structure"
+      ],
+      "intro": "Welcome to the fascinating world of the skeleton, your body’s hidden framework! As you build and explore this 3D model, you’ll discover how bones—light yet incredibly strong—work like a natural scaffolding, supporting movement, protecting vital organs, and even producing blood cells. Notice how joints act like hinges or ball bearings, and how the spine’s curves absorb shocks. This isn’t just anatomy; it’s engineering at its finest, blending strength with flexibility. Soon, you’ll see how every bone has a purpose, and you’ll start asking: *How do bones heal? Why do they break? What makes them so resilient?* Let’s begin!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/wODZYCgX5Z",
+      "triCount": 1810,
+      "source": "prefetch"
+    },
+    "airplane": {
+      "id": "airplane",
+      "name": "Airplane",
+      "url": "/models/airplane.glb",
+      "scale": 0.010023040176078584,
+      "yOffset": -1.263355227687009,
+      "boundingBox": {
+        "min": [
+          -7.091771366341676,
+          0,
+          1.7135414628270484
+        ],
+        "max": [
+          -4.454770916500854,
+          5,
+          2.372649035714437
+        ],
+        "size": [
+          2.637000449840822,
+          5,
+          0.6591075728873887
+        ]
+      },
+      "anchors": {
+        "top": [
+          -5.773271141421265,
+          5,
+          2.043095249270743
+        ],
+        "bottom": [
+          -5.773271141421265,
+          0,
+          2.043095249270743
+        ],
+        "front": [
+          -5.773271141421265,
+          2.5,
+          2.372649035714437
+        ],
+        "rear": [
+          -5.773271141421265,
+          2.5,
+          1.7135414628270484
+        ],
+        "left_side": [
+          -7.091771366341676,
+          2.5,
+          2.043095249270743
+        ],
+        "right_side": [
+          -4.454770916500854,
+          2.5,
+          2.043095249270743
+        ],
+        "center": [
+          -5.773271141421265,
+          2.5,
+          2.043095249270743
+        ]
+      },
+      "aliases": [
+        "plane",
+        "aeroplane",
+        "jet"
+      ],
+      "concepts": [
+        "lift",
+        "aerodynamics",
+        "flight"
+      ],
+      "intro": "Welcome to the fascinating world of airplanes! As you build your 3D model, imagine how this incredible machine defies gravity, soaring through the sky. Notice the wings—how their shape creates lift, pushing against the air to keep the plane aloft. The engine’s power, the tail’s balance, even the tiny flaps all play a part in this marvel of engineering. As you explore, think about the forces at work: thrust, drag, lift, and weight. Soon, you’ll see how science and design come together to make flight possible—one piece at a time. Happy building!",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/4zE4UQ4siZa",
+      "triCount": 339,
+      "source": "prefetch"
+    },
+    "helicopter": {
+      "id": "helicopter",
+      "name": "Helicopter",
+      "url": "/models/helicopter.glb",
+      "scale": 3.6104359141255724,
+      "yOffset": -0.27046404531782237,
+      "boundingBox": {
+        "min": [
+          -6.327430343375805,
+          0,
+          -11.349646825963823
+        ],
+        "max": [
+          6.369324160060432,
+          5,
+          5.3741143253174775
+        ],
+        "size": [
+          12.696754503436237,
+          5,
+          16.723761151281302
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.02094690834231372,
+          5,
+          -2.987766250323173
+        ],
+        "bottom": [
+          0.02094690834231372,
+          0,
+          -2.987766250323173
+        ],
+        "front": [
+          0.02094690834231372,
+          2.5,
+          5.3741143253174775
+        ],
+        "rear": [
+          0.02094690834231372,
+          2.5,
+          -11.349646825963823
+        ],
+        "left_side": [
+          -6.327430343375805,
+          2.5,
+          -2.987766250323173
+        ],
+        "right_side": [
+          6.369324160060432,
+          2.5,
+          -2.987766250323173
+        ],
+        "center": [
+          0.02094690834231372,
+          2.5,
+          -2.987766250323173
+        ]
+      },
+      "aliases": [
+        "chopper",
+        "rotorcraft"
+      ],
+      "concepts": [
+        "rotor lift",
+        "torque",
+        "flight"
+      ],
+      "intro": "Imagine holding a sleek, whirring machine that defies gravity—this is a helicopter, a marvel of engineering where spinning blades lift you into the air like a giant, mechanical dragonfly. As you build your 3D model, notice how the rotor blades tilt and twist to control flight, and how the tail rotor keeps the body steady. Soon, you’ll see how forces like lift and thrust work together, and maybe even dream up your own designs to make it soar faster or smoother. Ready to explore?",
+      "license": "CC0 1.0",
+      "author": "kazuma",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/EQJ2MECUbx",
+      "triCount": 1094,
+      "source": "prefetch"
+    },
+    "submarine": {
+      "id": "submarine",
+      "name": "Submarine",
+      "url": "/models/submarine.glb",
+      "scale": 1.0686904916753797,
+      "yOffset": 1.5188753268232191,
+      "boundingBox": {
+        "min": [
+          -1.5188753268232191,
+          0,
+          -9.519824568086309
+        ],
+        "max": [
+          1.5188753268232191,
+          5,
+          2.178437992989807
+        ],
+        "size": [
+          3.0377506536464383,
+          5,
+          11.698262561076115
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -3.670693287548251
+        ],
+        "bottom": [
+          0,
+          0,
+          -3.670693287548251
+        ],
+        "front": [
+          0,
+          2.5,
+          2.178437992989807
+        ],
+        "rear": [
+          0,
+          2.5,
+          -9.519824568086309
+        ],
+        "left_side": [
+          -1.5188753268232191,
+          2.5,
+          -3.670693287548251
+        ],
+        "right_side": [
+          1.5188753268232191,
+          2.5,
+          -3.670693287548251
+        ],
+        "center": [
+          0,
+          2.5,
+          -3.670693287548251
+        ]
+      },
+      "aliases": [
+        "sub",
+        "u-boat"
+      ],
+      "concepts": [
+        "buoyancy",
+        "pressure",
+        "ballast"
+      ],
+      "intro": "A submarine is a fascinating vessel designed to dive beneath the ocean’s surface, where sunlight fades and pressure mounts—yet humans have found ways to explore this hidden world. As you build your 3D model, imagine how engineers solve challenges like buoyancy (using ballast tanks to rise or sink) and propulsion (with powerful electric motors or nuclear reactors). The sleek hull resists crushing depths, while sonar and periscopes act as eyes in the dark. What secrets might your model reveal about the balance of forces and innovation that make underwater travel possible?",
+      "license": "CC-BY 3.0",
+      "author": "Poly by Google",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/dfSQmeuuYt3",
+      "triCount": 1348,
+      "source": "prefetch"
+    },
+    "sailboat": {
+      "id": "sailboat",
+      "name": "Sailboat",
+      "url": "/models/sailboat.glb",
+      "scale": 0.48987225367991133,
+      "yOffset": 0.10216089790825036,
+      "boundingBox": {
+        "min": [
+          -0.9356398121188172,
+          0,
+          -2.558240741858806
+        ],
+        "max": [
+          1.0583763864314748,
+          5,
+          2.4700902158787135
+        ],
+        "size": [
+          1.994016198550292,
+          5,
+          5.02833095773752
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.061368287156328805,
+          5,
+          -0.04407526299004627
+        ],
+        "bottom": [
+          0.061368287156328805,
+          0,
+          -0.04407526299004627
+        ],
+        "front": [
+          0.061368287156328805,
+          2.5,
+          2.4700902158787135
+        ],
+        "rear": [
+          0.061368287156328805,
+          2.5,
+          -2.558240741858806
+        ],
+        "left_side": [
+          -0.9356398121188172,
+          2.5,
+          -0.04407526299004627
+        ],
+        "right_side": [
+          1.0583763864314748,
+          2.5,
+          -0.04407526299004627
+        ],
+        "center": [
+          0.061368287156328805,
+          2.5,
+          -0.04407526299004627
+        ]
+      },
+      "aliases": [
+        "sailing boat",
+        "yacht",
+        "boat"
+      ],
+      "concepts": [
+        "buoyancy",
+        "wind power",
+        "sailing"
+      ],
+      "intro": "Imagine standing at the helm of a sailboat, feeling the wind catch the canvas as you glide across the water—this is the magic you’re about to explore! As you build your 3D model, you’ll discover how the hull’s shape cuts through waves, how sails harness wind energy, and how the keel keeps you steady. Each piece, from the mast to the rudder, plays a role in balancing forces—physics in action! Soon, you’ll see how engineering turns wind into motion, and maybe even dream of your own seafaring adventures. Ready to set sail?",
+      "license": "CC-BY 3.0",
+      "author": "jeremy",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/5u49Hzbo5WH",
+      "triCount": 676,
+      "source": "prefetch"
+    },
+    "race-car": {
+      "id": "race-car",
+      "name": "Race Car",
+      "url": "/models/race-car.glb",
+      "scale": 4.665459525431451,
+      "yOffset": 1.735231563383223,
+      "boundingBox": {
+        "min": [
+          -10.680008755060072,
+          0,
+          -5.1926976795340725
+        ],
+        "max": [
+          9.592928875683118,
+          5,
+          5.24002566887574
+        ],
+        "size": [
+          20.27293763074319,
+          5,
+          10.432723348409812
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.5435399396884772,
+          5,
+          0.023663994670833688
+        ],
+        "bottom": [
+          -0.5435399396884772,
+          0,
+          0.023663994670833688
+        ],
+        "front": [
+          -0.5435399396884772,
+          2.5,
+          5.24002566887574
+        ],
+        "rear": [
+          -0.5435399396884772,
+          2.5,
+          -5.1926976795340725
+        ],
+        "left_side": [
+          -10.680008755060072,
+          2.5,
+          0.023663994670833688
+        ],
+        "right_side": [
+          9.592928875683118,
+          2.5,
+          0.023663994670833688
+        ],
+        "center": [
+          -0.5435399396884772,
+          2.5,
+          0.023663994670833688
+        ]
+      },
+      "aliases": [
+        "racecar",
+        "formula car",
+        "sports car"
+      ],
+      "concepts": [
+        "aerodynamics",
+        "downforce",
+        "friction"
+      ],
+      "intro": "Welcome to the thrilling world of race cars! As you build your 3D model, imagine the roar of the engine, the sleek curves designed for speed, and the precise balance that keeps it hugging the track. Every part—from the aerodynamic spoiler to the high-grip tires—is a puzzle of physics and engineering. Why do race cars lean in turns? How does airflow shape their design? As you assemble each piece, you’re not just building a car; you’re unlocking the secrets of motion, force, and innovation. Get ready to explore!",
+      "license": "CC0 1.0",
+      "author": "scaranto",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/EMcTJiXibv",
+      "triCount": 1120,
+      "source": "prefetch"
+    },
+    "train": {
+      "id": "train",
+      "name": "Train",
+      "url": "/models/train.glb",
+      "scale": 1.3952944450565716,
+      "yOffset": -0.021081919034802304,
+      "boundingBox": {
+        "min": [
+          -6.304311482070981,
+          0,
+          -2.0002183876798436
+        ],
+        "max": [
+          4.982372365277564,
+          5,
+          2.0002172144871038
+        ],
+        "size": [
+          11.286683847348545,
+          5,
+          4.000435602166947
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.6609695583967081,
+          5,
+          -5.865963699225318e-7
+        ],
+        "bottom": [
+          -0.6609695583967081,
+          0,
+          -5.865963699225318e-7
+        ],
+        "front": [
+          -0.6609695583967081,
+          2.5,
+          2.0002172144871038
+        ],
+        "rear": [
+          -0.6609695583967081,
+          2.5,
+          -2.0002183876798436
+        ],
+        "left_side": [
+          -6.304311482070981,
+          2.5,
+          -5.865963699225318e-7
+        ],
+        "right_side": [
+          4.982372365277564,
+          2.5,
+          -5.865963699225318e-7
+        ],
+        "center": [
+          -0.6609695583967081,
+          2.5,
+          -5.865963699225318e-7
+        ]
+      },
+      "aliases": [
+        "locomotive",
+        "railway train"
+      ],
+      "concepts": [
+        "rails",
+        "momentum",
+        "friction"
+      ],
+      "intro": "Welcome to the world of trains, where motion meets precision! As you prepare to build your 3D model, imagine how a simple push of metal wheels on tracks can move tons of cargo—or people—across vast distances. Trains are marvels of engineering, balancing forces like friction and inertia, while their sleek designs reduce air resistance. You’ll discover how gears, levers, and even electricity work together to make these giants move. So roll up your sleeves—your model isn’t just a toy; it’s a gateway to the physics and innovation that power our world.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/WY84FHug9s",
+      "triCount": 0,
+      "source": "prefetch"
+    },
+    "bridge": {
+      "id": "bridge",
+      "name": "Bridge",
+      "url": "/models/bridge.glb",
+      "scale": 4.188884783363116,
+      "yOffset": -0.024420155477474188,
+      "boundingBox": {
+        "min": [
+          -1.8520016967224722,
+          0,
+          -0.0679403515409317
+        ],
+        "max": [
+          1.8520016967224722,
+          5,
+          3.7524501027507418
+        ],
+        "size": [
+          3.7040033934449443,
+          5,
+          3.8203904542916733
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          1.842254875604905
+        ],
+        "bottom": [
+          0,
+          0,
+          1.842254875604905
+        ],
+        "front": [
+          0,
+          2.5,
+          3.7524501027507418
+        ],
+        "rear": [
+          0,
+          2.5,
+          -0.0679403515409317
+        ],
+        "left_side": [
+          -1.8520016967224722,
+          2.5,
+          1.842254875604905
+        ],
+        "right_side": [
+          1.8520016967224722,
+          2.5,
+          1.842254875604905
+        ],
+        "center": [
+          0,
+          2.5,
+          1.842254875604905
+        ]
+      },
+      "aliases": [
+        "suspension bridge",
+        "overpass"
+      ],
+      "concepts": [
+        "tension",
+        "compression",
+        "load bearing"
+      ],
+      "intro": "Welcome to your bridge-building adventure! Imagine standing on a sturdy span, watching cars glide across while the wind gently sways the structure—how does it stay so strong? In this 3D model, you’ll piece together beams, cables, and supports, discovering how forces like tension and compression hold everything in place. As you build, you’ll see firsthand how engineers balance strength and flexibility, turning simple shapes into marvels that carry us over rivers and valleys. Ready to test your design? Let’s begin!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/Iw8iXLqVs5",
+      "triCount": 486,
+      "source": "prefetch"
+    },
+    "castle": {
+      "id": "castle",
+      "name": "Castle",
+      "url": "/models/castle.glb",
+      "scale": 0.9255308578107372,
+      "yOffset": 0.007589665121181664,
+      "boundingBox": {
+        "min": [
+          11.837674471989265,
+          0,
+          -0.7080118057182185
+        ],
+        "max": [
+          27.376715845063018,
+          5,
+          3.983238099591838
+        ],
+        "size": [
+          15.539041373073752,
+          5,
+          4.691249905310056
+        ]
+      },
+      "anchors": {
+        "top": [
+          19.607195158526142,
+          5,
+          1.6376131469368098
+        ],
+        "bottom": [
+          19.607195158526142,
+          0,
+          1.6376131469368098
+        ],
+        "front": [
+          19.607195158526142,
+          2.5,
+          3.983238099591838
+        ],
+        "rear": [
+          19.607195158526142,
+          2.5,
+          -0.7080118057182185
+        ],
+        "left_side": [
+          11.837674471989265,
+          2.5,
+          1.6376131469368098
+        ],
+        "right_side": [
+          27.376715845063018,
+          2.5,
+          1.6376131469368098
+        ],
+        "center": [
+          19.607195158526142,
+          2.5,
+          1.6376131469368098
+        ]
+      },
+      "aliases": [
+        "fortress",
+        "fort"
+      ],
+      "concepts": [
+        "fortification",
+        "architecture",
+        "defense"
+      ],
+      "intro": "Welcome to the world of castles, where stone walls whisper tales of knights, sieges, and ingenious engineering! As you build your 3D model, notice how towers and battlements aren’t just for looks—they’re clever solutions to defend against attacks. The thick walls absorb cannon fire, while the drawbridge’s counterweight system shows early mechanical genius. Why did medieval builders choose certain shapes for arches? How did they lift heavy stones without cranes? Your castle isn’t just a structure—it’s a puzzle of physics, strategy, and history waiting to be uncovered. Let’s explore!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/AhhyXvO6Fd",
+      "triCount": 0,
+      "source": "prefetch"
+    },
+    "windmill": {
+      "id": "windmill",
+      "name": "Windmill",
+      "url": "/models/windmill.glb",
+      "scale": 3.103216525868509,
+      "yOffset": 0.08628431488471475,
+      "boundingBox": {
+        "min": [
+          -2.07232686864349,
+          0,
+          -1.1814052844343605
+        ],
+        "max": [
+          2.0723260016148086,
+          5,
+          1.7430684767682632
+        ],
+        "size": [
+          4.144652870258298,
+          5,
+          2.9244737612026235
+        ]
+      },
+      "anchors": {
+        "top": [
+          -4.335143406475339e-7,
+          5,
+          0.2808315961669513
+        ],
+        "bottom": [
+          -4.335143406475339e-7,
+          0,
+          0.2808315961669513
+        ],
+        "front": [
+          -4.335143406475339e-7,
+          2.5,
+          1.7430684767682632
+        ],
+        "rear": [
+          -4.335143406475339e-7,
+          2.5,
+          -1.1814052844343605
+        ],
+        "left_side": [
+          -2.07232686864349,
+          2.5,
+          0.2808315961669513
+        ],
+        "right_side": [
+          2.0723260016148086,
+          2.5,
+          0.2808315961669513
+        ],
+        "center": [
+          -4.335143406475339e-7,
+          2.5,
+          0.2808315961669513
+        ]
+      },
+      "aliases": [
+        "wind mill",
+        "mill"
+      ],
+      "concepts": [
+        "wind power",
+        "gears",
+        "mechanical work"
+      ],
+      "intro": "Imagine standing before a towering windmill, its sails spinning gracefully in the breeze, turning the invisible power of the wind into something real and useful. As you prepare to build your own 3D model, think about how those broad blades catch the air, how the gears and shafts inside work together to grind grain or pump water, and how centuries of ingenuity shaped this simple yet brilliant machine. What forces make it move? How can you design it to be stronger or more efficient? Let’s explore the magic of wind and motion, one piece at a time.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/WUbU1Nct2W",
+      "triCount": 1714,
+      "source": "prefetch"
+    },
+    "wind-turbine": {
+      "id": "wind-turbine",
+      "name": "Wind Turbine",
+      "url": "/models/wind-turbine.glb",
+      "scale": 1.694922452648771,
+      "yOffset": 0.000004375908278165226,
+      "boundingBox": {
+        "min": [
+          146.77811589490275,
+          0,
+          -0.9400778423518112
+        ],
+        "max": [
+          149.60056503196395,
+          5,
+          0.7545854584333419
+        ],
+        "size": [
+          2.8224491370611986,
+          5,
+          1.694663300785153
+        ]
+      },
+      "anchors": {
+        "top": [
+          148.18934046343335,
+          5,
+          -0.09274619195923467
+        ],
+        "bottom": [
+          148.18934046343335,
+          0,
+          -0.09274619195923467
+        ],
+        "front": [
+          148.18934046343335,
+          2.5,
+          0.7545854584333419
+        ],
+        "rear": [
+          148.18934046343335,
+          2.5,
+          -0.9400778423518112
+        ],
+        "left_side": [
+          146.77811589490275,
+          2.5,
+          -0.09274619195923467
+        ],
+        "right_side": [
+          149.60056503196395,
+          2.5,
+          -0.09274619195923467
+        ],
+        "center": [
+          148.18934046343335,
+          2.5,
+          -0.09274619195923467
+        ]
+      },
+      "aliases": [
+        "turbine",
+        "wind generator"
+      ],
+      "concepts": [
+        "wind energy",
+        "aerodynamics",
+        "electricity"
+      ],
+      "intro": "Imagine holding the wind in your hands—a towering, spinning marvel that turns invisible gusts into clean energy! As you build your 3D wind turbine model, you’ll see how blades shaped like airplane wings catch the breeze, making them rotate. That motion spins a generator inside, where magnets and copper coils work together to create electricity. Why do some turbines have three blades instead of four? How does the nacelle (that box on top) stay steady in strong winds? Every piece of your model holds a secret of engineering—let’s explore them together!",
+      "license": "CC0 1.0",
+      "author": "Kay Lousberg",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/79RIeBw3Wk",
+      "triCount": 0,
+      "source": "prefetch"
+    },
+    "solar-panel": {
+      "id": "solar-panel",
+      "name": "Solar Panel",
+      "url": "/models/solar-panel.glb",
+      "scale": 2.940075767163313,
+      "yOffset": -10.513846740809932,
+      "boundingBox": {
+        "min": [
+          -4.008831158032393,
+          0,
+          -2.369268840388575
+        ],
+        "max": [
+          4.008831158032393,
+          5,
+          2.7270528751802563
+        ],
+        "size": [
+          8.017662316064786,
+          5,
+          5.096321715568831
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0.1788920173958406
+        ],
+        "bottom": [
+          0,
+          0,
+          0.1788920173958406
+        ],
+        "front": [
+          0,
+          2.5,
+          2.7270528751802563
+        ],
+        "rear": [
+          0,
+          2.5,
+          -2.369268840388575
+        ],
+        "left_side": [
+          -4.008831158032393,
+          2.5,
+          0.1788920173958406
+        ],
+        "right_side": [
+          4.008831158032393,
+          2.5,
+          0.1788920173958406
+        ],
+        "center": [
+          0,
+          2.5,
+          0.1788920173958406
+        ]
+      },
+      "aliases": [
+        "solar array",
+        "photovoltaic panel"
+      ],
+      "concepts": [
+        "photovoltaics",
+        "solar energy",
+        "electricity"
+      ],
+      "intro": "Imagine holding a thin, shimmering sheet of glass in your hands—a silent, sun-loving device that turns light into power. This is a solar panel, a marvel of engineering where tiny semiconductor cells, often made of silicon, work together to capture sunlight and convert it into electricity. As you build your 3D model, you’ll see how layers of materials, angles, and even shadows affect its efficiency. What makes some panels better than others? How does light become energy? Your model will help you uncover these secrets, one piece at a time.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/ah89Y79JdT",
+      "triCount": 0,
+      "source": "prefetch"
+    },
+    "robot": {
+      "id": "robot",
+      "name": "Robot",
+      "url": "/models/robot.glb",
+      "scale": 1.1118983667269788,
+      "yOffset": 0.02257645290951656,
+      "boundingBox": {
+        "min": [
+          -3.6825963848314913,
+          0,
+          -1.42519117489318
+        ],
+        "max": [
+          3.676557360194875,
+          5,
+          1.4836257954032435
+        ],
+        "size": [
+          7.359153745026367,
+          5,
+          2.9088169702964235
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.003019512318308104,
+          5,
+          0.029217310255031714
+        ],
+        "bottom": [
+          -0.003019512318308104,
+          0,
+          0.029217310255031714
+        ],
+        "front": [
+          -0.003019512318308104,
+          2.5,
+          1.4836257954032435
+        ],
+        "rear": [
+          -0.003019512318308104,
+          2.5,
+          -1.42519117489318
+        ],
+        "left_side": [
+          -3.6825963848314913,
+          2.5,
+          0.029217310255031714
+        ],
+        "right_side": [
+          3.676557360194875,
+          2.5,
+          0.029217310255031714
+        ],
+        "center": [
+          -0.003019512318308104,
+          2.5,
+          0.029217310255031714
+        ]
+      },
+      "aliases": [
+        "android",
+        "mech"
+      ],
+      "concepts": [
+        "actuators",
+        "sensors",
+        "control"
+      ],
+      "intro": "Welcome to the world of robotics! Today, you’re about to bring a robot to life by building and exploring its 3D model. Imagine a machine that senses its surroundings, makes decisions, and moves with precision—just like a tiny explorer navigating a maze. As you assemble its gears, motors, and sensors, you’ll uncover how physics, coding, and engineering work together to create something both clever and creative. What will your robot do first? The adventure begins now!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/QCm7qe9uNJ",
+      "triCount": 1425,
+      "source": "prefetch"
+    },
+    "t-rex": {
+      "id": "t-rex",
+      "name": "T-Rex",
+      "url": "/models/t-rex.glb",
+      "scale": 0.328407267689281,
+      "yOffset": 0.001251173278334573,
+      "boundingBox": {
+        "min": [
+          -1.3060223524055838,
+          0,
+          -5.452135141783391
+        ],
+        "max": [
+          1.3060219853818613,
+          5,
+          4.738202632918419
+        ],
+        "size": [
+          2.612044337787445,
+          5,
+          10.19033777470181
+        ]
+      },
+      "anchors": {
+        "top": [
+          -1.8351186126253083e-7,
+          5,
+          -0.3569662544324861
+        ],
+        "bottom": [
+          -1.8351186126253083e-7,
+          0,
+          -0.3569662544324861
+        ],
+        "front": [
+          -1.8351186126253083e-7,
+          2.5,
+          4.738202632918419
+        ],
+        "rear": [
+          -1.8351186126253083e-7,
+          2.5,
+          -5.452135141783391
+        ],
+        "left_side": [
+          -1.3060223524055838,
+          2.5,
+          -0.3569662544324861
+        ],
+        "right_side": [
+          1.3060219853818613,
+          2.5,
+          -0.3569662544324861
+        ],
+        "center": [
+          -1.8351186126253083e-7,
+          2.5,
+          -0.3569662544324861
+        ]
+      },
+      "aliases": [
+        "trex",
+        "tyrannosaurus",
+        "dinosaur"
+      ],
+      "concepts": [
+        "paleontology",
+        "predators",
+        "evolution"
+      ],
+      "intro": "Meet the Tyrannosaurus rex, a magnificent predator that once ruled the Earth 68 million years ago. As you build and explore this 3D model, imagine its powerful jaws, sharp teeth, and massive legs—each detail a clue to how it hunted and thrived. Notice how its tiny arms hint at mysteries of evolution, while its posture reveals secrets of balance and movement. By studying its structure, you’ll uncover not just a dinosaur, but the engineering of life itself—how bones, muscles, and physics came together in one of history’s most awe-inspiring creatures. Ready to bring it to life?",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/UYtneO5FpF",
+      "triCount": 1270,
+      "source": "prefetch"
+    },
+    "shark": {
+      "id": "shark",
+      "name": "Shark",
+      "url": "/models/shark.glb",
+      "scale": 0.9642927788912491,
+      "yOffset": 1.4892868093675016,
+      "boundingBox": {
+        "min": [
+          -2.8102704146384094,
+          0,
+          -7.696422269327819
+        ],
+        "max": [
+          2.8102704146384094,
+          5,
+          7.569576237043433
+        ],
+        "size": [
+          5.620540829276819,
+          5,
+          15.265998506371252
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -0.0634230161421927
+        ],
+        "bottom": [
+          0,
+          0,
+          -0.0634230161421927
+        ],
+        "front": [
+          0,
+          2.5,
+          7.569576237043433
+        ],
+        "rear": [
+          0,
+          2.5,
+          -7.696422269327819
+        ],
+        "left_side": [
+          -2.8102704146384094,
+          2.5,
+          -0.0634230161421927
+        ],
+        "right_side": [
+          2.8102704146384094,
+          2.5,
+          -0.0634230161421927
+        ],
+        "center": [
+          0,
+          2.5,
+          -0.0634230161421927
+        ]
+      },
+      "aliases": [
+        "great white shark"
+      ],
+      "concepts": [
+        "buoyancy",
+        "predators",
+        "marine biology"
+      ],
+      "intro": "Meet the shark—a sleek, ancient predator that has ruled the oceans for over 400 million years! As you build your 3D model, notice how its streamlined body and powerful tail help it glide effortlessly through water, a masterpiece of hydrodynamic engineering. Feel the rough texture of its skin, covered in tiny tooth-like scales called denticles, which reduce drag and even inspire human designs like swimsuits and wind turbines. Sharks come in all shapes and sizes, from the tiny dwarf lanternshark to the massive whale shark, each adapted to its environment in fascinating ways. As you explore, think about how their senses—like electroreception—help them hunt, and how their cartilage skeletons differ from our bones. You’re about to uncover the science behind one of nature’s most incredible survivors!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/AyHTK3zUSG",
+      "triCount": 644,
+      "source": "prefetch"
+    },
+    "whale": {
+      "id": "whale",
+      "name": "Whale",
+      "url": "/models/whale.glb",
+      "scale": 1.5697400155663686,
+      "yOffset": 3.287222765659168,
+      "boundingBox": {
+        "min": [
+          -3.1885918898763643,
+          0,
+          -10.451612448336274
+        ],
+        "max": [
+          3.1885918898763643,
+          5,
+          5.5507526917715015
+        ],
+        "size": [
+          6.377183779752729,
+          5,
+          16.002365140107777
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -2.450429878282386
+        ],
+        "bottom": [
+          0,
+          0,
+          -2.450429878282386
+        ],
+        "front": [
+          0,
+          2.5,
+          5.5507526917715015
+        ],
+        "rear": [
+          0,
+          2.5,
+          -10.451612448336274
+        ],
+        "left_side": [
+          -3.1885918898763643,
+          2.5,
+          -2.450429878282386
+        ],
+        "right_side": [
+          3.1885918898763643,
+          2.5,
+          -2.450429878282386
+        ],
+        "center": [
+          0,
+          2.5,
+          -2.450429878282386
+        ]
+      },
+      "aliases": [
+        "blue whale",
+        "humpback whale"
+      ],
+      "concepts": [
+        "marine mammals",
+        "buoyancy",
+        "filter feeding"
+      ],
+      "intro": "Welcome to the fascinating world of whales! As you prepare to build and explore your 3D model, imagine this gentle giant gliding through the ocean—its massive body powered by a heart the size of a small car. Whales are marvels of nature, with adaptations like echolocation for hunting and streamlined shapes for speed. As you assemble your model, think about how their bones and muscles work together, or how engineers mimic their fins for better underwater designs. You’re not just building a whale; you’re unlocking secrets of biology and innovation!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/JGFwp6xWgk",
+      "triCount": 447,
+      "source": "prefetch"
+    },
+    "tree": {
+      "id": "tree",
+      "name": "Tree",
+      "url": "/models/tree.glb",
+      "scale": 0.7281452270633071,
+      "yOffset": 0.00728882679759419,
+      "boundingBox": {
+        "min": [
+          144.41798222298965,
+          0,
+          -1.091023243985479
+        ],
+        "max": [
+          162.57391192325338,
+          4.999999999999999,
+          1.0919836776310352
+        ],
+        "size": [
+          18.155929700263727,
+          4.999999999999999,
+          2.1830069216165144
+        ]
+      },
+      "anchors": {
+        "top": [
+          153.4959470731215,
+          4.999999999999999,
+          0.0004802168227781012
+        ],
+        "bottom": [
+          153.4959470731215,
+          0,
+          0.0004802168227781012
+        ],
+        "front": [
+          153.4959470731215,
+          2.4999999999999996,
+          1.0919836776310352
+        ],
+        "rear": [
+          153.4959470731215,
+          2.4999999999999996,
+          -1.091023243985479
+        ],
+        "left_side": [
+          144.41798222298965,
+          2.4999999999999996,
+          0.0004802168227781012
+        ],
+        "right_side": [
+          162.57391192325338,
+          2.4999999999999996,
+          0.0004802168227781012
+        ],
+        "center": [
+          153.4959470731215,
+          2.4999999999999996,
+          0.0004802168227781012
+        ]
+      },
+      "aliases": [
+        "oak tree",
+        "plant"
+      ],
+      "concepts": [
+        "photosynthesis",
+        "ecosystems",
+        "growth"
+      ],
+      "intro": "Welcome to the world of trees—a living marvel of nature that grows tall, strong, and full of secrets. As you build and explore your 3D model, notice how branches spread like arms reaching for sunlight, while roots anchor deep into the earth, drawing up water and nutrients. Trees are nature’s engineers, turning sunlight into energy through photosynthesis and even shaping the air we breathe. What patterns will you discover in their structure? How do they balance strength and flexibility? Dive in, and let your curiosity grow alongside your model!",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/etFGNvsiFv",
+      "triCount": 0,
+      "source": "prefetch"
+    },
+    "house": {
+      "id": "house",
+      "name": "House",
+      "url": "/models/house.glb",
+      "scale": 6.779661318311346,
+      "yOffset": 0,
+      "boundingBox": {
+        "min": [
+          -4.433898294468578,
+          0,
+          -4.433898294468578
+        ],
+        "max": [
+          4.433898294468578,
+          5,
+          4.433898294468578
+        ],
+        "size": [
+          8.867796588937155,
+          5,
+          8.867796588937155
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0
+        ],
+        "bottom": [
+          0,
+          0,
+          0
+        ],
+        "front": [
+          0,
+          2.5,
+          4.433898294468578
+        ],
+        "rear": [
+          0,
+          2.5,
+          -4.433898294468578
+        ],
+        "left_side": [
+          -4.433898294468578,
+          2.5,
+          0
+        ],
+        "right_side": [
+          4.433898294468578,
+          2.5,
+          0
+        ],
+        "center": [
+          0,
+          2.5,
+          0
+        ]
+      },
+      "aliases": [
+        "home",
+        "cottage"
+      ],
+      "concepts": [
+        "architecture",
+        "structure",
+        "insulation"
+      ],
+      "intro": "Welcome to your first 3D house-building adventure! Imagine a sturdy little home with walls that stand tall, a roof that shields from rain, and windows that let light dance inside—each part a puzzle piece of engineering. As you place beams and bricks, you’ll see how forces like gravity and tension shape structures, and how angles create strength. What happens if you swap a flat roof for a sloped one? Why do some walls need to be thicker? Your model isn’t just a house—it’s a hands-on lesson in balance, materials, and design. Ready to build?",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/7VSVwAg2T3",
+      "triCount": 381,
+      "source": "prefetch"
+    },
+    "telescope": {
+      "id": "telescope",
+      "name": "Telescope",
+      "url": "/models/telescope.glb",
+      "scale": 5.28864340131648,
+      "yOffset": -5.162548486567661e-7,
+      "boundingBox": {
+        "min": [
+          -1.5890511946550103,
+          0,
+          -1.1415221666802842
+        ],
+        "max": [
+          1.1224606178780678,
+          5.000000000000001,
+          1.998531458463517
+        ],
+        "size": [
+          2.711511812533078,
+          5.000000000000001,
+          3.140053625143801
+        ]
+      },
+      "anchors": {
+        "top": [
+          -0.23329528838847124,
+          5.000000000000001,
+          0.4285046458916164
+        ],
+        "bottom": [
+          -0.23329528838847124,
+          0,
+          0.4285046458916164
+        ],
+        "front": [
+          -0.23329528838847124,
+          2.5000000000000004,
+          1.998531458463517
+        ],
+        "rear": [
+          -0.23329528838847124,
+          2.5000000000000004,
+          -1.1415221666802842
+        ],
+        "left_side": [
+          -1.5890511946550103,
+          2.5000000000000004,
+          0.4285046458916164
+        ],
+        "right_side": [
+          1.1224606178780678,
+          2.5000000000000004,
+          0.4285046458916164
+        ],
+        "center": [
+          -0.23329528838847124,
+          2.5000000000000004,
+          0.4285046458916164
+        ]
+      },
+      "aliases": [
+        "observatory telescope"
+      ],
+      "concepts": [
+        "optics",
+        "lenses",
+        "astronomy"
+      ],
+      "intro": "Imagine holding a key to the universe—a telescope! This simple yet powerful tool lets you zoom in on distant stars, planets, and galaxies, revealing secrets hidden by time and space. As you build your 3D model, you’ll discover how lenses or mirrors bend light, how angles and focal lengths work together, and why even a basic design can unlock cosmic wonders. Soon, you’ll see how science and engineering turn curiosity into discovery, one starlit night at a time. Ready to begin?",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/RjyTCQvA8b",
+      "triCount": 734,
+      "source": "prefetch"
+    },
+    "lighthouse": {
+      "id": "lighthouse",
+      "name": "Lighthouse",
+      "url": "/models/lighthouse.glb",
+      "scale": 0.010939046064974622,
+      "yOffset": -0.15185704728546878,
+      "boundingBox": {
+        "min": [
+          -0.8544816104647359,
+          0,
+          -0.8544816104647359
+        ],
+        "max": [
+          0.8544816104647359,
+          5,
+          0.8544816104647359
+        ],
+        "size": [
+          1.7089632209294718,
+          5,
+          1.7089632209294718
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0
+        ],
+        "bottom": [
+          0,
+          0,
+          0
+        ],
+        "front": [
+          0,
+          2.5,
+          0.8544816104647359
+        ],
+        "rear": [
+          0,
+          2.5,
+          -0.8544816104647359
+        ],
+        "left_side": [
+          -0.8544816104647359,
+          2.5,
+          0
+        ],
+        "right_side": [
+          0.8544816104647359,
+          2.5,
+          0
+        ],
+        "center": [
+          0,
+          2.5,
+          0
+        ]
+      },
+      "aliases": [
+        "light house",
+        "beacon tower"
+      ],
+      "concepts": [
+        "optics",
+        "navigation",
+        "refraction"
+      ],
+      "intro": "A lighthouse is a towering beacon of light that has guided ships safely through storms and dark nights for centuries. As you build your 3D model, you’ll notice its strong, tapered shape—designed to withstand fierce winds—and the intricate lens system that magnifies light across miles. Think about how early engineers solved the challenge of making light visible over vast distances, or how modern lighthouses use electricity and automation. As you assemble each piece, imagine the stories of sailors who relied on this silent guardian, and the clever science that keeps it standing tall against the sea.",
+      "license": "CC-BY 3.0",
+      "author": "Robert Mirabelle",
+      "authorUrl": "",
+      "attributionUrl": "https://poly.pizza/m/3gEvVZoTN7e",
+      "triCount": 192,
+      "source": "prefetch"
+    }
+  }
+}

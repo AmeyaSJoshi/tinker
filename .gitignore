@@ -1,0 +1,17 @@
+/node_modules
+/.next
+/out
+/build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*.local
+next-env.d.ts
+.vercel
+*.tsbuildinfo
+
+# Deploy note: the fetched asset library is intentionally COMMITTED so Vercel can
+# serve it without running fetch-assets at build time. Do NOT ignore these:
+#   public/models/*.glb
+#   public/models/CREDITS.json
+#   lib/assetManifest.generated.json

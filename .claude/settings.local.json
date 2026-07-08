@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(cat .claude/launch.json)",
+      "Bash(grep -c GEMINI_API_KEY .env.local)",
+      "Bash(curl -s -X POST http://localhost:60759/api/tutor -H \"Content-Type: application/json\" -d '{\"message\":\"I want to build an F1 car\",\"history\":[],\"currentParts\":[]}' --max-time 120)",
+      "Bash(python3 -m json.tool)",
+      "WebFetch(domain:poly.pizza)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/MatthewHallCom/Poly-Pizza-MCP/main/src/types.ts\")",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/MatthewHallCom/Poly-Pizza-MCP/main/src/index.ts\")",
+      "Bash(node -e \"const {NodeIO}=require\\('@gltf-transform/core'\\); console.log\\('gltf-transform OK', typeof NodeIO\\)\")",
+      "Bash(npx tsx *)",
+      "Bash(node -e \"const c=require\\('@gltf-transform/core'\\); console.log\\('exports:', Object.keys\\(c\\).filter\\(k=>/bound|Bounds|NodeIO|Document/.test\\(k\\)\\).join\\(', '\\)\\); console.log\\('all:', Object.keys\\(c\\).slice\\(0,60\\).join\\(', '\\)\\)\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(ls _testAuto.mjs _box.glb)",
+      "Bash(ls -la public/)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(len\\(d\\), 'entries'\\); print\\(json.dumps\\(d[0], indent=2\\)\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -rn \"api/config\\\\|getModelLabel\\\\|model badge\\\\|/api/config\" app components lib)",
+      "Bash(awk -F= '/^\\(LLM_MODEL|LLM_BASE_URL|POLY_PIZZA_API_KEY|LLM_API_KEY\\)=/{print $1\"=\"\\(length\\($2\\)>0?\"SET\":\"EMPTY\"\\)}' .env.local)",
+      "Bash(node --check scripts/fetch-assets.mjs)"
+    ]
+  }
+}
