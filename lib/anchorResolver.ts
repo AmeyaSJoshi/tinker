@@ -49,6 +49,7 @@ function canonical(name: string): string {
  * Resolve an anchor name against a model's anchor map. Tries the name directly,
  * then a de-spaced canonical form, then the synonym table, and finally falls
  * back to `center` (with a console.warn) so callers always get a position.
+ * Also returns the outward direction of the anchor (useful for part orientation).
  */
 export function resolveAnchor(anchors: AnchorMap, name: string): ResolvedAnchor {
   const raw = name ?? "";
@@ -65,4 +66,28 @@ export function resolveAnchor(anchors: AnchorMap, name: string): ResolvedAnchor 
     `[anchorResolver] unknown anchor "${raw}" — falling back to "center"`,
   );
   return { position: anchors.center ?? [0, 0, 0], anchor: "center" };
+}
+
+/**
+ * Get the outward-facing direction vector for an anchor based on which bbox face it's on.
+ * Used to auto-orient parts attached to that anchor (e.g., thrusters should point outward).
+ */
+export function getAnchorDirection(anchor: string): [number, number, number] {
+  switch (anchor) {
+    case "top":
+      return [0, 1, 0];
+    case "bottom":
+      return [0, -1, 0];
+    case "front":
+      return [0, 0, 1];
+    case "rear":
+      return [0, 0, -1];
+    case "left_side":
+      return [-1, 0, 0];
+    case "right_side":
+      return [1, 0, 0];
+    case "center":
+    default:
+      return [0, 1, 0]; // default up
+  }
 }

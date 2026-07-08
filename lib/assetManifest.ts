@@ -17,6 +17,21 @@ import type { AnchorMap, BoundingBox } from "./autoManifest";
 import { assetOverrides, type AssetOverride } from "./assetOverrides";
 import staticManifest from "./assetManifest.generated.json";
 
+/** Metadata about a single component in a GLB (for semantic naming). */
+export interface ComponentMetadata {
+  /** Raw mesh/material name from the GLB. */
+  rawName: string;
+  /** LLM-generated semantic name (e.g., "Nosecone", "Fin (left)"). */
+  semanticName: string;
+}
+
+/** A virtual component (for single-mesh models with no submeshes). */
+export interface VirtualComponentMetadata {
+  name: string;
+  position: [number, number, number]; // normalized -1..1
+  whatItIs: string;
+}
+
 /** A complete manifest entry: everything needed to place + teach one base model. */
 export interface AssetEntry {
   /** Slug id, also the GLB filename stem (e.g. "space-shuttle"). */
@@ -40,6 +55,10 @@ export interface AssetEntry {
   source: "prefetch" | "live";
   /** Poly Pizza's own model id (the `m/<id>` in attributionUrl), for rejection-exclusion. */
   sourceModelId?: string;
+  /** LLM-generated semantic names for submeshes (Phase 3.4B). Cached per asset. */
+  componentMetadata?: ComponentMetadata[];
+  /** Virtual components for single-mesh models (Phase 3.4B). */
+  virtualComponents?: VirtualComponentMetadata[];
 }
 
 /** One cached semantic-validation outcome, keyed by normalized request phrase. */

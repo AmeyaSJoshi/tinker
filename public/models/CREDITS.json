@@ -136,7 +136,55 @@
     "attribution": "\"Computer desk\" by Poly by Google, https://poly.pizza/m/4U4lI91VbsO. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
+    "slug": "computer-keyboard",
+    "name": "Computer Keyboard",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/vsqTUPFSw6",
+    "attribution": "\"Computer Keyboard\" by Kenney, https://poly.pizza/m/vsqTUPFSw6. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "mechanical-gaming-keyboard",
+    "name": "Computer Keyboard",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/vsqTUPFSw6",
+    "attribution": "\"Computer Keyboard\" by Kenney, https://poly.pizza/m/vsqTUPFSw6. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "gaming-keyboard",
+    "name": "Computer Keyboard",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/vsqTUPFSw6",
+    "attribution": "\"Computer Keyboard\" by Kenney, https://poly.pizza/m/vsqTUPFSw6. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "mouse",
+    "name": "Computer Mouse",
+    "author": "CreativeTrio",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/V2Ebx3pvo4",
+    "attribution": "\"Computer Mouse\" by CreativeTrio, https://poly.pizza/m/V2Ebx3pvo4. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "mousepad",
+    "name": "Computer Mouse",
+    "author": "CreativeTrio",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/V2Ebx3pvo4",
+    "attribution": "\"Computer Mouse\" by CreativeTrio, https://poly.pizza/m/V2Ebx3pvo4. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "gaming-mouse",
+    "name": "Computer Mouse",
+    "author": "CreativeTrio",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/V2Ebx3pvo4",
+    "attribution": "\"Computer Mouse\" by CreativeTrio, https://poly.pizza/m/V2Ebx3pvo4. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "computer-mouse",
     "name": "Computer Mouse",
     "author": "CreativeTrio",
     "license": "CC0 1.0",
@@ -152,7 +200,47 @@
     "attribution": "\"Computer Screen\" by Kenney, https://poly.pizza/m/V5Qo141OcB. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "gaming-monitor",
+    "name": "Computer Screen",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/V5Qo141OcB",
+    "attribution": "\"Computer Screen\" by Kenney, https://poly.pizza/m/V5Qo141OcB. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "gaming-pc-tower",
+    "name": "Computer Tower",
+    "author": "Ethan Yawney",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/4TZXM3lO5KK",
+    "attribution": "\"Computer Tower\" by Ethan Yawney, https://poly.pizza/m/4TZXM3lO5KK. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "slug": "gaming-office-desk",
+    "name": "Desk",
+    "author": "Quaternius",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/V86Go2rlnq",
+    "attribution": "\"Desk\" by Quaternius, https://poly.pizza/m/V86Go2rlnq. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "gaming-chair",
+    "name": "Desk Chair",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/CKSz6PB1vO",
+    "attribution": "\"Desk Chair\" by Kenney, https://poly.pizza/m/CKSz6PB1vO. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "desk",
+    "name": "Desk Corner",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/LCfBX1FVJr",
+    "attribution": "\"Desk Corner\" by Kenney, https://poly.pizza/m/LCfBX1FVJr. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
+    "slug": "office-desk",
     "name": "Desk Corner",
     "author": "Kenney",
     "license": "CC0 1.0",
@@ -288,12 +376,12 @@
     "attribution": "\"Man\" by Quaternius, https://poly.pizza/m/HMnuH5geEG. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
-    "slug": "mousepad",
-    "name": "Mousepad",
-    "author": "dook",
-    "license": "CC-BY 3.0",
-    "url": "https://poly.pizza/m/S5sNqsyyOs",
-    "attribution": "\"Mousepad\" by dook, https://poly.pizza/m/S5sNqsyyOs. Licence at https://creativecommons.org/licenses/by/3.0"
+    "slug": "computer-monitor",
+    "name": "Monitor",
+    "author": "CreativeTrio",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/PvSjEbz11k",
+    "attribution": "\"Monitor\" by CreativeTrio, https://poly.pizza/m/PvSjEbz11k. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
     "slug": "that-is-not-a-mousepad-make-a-mousepad",
@@ -318,14 +406,6 @@
     "license": "CC-BY 3.0",
     "url": "https://poly.pizza/m/600PeFCBopv",
     "attribution": "\"Nintendo Switch\" by Jasmine Roberts, https://poly.pizza/m/600PeFCBopv. Licence at https://creativecommons.org/licenses/by/3.0"
-  },
-  {
-    "slug": "xbox",
-    "name": "Oculus Controller L",
-    "author": "NekoCat",
-    "license": "CC-BY 3.0",
-    "url": "https://poly.pizza/m/PFlPwk2aoU",
-    "attribution": "\"Oculus Controller L\" by NekoCat, https://poly.pizza/m/PFlPwk2aoU. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
     "slug": "bike-lock",
@@ -440,6 +520,14 @@
     "attribution": "\"Spaceship\" by Quaternius, https://poly.pizza/m/htfBk9vPfw. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "gaming-desk",
+    "name": "Standing Desk",
+    "author": "Zsky",
+    "license": "CC-BY 3.0",
+    "url": "https://poly.pizza/m/dE6BqyF4Ws",
+    "attribution": "\"Standing Desk\" by Zsky, https://poly.pizza/m/dE6BqyF4Ws. Licence at https://creativecommons.org/licenses/by/3.0"
+  },
+  {
     "slug": "star",
     "name": "Star",
     "author": "Quaternius",
@@ -526,14 +614,6 @@
     "license": "CC0 1.0",
     "url": "https://poly.pizza/m/YNDbNrxQ1I",
     "attribution": "\"Utensil Spoon\" by Kenney, https://poly.pizza/m/YNDbNrxQ1I. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
-  },
-  {
-    "slug": "ps5",
-    "name": "Videogame",
-    "author": "Poly by Google",
-    "license": "CC-BY 3.0",
-    "url": "https://poly.pizza/m/7jHiQIMZkRs",
-    "attribution": "\"Videogame\" by Poly by Google, https://poly.pizza/m/7jHiQIMZkRs. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
     "slug": "volcano",

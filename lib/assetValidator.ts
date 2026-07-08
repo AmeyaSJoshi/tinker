@@ -22,7 +22,7 @@ ${listing}
 Pick the number of the SINGLE BEST candidate, judged by these rules:
 a. It must be the actual object requested, not merely something that contains the word (e.g. a request for "bear" must NOT match "Bear Trap"; "peanut" must NOT match "Peanut Jar" or "Peanut Butter"; "bike" must NOT match "Exercise Bike" or "Stationary Bike" when a real bicycle was meant).
 b. It must be a SINGLE object, not a scene, set, pack, or collection (e.g. "tree" must NOT match "Trees" or "Forest Pack" — one tree, not a forest).
-c. If NONE of the candidates qualify, answer 0.
+c. If NO candidate is genuinely the requested object, you MUST answer 0. A different game console, a different brand, or a vaguely similar gadget is NOT acceptable — being in the same category is not enough. For example: an Oculus controller is NOT an Xbox controller and must NOT match a request for "xbox"; a Gameboy is NOT a PS5 and must NOT match a request for "ps5" or "playstation 5"; a generic black box or unlabeled console shell must NOT match a request for a specific named console. When in doubt, answer 0 — a learner would rather wait for a real match than see the wrong object.
 
 Reply with ONLY the number. No words, no punctuation, no explanation.`;
 }

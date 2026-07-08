@@ -3,6 +3,7 @@ import type {
   BaseAsset,
   ChatMessage,
   Part,
+  PlacedAsset,
   SceneOp,
   TutorResponse,
 } from "./schema";
@@ -44,6 +45,13 @@ function clampBaseScale(n: number): number {
 interface SceneState {
   /** The realistic GLB base model, if this build started from the asset library. */
   baseAsset: BaseAsset | null;
+  /**
+   * Multiple placed GLB base models for a COMPOUND build ("gaming setup").
+   * Orthogonal to `baseAsset` — a compound scene leaves `baseAsset` null and
+   * uses this instead; single-asset builds leave this empty and are
+   * unaffected. See lib/schema.ts's `PlacedAsset`.
+   */
+  baseAssets: PlacedAsset[];
   /** Model ids the learner has rejected for the CURRENT build topic ("no, a real bike"). */
   rejectedModelIds: string[];
   parts: Part[];
@@ -73,6 +81,12 @@ interface SceneState {
    * one). Remembers the rejected model's id so it's never re-picked this topic.
    */
   swapBaseAsset: (asset: BaseAsset) => void;
+  /**
+   * Load a COMPOUND scene composed of multiple placed GLB models plus any
+   * primitive-fallback components (already positioned into world space).
+   * Replaces whatever was in the scene, same as `loadBaseAsset`.
+   */
+  loadComposedScene: (data: { baseAssets: PlacedAsset[]; parts: Part[]; concepts?: string[] }) => void;
   /** Apply a validated tutor response to the scene per the manifest rules. */
   applyManifest: (response: TutorResponse) => void;
   /** Apply the response's deterministic sceneOps (scale/recolor/brighten/reframe). */
@@ -100,6 +114,7 @@ function mergeConcepts(existing: string[], parts: Part[]): string[] {
 
 export const useSceneStore = create<SceneState>((set) => ({
   baseAsset: null,
+  baseAssets: [],
   rejectedModelIds: [],
   parts: [],
   selectedPartId: null,
@@ -116,6 +131,8 @@ export const useSceneStore = create<SceneState>((set) => ({
   loadBaseAsset: (asset) =>
     set((state) => ({
       baseAsset: asset,
+      // A single-asset build replaces any compound scene that was loaded.
+      baseAssets: [],
       // A new build topic — start the rejection list over.
       rejectedModelIds: [],
       // A new base model replaces whatever was in the scene.
@@ -136,6 +153,7 @@ export const useSceneStore = create<SceneState>((set) => ({
       const rejectedId = state.baseAsset?.sourceModelId;
       return {
         baseAsset: asset,
+        baseAssets: [],
         rejectedModelIds: rejectedId
           ? Array.from(new Set([...state.rejectedModelIds, rejectedId]))
           : state.rejectedModelIds,
@@ -150,6 +168,28 @@ export const useSceneStore = create<SceneState>((set) => ({
         ),
       };
     }),
+
+  loadComposedScene: ({ baseAssets, parts, concepts = [] }) =>
+    set((state) => ({
+      baseAsset: null,
+      baseAssets,
+      rejectedModelIds: [],
+      parts,
+      selectedPartId: null,
+      selectedComponent: null,
+      baseComponents: [],
+      baseScaleMultiplier: 1,
+      baseColorOverride: null,
+      // A fresh compound scene needs a fresh camera frame too.
+      frameSignal: state.frameSignal + 1,
+      conceptsLearned: Array.from(
+        new Set([
+          ...state.conceptsLearned,
+          ...concepts,
+          ...baseAssets.flatMap((pa) => pa.asset.concepts),
+        ]),
+      ),
+    })),
 
   applyManifest: (response) =>
     set((state) => {
@@ -281,6 +321,7 @@ export const useSceneStore = create<SceneState>((set) => ({
   clearScene: () =>
     set({
       baseAsset: null,
+      baseAssets: [],
       rejectedModelIds: [],
       parts: [],
       selectedPartId: null,

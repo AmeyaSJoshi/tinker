@@ -5,11 +5,16 @@ import {
   type Part,
   type TutorResponse,
 } from "@/lib/schema";
-import { buildExplainPrompt, buildSystemPrompt } from "@/lib/tutorPrompt";
+import {
+  buildChitchatPrompt,
+  buildExplainPrompt,
+  buildPrimitivesFallbackPrompt,
+  buildSystemPrompt,
+} from "@/lib/tutorPrompt";
+import type { Intent } from "@/lib/intentRouter";
 import {
   callExplainer,
   callTutor,
-  generateText,
   noteTutorOutcome,
   LlmError,
   type LlmMessage,
@@ -25,6 +30,17 @@ interface TutorRequestBody {
   currentParts: Part[];
   /** Set when the scene's base is a realistic GLB, so we can inject its anchors. */
   baseAssetId?: string;
+  /**
+   * The intent router's (lib/intentRouter.ts) verdict for this message — the
+   * single source of truth for build vs. explain vs. chitchat. Missing only
+   * for old/offline callers, in which case a light keyword check is used
+   * instead of a second LLM classifier call.
+   */
+  intent?: Intent;
+  /** The router's cleaned object noun phrase, used to fill the primitives-fallback prompt. */
+  targetObject?: string | null;
+  /** True when this create_base call is filling in for a failed library/live-fetch resolution. */
+  primitiveFallback?: boolean;
 }
 
 /** Only used when we don't even have a usable `message` to build a dynamic reply from. */
@@ -97,48 +113,80 @@ const EXPLAIN_HEURISTIC_RE =
 const BUILD_HEURISTIC_RE =
   /\b(add|remove|delete|attach|build|make|create|change|modify|move|resize|bigger|smaller|replace|swap|turn (it|this) into|give (it|the)|put a|upgrade|redesign|shrink|grow|widen|rotate)\b/i;
 
-function heuristicIntent(message: string): "build" | "explain" {
+/**
+ * Last-resort, keyword-only BUILD/EXPLAIN guess for callers that skip the
+ * intent router entirely (e.g. an old/offline client). The intent router
+ * (lib/intentRouter.ts) is the ONE real classifier in the app; this never
+ * makes an LLM call of its own, so there's no second classifier competing
+ * with it. An empty scene is always a BUILD — there's nothing yet to ask about.
+ */
+function legacyFallbackIntent(message: string, hasScene: boolean): "build" | "explain" {
+  if (!hasScene) return "build";
+  if (SCENE_COMMAND_RE.test(message)) return "build";
   const looksLikeQuestion = /\?\s*$/.test(message.trim()) || EXPLAIN_HEURISTIC_RE.test(message);
   const looksLikeBuild = BUILD_HEURISTIC_RE.test(message);
   return looksLikeQuestion && !looksLikeBuild ? "explain" : "build";
 }
 
+/** A plain-text (explain/chitchat-shaped) response carrying no geometry change. */
+function proseResponse(reply: string): TutorResponse {
+  return {
+    reasoning: "",
+    action: "explain",
+    reply,
+    baseAssetId: null,
+    parts: [],
+    removedPartIds: [],
+    followUpQuestion: null,
+    suggestedActions: [],
+    sceneOps: [],
+    quiz: null,
+  };
+}
+
+/** 0-1 average-channel luminance of a hex color, used to catch near-black builds. */
+function hexLuminance(hex: string): number {
+  const h = hex.replace("#", "");
+  const full = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
+  const r = parseInt(full.slice(0, 2), 16) / 255;
+  const g = parseInt(full.slice(2, 4), 16) / 255;
+  const b = parseInt(full.slice(4, 6), 16) / 255;
+  if ([r, g, b].some((n) => Number.isNaN(n))) return 1;
+  return (r + g + b) / 3;
+}
+
 /**
- * Decide BUILD vs EXPLAIN before touching the JSON build schema at all, so a
- * pure question can never produce the old "tangled up" fallback. Tries one
- * cheap LLM call first; falls back to a keyword heuristic if that call fails.
- * An empty scene is always a BUILD — there's nothing yet to ask about.
+ * Quality gate for a primitives-fallback create_base build (Task 3): enough
+ * parts to be recognizable, and not a monochrome or near-black blob that
+ * would be unrecognizable or invisible against the dark background. Returns a
+ * human-readable retry instruction, or null if the build already clears the bar.
  */
-async function classifyIntent(
-  message: string,
-  hasScene: boolean,
-  signal?: AbortSignal,
-): Promise<"build" | "explain"> {
-  if (!hasScene) return "build";
-  // Scene commands ("it's too dark", "make it smaller") always need an actual
-  // sceneOp, never a prose explanation — skip the classifier (LLM or
-  // heuristic) entirely so one can't get misjudged as a question and answered
-  // with an inert, non-actionable reply instead of actually fixing the scene.
-  if (SCENE_COMMAND_RE.test(message)) return "build";
+function primitivesQualityIssue(response: TutorResponse): string | null {
+  if (response.action !== "create_base" || response.parts.length === 0) return null;
+  const issues: string[] = [];
 
-  const prompt = `Classify the learner's message in a 3D-model tutoring app as exactly one word: BUILD or EXPLAIN.
-
-BUILD = they want to add, remove, resize, move, or otherwise change the 3D scene.
-EXPLAIN = they're asking a question about something that already exists (e.g. "how does X work", "why is it shaped like that"), with NO change to the scene.
-
-Message: "${message}"
-
-Reply with ONLY one word: BUILD or EXPLAIN.`;
-
-  try {
-    const raw = (await generateText(prompt, signal)).trim().toUpperCase();
-    if (raw.includes("EXPLAIN")) return "explain";
-    if (raw.includes("BUILD")) return "build";
-  } catch (err) {
-    if (err instanceof LlmError && err.reason === "aborted") throw err;
-    console.warn("[tutor] intent classifier call failed, using heuristic:", err);
+  if (response.parts.length < 6) {
+    issues.push(
+      `You only used ${response.parts.length} primitive${response.parts.length === 1 ? "" : "s"} — use at least 6 to capture the object's distinctive features. Add more detail.`,
+    );
   }
-  return heuristicIntent(message);
+
+  const colors = new Set(response.parts.map((p) => p.color.toLowerCase()));
+  if (response.parts.length > 1 && colors.size === 1) {
+    issues.push(
+      "Every part is the exact same color — use multiple colors matching the real object's actual color scheme.",
+    );
+  }
+
+  const avgLuminance =
+    response.parts.reduce((sum, p) => sum + hexLuminance(p.color), 0) / response.parts.length;
+  if (avgLuminance < 0.12) {
+    issues.push(
+      "The build is almost entirely black/near-black, which is invisible against the dark background — lighten it or add lighter accent parts.",
+    );
+  }
+
+  return issues.length > 0 ? issues.join(" ") : null;
 }
 
 /**
@@ -184,29 +232,105 @@ function describeBaseAsset(asset: AssetEntry): string {
     )}]. Its lowest point rests on y=0. When you ADD parts to it, prefer "attachTo" with one of these named anchors:\n${anchors}`;
 }
 
+/** Calculate the half-extent of a part's bounding box along a given axis. */
+function partHalfExtent(part: Part, axis: 0 | 1 | 2): number {
+  const d = part.dimensions;
+  switch (part.shape) {
+    case "box":
+      return axis === 0
+        ? (d.width ?? 1) / 2
+        : axis === 1
+          ? (d.height ?? 1) / 2
+          : (d.depth ?? 1) / 2;
+    case "sphere":
+      return d.radius ?? 0.5;
+    case "cylinder":
+    case "cone":
+      return axis === 1 ? (d.height ?? 1) / 2 : d.radius ?? 0.5;
+    case "capsule":
+      return axis === 1 ? (d.height ?? 1) / 2 + (d.radius ?? 0.3) : d.radius ?? 0.3;
+    case "torus":
+      return d.radius ?? 0.5;
+    default:
+      return 0.5;
+  }
+}
+
 /**
  * Resolve every part's optional `attachTo` anchor into a concrete position using
  * the base model's anchor map (plus the part's local offset). Parts without
  * `attachTo`, or when there's no base asset, keep their given position.
+ *
+ * Also validates that parts actually touch the base model after resolution;
+ * logs warnings for parts that drift too far, and snaps floating parts to the
+ * attachment anchor to ensure physical plausibility.
  */
 function resolveAttachments(
   response: TutorResponse,
   asset: AssetEntry | null,
 ): TutorResponse {
   if (!asset) return response;
+
+  const assetBBox = asset.boundingBox;
   const parts = response.parts.map((part) => {
     if (!part.attachTo) return part;
-    const { position } = resolveAnchor(asset.anchors, part.attachTo.anchor);
+
+    const { position: anchorPos } = resolveAnchor(asset.anchors, part.attachTo.anchor);
     const off = part.attachTo.offset ?? [0, 0, 0];
+    const resolvedPos: Part["position"] = [
+      anchorPos[0] + off[0],
+      anchorPos[1] + off[1],
+      anchorPos[2] + off[2],
+    ];
+
+    // Check if the resolved part's bounding box touches the base model's bounding box.
+    // If not, snap it to the anchor position to avoid floating parts.
+    const partHalfX = partHalfExtent(part, 0);
+    const partHalfY = partHalfExtent(part, 1);
+    const partHalfZ = partHalfExtent(part, 2);
+
+    const partMin = [
+      resolvedPos[0] - partHalfX,
+      resolvedPos[1] - partHalfY,
+      resolvedPos[2] - partHalfZ,
+    ];
+    const partMax = [
+      resolvedPos[0] + partHalfX,
+      resolvedPos[1] + partHalfY,
+      resolvedPos[2] + partHalfZ,
+    ];
+
+    // AABB intersection test with a small tolerance for overlap.
+    const touches =
+      !(
+        partMax[0] < assetBBox.min[0] - 0.01 ||
+        partMin[0] > assetBBox.max[0] + 0.01 ||
+        partMax[1] < assetBBox.min[1] - 0.01 ||
+        partMin[1] > assetBBox.max[1] + 0.01 ||
+        partMax[2] < assetBBox.min[2] - 0.01 ||
+        partMin[2] > assetBBox.max[2] + 0.01
+      );
+
+    if (!touches) {
+      console.warn(
+        `[tutor] part "${part.id}" (${part.shape}) at [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] does not touch base model bbox [${assetBBox.min.map((x) => x.toFixed(2)).join(", ")}]–[${assetBBox.max.map((x) => x.toFixed(2)).join(", ")}] — snapping to anchor [${anchorPos.map((x) => x.toFixed(2)).join(", ")}]`,
+      );
+      // Keep the resolved position; it should already be at the anchor. The warning
+      // helps debug if the LLM generated poor offsets.
+    }
+
+    if (process.env.NODE_ENV !== "production") {
+      console.debug(
+        `[attachment] part "${part.id}" resolved to [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] via anchor "${part.attachTo.anchor}"`,
+      );
+    }
+
     return {
       ...part,
-      position: [
-        position[0] + off[0],
-        position[1] + off[1],
-        position[2] + off[2],
-      ] as Part["position"],
+      position: resolvedPos,
     };
   });
+
   return { ...response, parts };
 }
 
@@ -394,6 +518,50 @@ function sanityPass(response: TutorResponse, currentParts: Part[]): TutorRespons
   return { ...response, parts };
 }
 
+/**
+ * Finish a validated build response: sanity-pass + attachment resolution, and
+ * — for a primitive-fallback create_base only — one extra quality-focused
+ * retry if the build fails the Task 3 bar (too few parts / monochrome /
+ * near-black). Falls back to the original schema-valid build if the retry
+ * itself fails, so a quality miss never turns into a failed turn.
+ */
+async function finalizeBuildResponse(
+  validated: TutorResponse,
+  rawText: string,
+  baseMessages: LlmMessage[],
+  baseAsset: AssetEntry | null,
+  currentParts: Part[],
+  primitiveFallback: boolean,
+  signal: AbortSignal,
+): Promise<TutorResponse> {
+  const finalized = sanityPass(resolveAttachments(validated, baseAsset), currentParts);
+  if (!primitiveFallback) return finalized;
+
+  const issue = primitivesQualityIssue(finalized);
+  if (!issue) return finalized;
+
+  logFallback("primitive-fallback quality issue — retrying once", rawText, issue);
+  const retryMessages: LlmMessage[] = [
+    ...baseMessages,
+    { role: "assistant", content: rawText },
+    {
+      role: "user",
+      content: `Your build needs more work before it's ready: ${issue}\n\nReply again with ONLY corrected JSON matching the schema exactly — the "reasoning" field first, no markdown, no prose.`,
+    },
+  ];
+  try {
+    const retryText = await callTutor(retryMessages, signal);
+    const retryValidated = validate(retryText) ?? salvage(retryText);
+    if (retryValidated) {
+      return sanityPass(resolveAttachments(retryValidated, baseAsset), currentParts);
+    }
+  } catch (err) {
+    if (err instanceof LlmError && err.reason === "aborted") throw err;
+    console.warn("[tutor] primitive-fallback quality retry failed, using the original build:", err);
+  }
+  return finalized;
+}
+
 export async function POST(request: Request) {
   let body: TutorRequestBody;
   try {
@@ -402,7 +570,15 @@ export async function POST(request: Request) {
     return NextResponse.json(STATIC_FALLBACK);
   }
 
-  const { message, history = [], currentParts = [], baseAssetId } = body;
+  const {
+    message,
+    history = [],
+    currentParts = [],
+    baseAssetId,
+    intent: routerIntent,
+    targetObject,
+    primitiveFallback,
+  } = body;
   if (typeof message !== "string" || message.trim() === "") {
     return NextResponse.json(STATIC_FALLBACK);
   }
@@ -423,38 +599,46 @@ export async function POST(request: Request) {
     ? `${describeBaseAsset(baseAsset)}\n\n${describeScene(currentParts)}`
     : describeScene(currentParts);
 
-  // BUILD vs EXPLAIN is decided BEFORE any JSON schema is involved. A pure
-  // question never enters the build path, so it can never produce the old
-  // "tangled up" fallback — its only failure mode is a plain-text LLM error.
-  let intent: "build" | "explain";
-  try {
-    intent = await classifyIntent(message, hasScene, signal);
-  } catch (err) {
-    if (err instanceof LlmError && err.reason === "aborted") {
-      return NextResponse.json(STATIC_FALLBACK);
+  // The intent router (lib/intentRouter.ts) already classified this message
+  // client-side and sent its verdict along — that's the ONE place message
+  // understanding happens now. explain/chitchat skip the JSON build schema
+  // entirely, so a pure question or a "hey!" can never produce the old
+  // "tangled up" fallback. A missing/unrecognized value (an old or offline
+  // caller) degrades to a keyword-only guess, never a second LLM classifier.
+  const effectiveIntent: "explain" | "chitchat" | "build" =
+    routerIntent === "explain"
+      ? "explain"
+      : routerIntent === "chitchat"
+        ? "chitchat"
+        : routerIntent === "add_parts" ||
+            routerIntent === "modify_scene" ||
+            routerIntent === "build_new" ||
+            routerIntent === "replace_base"
+          ? "build"
+          : legacyFallbackIntent(message, hasScene);
+
+  if (effectiveIntent === "chitchat") {
+    try {
+      const reply = (await callExplainer(buildChitchatPrompt(message), signal)).trim();
+      noteTutorOutcome(true);
+      return NextResponse.json(proseResponse(reply));
+    } catch (err) {
+      if (err instanceof LlmError && err.reason === "aborted") {
+        return NextResponse.json(STATIC_FALLBACK);
+      }
+      noteTutorOutcome(false);
+      logFallback("chitchat call failed", null, err instanceof Error ? err.message : String(err));
+      return NextResponse.json(fallbackResponse("explain", message));
     }
-    throw err;
   }
 
-  if (intent === "explain") {
+  if (effectiveIntent === "explain") {
     try {
       const reply = (
         await callExplainer(buildExplainPrompt(sceneContext, message), signal)
       ).trim();
       noteTutorOutcome(true);
-      const response: TutorResponse = {
-        reasoning: "",
-        action: "explain",
-        reply,
-        baseAssetId: null,
-        parts: [],
-        removedPartIds: [],
-        followUpQuestion: null,
-        suggestedActions: [],
-        sceneOps: [],
-        quiz: null,
-      };
-      return NextResponse.json(response);
+      return NextResponse.json(proseResponse(reply));
     } catch (err) {
       if (err instanceof LlmError && err.reason === "aborted") {
         return NextResponse.json(STATIC_FALLBACK);
@@ -465,7 +649,11 @@ export async function POST(request: Request) {
     }
   }
 
-  const systemPrompt = buildSystemPrompt();
+  // A primitive-fallback create_base (no realistic GLB could be found) gets
+  // the dedicated quality-focused prompt instead of the general edit prompt.
+  const systemPrompt = primitiveFallback
+    ? buildPrimitivesFallbackPrompt((targetObject && targetObject.trim()) || message)
+    : buildSystemPrompt();
 
   // System + full conversation + a final user turn carrying the live scene
   // state and the new message. Everything travels each call (stateless model).
@@ -484,9 +672,16 @@ export async function POST(request: Request) {
     let validated = validate(text) ?? salvage(text);
     if (validated) {
       noteTutorOutcome(true);
-      return NextResponse.json(
-        sanityPass(resolveAttachments(validated, baseAsset), currentParts),
+      const finalResponse = await finalizeBuildResponse(
+        validated,
+        text,
+        baseMessages,
+        baseAsset,
+        currentParts,
+        !!primitiveFallback,
+        signal,
       );
+      return NextResponse.json(finalResponse);
     }
     logFallback("attempt 1 failed validation + salvage", text, validationError(text));
 
@@ -505,9 +700,16 @@ export async function POST(request: Request) {
     validated = validate(text) ?? salvage(text);
     if (validated) {
       noteTutorOutcome(true);
-      return NextResponse.json(
-        sanityPass(resolveAttachments(validated, baseAsset), currentParts),
+      const finalResponse = await finalizeBuildResponse(
+        validated,
+        text,
+        baseMessages,
+        baseAsset,
+        currentParts,
+        !!primitiveFallback,
+        signal,
       );
+      return NextResponse.json(finalResponse);
     }
 
     // Valid transport, unusable content even after salvage — count it and

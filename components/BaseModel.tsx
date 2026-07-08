@@ -13,7 +13,7 @@ import { Html, useGLTF } from "@react-three/drei";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import { Color, Vector3, type Mesh, type MeshStandardMaterial, type Object3D } from "three";
 import { useSceneStore } from "@/lib/sceneStore";
-import type { BaseAsset, Part } from "@/lib/schema";
+import type { BaseAsset, Part, PlacedAsset } from "@/lib/schema";
 import { extractComponents, type GlbComponent } from "@/lib/glbComponents";
 
 /** Below this average material-channel value (0-1), a model reads as "black" and auto-brightens. */
@@ -79,9 +79,12 @@ function GltfModel({ asset }: { asset: BaseAsset }) {
     return { model: clone, avgLuminance: count > 0 ? total / count : 1 };
   }, [scene]);
 
+  // Use LLM-generated semantic component names if available (Phase 3.4B).
+  const semanticNames = asset.componentMetadata?.map((c) => c.semanticName);
+
   const components = useMemo(
-    () => extractComponents(model, asset.name),
-    [model, asset.name],
+    () => extractComponents(model, asset.name, semanticNames),
+    [model, asset.name, semanticNames],
   );
 
   const meshToComponent = useMemo(() => {
@@ -281,6 +284,37 @@ export default function BaseModel() {
   );
 }
 
+/**
+ * Every GLB model PLACED in a COMPOUND scene ("gaming setup"), if any. Each
+ * gets its own error boundary + Suspense (keyed to its position in the array,
+ * since the same asset id can appear more than once) wrapped in a group that
+ * offsets it to its floor-grid slot. Renders nothing when `baseAssets` is
+ * empty, so single-asset builds are completely unaffected.
+ */
+export function PlacedBaseModels() {
+  const baseAssets = useSceneStore((s) => s.baseAssets);
+  if (baseAssets.length === 0) return null;
+
+  return (
+    <>
+      {baseAssets.map((placed, index) => (
+        <group key={`${placed.asset.id}-${index}`} position={placed.position}>
+          <ModelErrorBoundary
+            resetKey={`${placed.asset.id}-${index}`}
+            fallback={<ModelError name={placed.asset.name} />}
+          >
+            <Suspense fallback={<LoadingSpinner />}>
+              <GltfModel
+                asset={{ ...placed.asset, scale: placed.asset.scale * (placed.scale ?? 1) }}
+              />
+            </Suspense>
+          </ModelErrorBoundary>
+        </group>
+      ))}
+    </>
+  );
+}
+
 /** Axis-aligned world-space bounds, used to frame the camera on the scene. */
 interface Bounds {
   min: Vector3;
@@ -339,15 +373,31 @@ function partHalfExtent(part: Part): [number, number, number] {
   }
 }
 
-/** Union of the (scaled) base model's bounds with every primitive part's bounds. */
+/** World-space bounds of one PLACED compound-scene asset (scaled, then offset to its slot). */
+function scaledPlacedAssetBounds(placed: PlacedAsset): Bounds {
+  const local = scaledBaseBounds(placed.asset, placed.scale ?? 1);
+  const offset = new Vector3(...placed.position);
+  return { min: local.min.clone().add(offset), max: local.max.clone().add(offset) };
+}
+
+/**
+ * Union of the (scaled) single base model's bounds, every placed compound-
+ * scene asset's bounds, and every primitive part's bounds.
+ */
 function computeSceneBounds(
   baseAsset: BaseAsset | null,
   baseScaleMultiplier: number,
   parts: Part[],
+  baseAssets: PlacedAsset[] = [],
 ): Bounds | null {
   let bounds: Bounds | null = baseAsset
     ? scaledBaseBounds(baseAsset, baseScaleMultiplier)
     : null;
+
+  for (const placed of baseAssets) {
+    const b = scaledPlacedAssetBounds(placed);
+    bounds = expandBounds(bounds, b.min, b.max);
+  }
 
   for (const part of parts) {
     const [hx, hy, hz] = partHalfExtent(part);
@@ -382,6 +432,7 @@ function framingGoal(bounds: Bounds): { camPos: Vector3; target: Vector3 } {
  */
 export function CameraRig() {
   const baseAsset = useSceneStore((s) => s.baseAsset);
+  const baseAssets = useSceneStore((s) => s.baseAssets);
   const baseScaleMultiplier = useSceneStore((s) => s.baseScaleMultiplier);
   const parts = useSceneStore((s) => s.parts);
   const frameSignal = useSceneStore((s) => s.frameSignal);
@@ -398,17 +449,21 @@ export function CameraRig() {
     if (baseAsset.id === lastAssetId.current) return;
     lastAssetId.current = baseAsset.id;
 
-    const bounds = computeSceneBounds(baseAsset, baseScaleMultiplier, parts);
+    const bounds = computeSceneBounds(baseAsset, baseScaleMultiplier, parts, baseAssets);
     if (bounds) goal.current = framingGoal(bounds);
-  }, [baseAsset, baseScaleMultiplier, parts]);
+  }, [baseAsset, baseScaleMultiplier, parts, baseAssets]);
 
+  // A compound scene's frame is triggered explicitly by loadComposedScene
+  // bumping frameSignal (there's no single "asset id" to key off of like the
+  // single-asset effect above), same signal the "⛶ Reset view" button and
+  // scale_base/frame_all/reset_camera sceneOps use.
   useEffect(() => {
     if (frameSignal === lastFrameSignal.current) return;
     lastFrameSignal.current = frameSignal;
 
-    const bounds = computeSceneBounds(baseAsset, baseScaleMultiplier, parts);
+    const bounds = computeSceneBounds(baseAsset, baseScaleMultiplier, parts, baseAssets);
     if (bounds) goal.current = framingGoal(bounds);
-  }, [frameSignal, baseAsset, baseScaleMultiplier, parts]);
+  }, [frameSignal, baseAsset, baseScaleMultiplier, parts, baseAssets]);
 
   // Cancel any in-progress auto-frame the instant the learner interacts, so
   // zoom/drag/pan is never fought by the camera snapping back mid-gesture.

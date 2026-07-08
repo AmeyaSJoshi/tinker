@@ -6,58 +6,110 @@ import {
   tutorResponseSchema,
   type BaseAsset,
   type ChatMessage,
+  type Part,
+  type PlacedAsset,
   type TutorResponse,
 } from "@/lib/schema";
 import { demoScenes, parseDemoCommand } from "@/lib/demoScenes";
-import { SCENE_COMMAND_RE } from "@/lib/sceneCommandHeuristics";
 
 const WELCOME =
   "What do you want to build today? Tell me something like “a spaceship” and I’ll bring it to life in 3D — then we’ll upgrade it together.";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/** Words that signal a fresh build request rather than an edit/question. */
-const CREATE_RE =
-  /\b(build|make|create|design|construct|model|show me|give me|generate|render|i want|i'?d like)\b/i;
-
-/**
- * Words that signal the learner is rejecting the CURRENT base model rather
- * than asking for an edit ("no, a real bike", "that's not right", "wrong
- * one"). Checked only when a base model is loaded — a plain keyword heuristic
- * beats an extra LLM round-trip here since it just needs to be reliable, not
- * subtle.
- */
-const REJECT_RE =
-  /\b(not this|not that|wrong (one|model|thing)|a real |an actual |that'?s not (it|right)|no,? i (wanted|meant)|try (a different|another)|different (one|model))\b/i;
-
-/**
- * Decide whether a message should first try to resolve to a realistic base
- * MODEL (via /api/resolve-asset). A clear "build/make" verb always qualifies;
- * so does the very first message when nothing exists yet, unless it's obviously
- * a question. Edits like "add a fin" on an existing scene do NOT.
- */
-function looksLikeCreate(text: string, hasScene: boolean): boolean {
-  if (hasScene && SCENE_COMMAND_RE.test(text)) return false;
-  if (CREATE_RE.test(text)) return true;
-  if (!hasScene) {
-    if (/\?|^(why|how|what|explain|tell me|describe)\b/i.test(text.trim())) {
-      return false;
-    }
-    return true;
-  }
-  return false;
+function isAbortError(err: unknown): boolean {
+  return err instanceof DOMException && err.name === "AbortError";
 }
 
-/** Client-side noun guess, only for the lively status line ("…a lighthouse…"). */
-function coreNoun(text: string): string {
-  let s = text.toLowerCase().trim().replace(/[.?!]+$/g, "");
-  s = s.replace(
-    /^(please\s+)?(can you\s+|could you\s+)?(i\s+(want|wanna|would like|'?d like)\s+(to\s+)?)?((build|make|create|design|show me|give me|draw|model|render|let'?s\s+(build|make|create)|add)\s+)?/,
-    "",
-  );
-  s = s.replace(/^(a|an|the|some|my)\s+/, "");
-  s = s.replace(/\s+(please|for me|now)$/g, "");
-  return s.trim() || "model";
+/**
+ * Mirrors lib/intentRouter.ts's `Intent` union. Kept as a plain local type
+ * (rather than importing the server module) so this client component never
+ * pulls server-only code into the browser bundle — the intent router itself
+ * lives entirely behind the /api/intent route.
+ */
+type IntentName = "build_new" | "replace_base" | "add_parts" | "modify_scene" | "explain" | "chitchat";
+
+interface IntentResult {
+  intent: IntentName;
+  targetObject: string | null;
+  isCompound: boolean;
+}
+
+/**
+ * THE single entry point for understanding a message: ask the server's
+ * intent router (lib/intentRouter.ts via /api/intent) what this message
+ * means before deciding whether to search for a base model, edit the scene,
+ * or just answer a question. Never throws except on an actual abort — any
+ * other failure degrades to a safe default so the turn can still proceed.
+ */
+async function classifyIntent(
+  message: string,
+  recentHistory: ChatMessage[],
+  baseAssetName: string | null,
+  hasScene: boolean,
+  signal: AbortSignal,
+): Promise<IntentResult> {
+  try {
+    const res = await fetch("/api/intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, history: recentHistory, baseAssetName }),
+      signal,
+    });
+    if (!res.ok) throw new Error(`intent request failed (${res.status})`);
+    const data = await res.json();
+    if (typeof data?.intent === "string") {
+      return {
+        intent: data.intent as IntentName,
+        targetObject: typeof data.targetObject === "string" ? data.targetObject : null,
+        isCompound: data.isCompound === true,
+      };
+    }
+    throw new Error("malformed intent response");
+  } catch (err) {
+    if (isAbortError(err)) throw err;
+    console.error("[ChatPanel] intent classification failed, using a safe default:", err);
+    return {
+      intent: hasScene ? "add_parts" : "build_new",
+      targetObject: null,
+      isCompound: false,
+    };
+  }
+}
+
+interface ComposedScene {
+  baseAssets: PlacedAsset[];
+  parts: Part[];
+  reply: string;
+  suggestedActions: string[];
+  concepts: string[];
+}
+
+/** Ask /api/compose-scene to decompose + resolve a multi-object build. Null = couldn't compose. */
+async function composeScene(phrase: string, signal: AbortSignal): Promise<ComposedScene | null> {
+  try {
+    const res = await fetch("/api/compose-scene", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ phrase }),
+      signal,
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data?.status === "ok" && Array.isArray(data.baseAssets) && Array.isArray(data.parts)) {
+      return {
+        baseAssets: data.baseAssets as PlacedAsset[],
+        parts: data.parts as Part[],
+        reply: typeof data.reply === "string" ? data.reply : "Here's your build.",
+        suggestedActions: Array.isArray(data.suggestedActions) ? data.suggestedActions : [],
+        concepts: Array.isArray(data.concepts) ? data.concepts : [],
+      };
+    }
+    return null;
+  } catch (err) {
+    if (isAbortError(err)) throw err;
+    return null;
+  }
 }
 
 /** Starter chips shown right after a base MODEL loads. */
@@ -76,6 +128,7 @@ export default function ChatPanel() {
   const applySceneOps = useSceneStore((s) => s.applySceneOps);
   const loadBaseAsset = useSceneStore((s) => s.loadBaseAsset);
   const swapBaseAsset = useSceneStore((s) => s.swapBaseAsset);
+  const loadComposedScene = useSceneStore((s) => s.loadComposedScene);
   const clearScene = useSceneStore((s) => s.clearScene);
 
   const [input, setInput] = useState("");
@@ -93,10 +146,6 @@ export default function ChatPanel() {
   // The in-flight resolve-asset/tutor fetch for the current turn, if any —
   // aborting it is what the Stop button does.
   const abortRef = useRef<AbortController | null>(null);
-
-  function isAbortError(err: unknown): boolean {
-    return err instanceof DOMException && err.name === "AbortError";
-  }
 
   // Ask the server which brain is currently ACTIVE (never exposes the key). The
   // active model can change mid-session (auto-switch after repeated failures),
@@ -180,12 +229,13 @@ export default function ChatPanel() {
     }
   }
 
-  /** Call the tutor for a primitives build/edit and apply the result. */
+  /** Call the tutor for a build/edit/create and apply the result. */
   async function runTutor(
     text: string,
     priorHistory: ChatMessage[],
     baseAssetId: string | undefined,
     signal: AbortSignal,
+    routing?: { intent?: IntentName; targetObject?: string | null; primitiveFallback?: boolean },
   ) {
     const res = await fetch("/api/tutor", {
       method: "POST",
@@ -197,6 +247,9 @@ export default function ChatPanel() {
         history: priorHistory.filter((m) => m.role !== "note"),
         currentParts: useSceneStore.getState().parts,
         baseAssetId,
+        intent: routing?.intent,
+        targetObject: routing?.targetObject,
+        primitiveFallback: routing?.primitiveFallback,
       }),
       signal,
     });
@@ -213,7 +266,56 @@ export default function ChatPanel() {
     setSuggestedActions(response.suggestedActions ?? []);
   }
 
-  /** Send a message: resolve a base model for creates, else drive the tutor. */
+  /**
+   * Handle a build_new intent: a single object resolves through the normal
+   * library/live-fetch/primitives pipeline; a compound one ("gaming setup")
+   * goes through /api/compose-scene first, falling back to a single-object
+   * build of the raw target phrase if composition fails outright.
+   */
+  async function handleBuildNew(
+    rawMessage: string,
+    targetObject: string,
+    isCompound: boolean,
+    priorHistory: ChatMessage[],
+    signal: AbortSignal,
+  ) {
+    if (isCompound) {
+      setLiveStatus(`🔍 Assembling a ${targetObject}…`);
+      const composed = await composeScene(targetObject, signal);
+      setLiveStatus(null);
+      if (composed) {
+        loadComposedScene({
+          baseAssets: composed.baseAssets,
+          parts: composed.parts,
+          concepts: composed.concepts,
+        });
+        addMessage({ role: "tutor", content: composed.reply });
+        setSuggestedActions(composed.suggestedActions);
+        return;
+      }
+      // Composition failed outright — fall through to a single-object build
+      // of the raw target phrase rather than failing the whole turn.
+    }
+
+    setLiveStatus(`🔍 Finding you a realistic ${targetObject}…`);
+    const asset = await resolveAsset(targetObject, undefined, signal);
+    setLiveStatus(null);
+    if (asset) {
+      loadBaseAsset(asset);
+      addMessage({ role: "tutor", content: asset.intro });
+      setSuggestedActions(baseAssetSuggestions(asset));
+      return;
+    }
+    // No realistic model — build it from primitives via the dedicated
+    // quality-focused prompt (Task 3), no base model attached.
+    await runTutor(rawMessage, priorHistory, undefined, signal, {
+      intent: "build_new",
+      targetObject,
+      primitiveFallback: true,
+    });
+  }
+
+  /** Send a message: the intent router decides how, then this dispatches. */
   async function send(text: string) {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
@@ -233,7 +335,8 @@ export default function ChatPanel() {
     // Snapshot state BEFORE adding the new user turn.
     const priorHistory = useSceneStore.getState().messages;
     const before = useSceneStore.getState();
-    const hasScene = before.baseAsset != null || before.parts.length > 0;
+    const hasScene =
+      before.baseAsset != null || before.baseAssets.length > 0 || before.parts.length > 0;
     addMessage({ role: "user", content: trimmed });
     setLoading(true);
 
@@ -241,18 +344,39 @@ export default function ChatPanel() {
     abortRef.current = controller;
 
     try {
-      // Rejecting the current base model ("no, a real bike") re-resolves the
-      // SAME topic with the old model excluded, instead of falling through to
-      // the tutor (which would just edit primitives onto the wrong model).
-      if (before.baseAsset && REJECT_RE.test(trimmed)) {
+      const recentHistory = priorHistory.filter((m) => m.role !== "note").slice(-2);
+      const routed = await classifyIntent(
+        trimmed,
+        recentHistory,
+        before.baseAsset?.name ?? null,
+        hasScene,
+        controller.signal,
+      );
+
+      if (routed.intent === "replace_base") {
+        // Rejecting the current base model ("no, a real bike") re-resolves
+        // the SAME topic with the old model excluded, instead of falling
+        // through to the tutor (which would just edit primitives onto the
+        // wrong model). If nothing is loaded to reject, treat it as a build.
+        if (!before.baseAsset) {
+          await handleBuildNew(
+            trimmed,
+            routed.targetObject ?? trimmed,
+            routed.isCompound,
+            priorHistory,
+            controller.signal,
+          );
+          return;
+        }
+
         const rejected = before.baseAsset;
-        const noun = rejected.name.toLowerCase();
+        const noun = (routed.targetObject ?? rejected.name).toLowerCase();
         const exclude = rejected.sourceModelId
           ? Array.from(new Set([...before.rejectedModelIds, rejected.sourceModelId]))
           : before.rejectedModelIds;
 
         setLiveStatus(`🔍 Let me find a better ${noun}…`);
-        const next = await resolveAsset(rejected.name, exclude, controller.signal);
+        const next = await resolveAsset(noun, exclude, controller.signal);
         setLiveStatus(null);
 
         if (next) {
@@ -272,24 +396,23 @@ export default function ChatPanel() {
         return;
       }
 
-      if (looksLikeCreate(trimmed, hasScene)) {
-        setLiveStatus(`🔍 Finding you a realistic ${coreNoun(trimmed)}…`);
-        const asset = await resolveAsset(trimmed, undefined, controller.signal);
-        setLiveStatus(null);
-        if (asset) {
-          loadBaseAsset(asset);
-          addMessage({ role: "tutor", content: asset.intro });
-          setSuggestedActions(baseAssetSuggestions(asset));
-          return;
-        }
-        // No realistic model — build it from primitives instead (no base).
-        await runTutor(trimmed, priorHistory, undefined, controller.signal);
+      if (routed.intent === "build_new") {
+        await handleBuildNew(
+          trimmed,
+          routed.targetObject ?? trimmed,
+          routed.isCompound,
+          priorHistory,
+          controller.signal,
+        );
         return;
       }
 
-      // Edit / question on the existing scene. Carry the base asset id (if any)
-      // so the tutor gets its anchors and can attach parts precisely.
-      await runTutor(trimmed, priorHistory, before.baseAsset?.id, controller.signal);
+      // explain / chitchat / add_parts / modify_scene all go straight to the
+      // tutor, which already knows (from `intent`) which of those paths to take.
+      await runTutor(trimmed, priorHistory, before.baseAsset?.id, controller.signal, {
+        intent: routed.intent,
+        targetObject: routed.targetObject,
+      });
     } catch (err) {
       if (isAbortError(err)) {
         addMessage({ role: "note", content: "Stopped." });

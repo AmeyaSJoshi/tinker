@@ -4,17 +4,18 @@ import { Canvas } from "@react-three/fiber";
 import { Grid, OrbitControls } from "@react-three/drei";
 import { useSceneStore } from "@/lib/sceneStore";
 import PartMesh from "./PartMesh";
-import BaseModel, { CameraRig } from "./BaseModel";
+import BaseModel, { CameraRig, PlacedBaseModels } from "./BaseModel";
 import ExplanationCard from "./ExplanationCard";
 import PartsListPanel from "./PartsListPanel";
 
 export default function Viewport() {
   const parts = useSceneStore((s) => s.parts);
   const baseAsset = useSceneStore((s) => s.baseAsset);
+  const baseAssets = useSceneStore((s) => s.baseAssets);
   const selectPart = useSceneStore((s) => s.selectPart);
   const requestFrame = useSceneStore((s) => s.requestFrame);
 
-  const isEmpty = parts.length === 0 && baseAsset == null;
+  const isEmpty = parts.length === 0 && baseAsset == null && baseAssets.length === 0;
 
   return (
     <div className="relative h-full w-full bg-lab-bg">
@@ -39,6 +40,9 @@ export default function Viewport() {
 
         {/* Realistic GLB base model (if this build started from the library). */}
         <BaseModel />
+
+        {/* Multiple placed GLB models for a compound scene ("gaming setup"). */}
+        <PlacedBaseModels />
 
         {parts.map((part) => (
           <PartMesh key={part.id} part={part} />

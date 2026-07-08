@@ -56,10 +56,14 @@ export function cleanComponentLabel(raw: string): string {
  *  - if NOTHING in the whole model has a usable name, the entire model
  *    becomes one component labeled `fallbackLabel`
  * Returns [] if the model has no meshes at all.
+ *
+ * If `semanticNames` is provided, uses those instead of cleaned raw names
+ * (Phase 3.4B LLM-generated names).
  */
 export function extractComponents(
   root: Object3D,
   fallbackLabel: string,
+  semanticNames?: string[],
 ): GlbComponent[] {
   const meshes: Mesh[] = [];
   try {
@@ -73,6 +77,17 @@ export function extractComponents(
 
   if (meshes.length === 0) return [];
 
+  // If semantic names are provided (Phase 3.4B LLM-generated), use them directly.
+  // Each semantic name maps 1:1 to a mesh by index.
+  if (semanticNames && semanticNames.length === meshes.length) {
+    return semanticNames.map((name, index) => ({
+      key: `__semantic_${index}__`,
+      label: name,
+      meshes: [meshes[index]],
+    }));
+  }
+
+  // Fallback to the original heuristic-based grouping.
   const groups = new Map<string, Mesh[]>();
   const leftover: Mesh[] = [];
 

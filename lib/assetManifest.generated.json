@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-08T18:56:23.261Z",
+  "generatedAt": "2026-07-08T23:33:56.585Z",
   "assets": {
     "rocket": {
       "id": "rocket",
@@ -4041,146 +4041,6 @@
       "sourceModelId": "etFGNvsiFv",
       "source": "live"
     },
-    "ps5": {
-      "id": "ps5",
-      "name": "Ps5",
-      "url": "/models/ps5.glb",
-      "scale": 0.447618780919102,
-      "yOffset": 0,
-      "boundingBox": {
-        "min": [
-          -1.4766890333193772,
-          0,
-          -0.1481985151488659
-        ],
-        "max": [
-          1.4766884997162084,
-          5,
-          0.5063271355396444
-        ],
-        "size": [
-          2.9533775330355856,
-          5,
-          0.6545256506885102
-        ]
-      },
-      "anchors": {
-        "top": [
-          -2.6680158438097124e-7,
-          5,
-          0.17906431019538924
-        ],
-        "bottom": [
-          -2.6680158438097124e-7,
-          0,
-          0.17906431019538924
-        ],
-        "front": [
-          -2.6680158438097124e-7,
-          2.5,
-          0.5063271355396444
-        ],
-        "rear": [
-          -2.6680158438097124e-7,
-          2.5,
-          -0.1481985151488659
-        ],
-        "left_side": [
-          -1.4766890333193772,
-          2.5,
-          0.17906431019538924
-        ],
-        "right_side": [
-          1.4766884997162084,
-          2.5,
-          0.17906431019538924
-        ],
-        "center": [
-          -2.6680158438097124e-7,
-          2.5,
-          0.17906431019538924
-        ]
-      },
-      "aliases": [],
-      "concepts": [],
-      "intro": "Here's a realistic ps5 to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
-      "license": "CC-BY 3.0",
-      "author": "Poly by Google",
-      "attributionUrl": "https://poly.pizza/m/7jHiQIMZkRs",
-      "triCount": 309,
-      "sourceModelId": "7jHiQIMZkRs",
-      "source": "live"
-    },
-    "xbox": {
-      "id": "xbox",
-      "name": "Xbox",
-      "url": "/models/xbox.glb",
-      "scale": 1.0657725343819067,
-      "yOffset": 2.127444309501744,
-      "boundingBox": {
-        "min": [
-          -2.091759779361615,
-          0,
-          -3.9219855776516015
-        ],
-        "max": [
-          2.0021054600967116,
-          5.000000000000001,
-          1.755218596362897
-        ],
-        "size": [
-          4.093865239458326,
-          5.000000000000001,
-          5.6772041740144985
-        ]
-      },
-      "anchors": {
-        "top": [
-          -0.04482715963245165,
-          5.000000000000001,
-          -1.0833834906443522
-        ],
-        "bottom": [
-          -0.04482715963245165,
-          0,
-          -1.0833834906443522
-        ],
-        "front": [
-          -0.04482715963245165,
-          2.5000000000000004,
-          1.755218596362897
-        ],
-        "rear": [
-          -0.04482715963245165,
-          2.5000000000000004,
-          -3.9219855776516015
-        ],
-        "left_side": [
-          -2.091759779361615,
-          2.5000000000000004,
-          -1.0833834906443522
-        ],
-        "right_side": [
-          2.0021054600967116,
-          2.5000000000000004,
-          -1.0833834906443522
-        ],
-        "center": [
-          -0.04482715963245165,
-          2.5000000000000004,
-          -1.0833834906443522
-        ]
-      },
-      "aliases": [],
-      "concepts": [],
-      "intro": "Here's a realistic xbox to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
-      "license": "CC-BY 3.0",
-      "author": "NekoCat",
-      "attributionUrl": "https://poly.pizza/m/PFlPwk2aoU",
-      "triCount": 618,
-      "sourceModelId": "PFlPwk2aoU",
-      "source": "live"
-    },
     "headphones": {
       "id": "headphones",
       "name": "Headphones",
@@ -5235,70 +5095,70 @@
       "id": "mousepad",
       "name": "Mousepad",
       "url": "/models/mousepad.glb",
-      "scale": 189.08398918779406,
-      "yOffset": 2.5,
+      "scale": 197.4458863450971,
+      "yOffset": -0.000002199766568450146,
       "boundingBox": {
         "min": [
-          -189.08398496143755,
+          -8.300075697393764,
           0,
-          -230.18258005890706
+          -7.769661672080199
         ],
         "max": [
-          189.08398496143755,
+          3.4742135322684327,
           5,
-          230.18258005890706
+          7.769691065582502
         ],
         "size": [
-          378.1679699228751,
+          11.774289229662196,
           5,
-          460.3651601178141
+          15.5393527376627
         ]
       },
       "anchors": {
         "top": [
-          0,
+          -2.4129310825626655,
           5,
-          0
+          0.000014696751151621612
         ],
         "bottom": [
+          -2.4129310825626655,
           0,
-          0,
-          0
+          0.000014696751151621612
         ],
         "front": [
-          0,
+          -2.4129310825626655,
           2.5,
-          230.18258005890706
+          7.769691065582502
         ],
         "rear": [
-          0,
+          -2.4129310825626655,
           2.5,
-          -230.18258005890706
+          -7.769661672080199
         ],
         "left_side": [
-          -189.08398496143755,
+          -8.300075697393764,
           2.5,
-          0
+          0.000014696751151621612
         ],
         "right_side": [
-          189.08398496143755,
+          3.4742135322684327,
           2.5,
-          0
+          0.000014696751151621612
         ],
         "center": [
-          0,
+          -2.4129310825626655,
           2.5,
-          0
+          0.000014696751151621612
         ]
       },
       "aliases": [],
       "concepts": [],
       "intro": "Here's a realistic mousepad to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
-      "license": "CC-BY 3.0",
-      "author": "dook",
-      "attributionUrl": "https://poly.pizza/m/S5sNqsyyOs",
-      "triCount": 92,
-      "sourceModelId": "S5sNqsyyOs",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
+      "triCount": 100,
+      "sourceModelId": "V2Ebx3pvo4",
       "source": "live"
     },
     "that-is-not-a-mousepad-make-a-mousepad": {
@@ -5440,6 +5300,856 @@
       "triCount": 494,
       "sourceModelId": "AYBr4bMYvS",
       "source": "live"
+    },
+    "computer-monitor": {
+      "id": "computer-monitor",
+      "name": "Computer Monitor",
+      "url": "/models/computer-monitor.glb",
+      "scale": 17.24667294610512,
+      "yOffset": 4.4999296934292604e-7,
+      "boundingBox": {
+        "min": [
+          -4.049509487239967,
+          0,
+          -0.7527915847098915
+        ],
+        "max": [
+          4.049509487239967,
+          5,
+          0.895115867706451
+        ],
+        "size": [
+          8.099018974479934,
+          5,
+          1.6479074524163426
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          0.07116214149827976
+        ],
+        "bottom": [
+          0,
+          0,
+          0.07116214149827976
+        ],
+        "front": [
+          0,
+          2.5,
+          0.895115867706451
+        ],
+        "rear": [
+          0,
+          2.5,
+          -0.7527915847098915
+        ],
+        "left_side": [
+          -4.049509487239967,
+          2.5,
+          0.07116214149827976
+        ],
+        "right_side": [
+          4.049509487239967,
+          2.5,
+          0.07116214149827976
+        ],
+        "center": [
+          0,
+          2.5,
+          0.07116214149827976
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic computer monitor to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "attributionUrl": "https://poly.pizza/m/PvSjEbz11k",
+      "triCount": 84,
+      "sourceModelId": "PvSjEbz11k",
+      "source": "live"
+    },
+    "gaming-pc-tower": {
+      "id": "gaming-pc-tower",
+      "name": "Gaming Pc Tower",
+      "url": "/models/gaming-pc-tower.glb",
+      "scale": 8.928568064407477,
+      "yOffset": 2.3651795331138,
+      "boundingBox": {
+        "min": [
+          -1.6232128126096133,
+          0,
+          -1.018751427916538
+        ],
+        "max": [
+          3.0196436079976414,
+          5,
+          1.1241076536113561
+        ],
+        "size": [
+          4.642856420607255,
+          5,
+          2.1428590815278943
+        ]
+      },
+      "anchors": {
+        "top": [
+          0.6982153976940141,
+          5,
+          0.052678112847409087
+        ],
+        "bottom": [
+          0.6982153976940141,
+          0,
+          0.052678112847409087
+        ],
+        "front": [
+          0.6982153976940141,
+          2.5,
+          1.1241076536113561
+        ],
+        "rear": [
+          0.6982153976940141,
+          2.5,
+          -1.018751427916538
+        ],
+        "left_side": [
+          -1.6232128126096133,
+          2.5,
+          0.052678112847409087
+        ],
+        "right_side": [
+          3.0196436079976414,
+          2.5,
+          0.052678112847409087
+        ],
+        "center": [
+          0.6982153976940141,
+          2.5,
+          0.052678112847409087
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming pc tower to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Ethan Yawney",
+      "attributionUrl": "https://poly.pizza/m/4TZXM3lO5KK",
+      "triCount": 612,
+      "sourceModelId": "4TZXM3lO5KK",
+      "source": "live"
+    },
+    "office-desk": {
+      "id": "office-desk",
+      "name": "Office Desk",
+      "url": "/models/office-desk.glb",
+      "scale": 13.007026587967559,
+      "yOffset": 0,
+      "boundingBox": {
+        "min": [
+          -12.675028776425682,
+          0,
+          0
+        ],
+        "max": [
+          0,
+          5,
+          12.675028776425682
+        ],
+        "size": [
+          12.675028776425682,
+          5,
+          12.675028776425682
+        ]
+      },
+      "anchors": {
+        "top": [
+          -6.337514388212841,
+          5,
+          6.337514388212841
+        ],
+        "bottom": [
+          -6.337514388212841,
+          0,
+          6.337514388212841
+        ],
+        "front": [
+          -6.337514388212841,
+          2.5,
+          12.675028776425682
+        ],
+        "rear": [
+          -6.337514388212841,
+          2.5,
+          0
+        ],
+        "left_side": [
+          -12.675028776425682,
+          2.5,
+          6.337514388212841
+        ],
+        "right_side": [
+          0,
+          2.5,
+          6.337514388212841
+        ],
+        "center": [
+          -6.337514388212841,
+          2.5,
+          6.337514388212841
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic office desk to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/LCfBX1FVJr",
+      "triCount": 456,
+      "sourceModelId": "LCfBX1FVJr",
+      "source": "live"
+    },
+    "computer-keyboard": {
+      "id": "computer-keyboard",
+      "name": "Computer Keyboard",
+      "url": "/models/computer-keyboard.glb",
+      "scale": 181.44868448490826,
+      "yOffset": -2.90855888237037e-29,
+      "boundingBox": {
+        "min": [
+          -51.20482032767981,
+          0,
+          6.549493790286178e-14
+        ],
+        "max": [
+          0,
+          5,
+          21.445783311697333
+        ],
+        "size": [
+          51.20482032767981,
+          5,
+          21.44578331169727
+        ]
+      },
+      "anchors": {
+        "top": [
+          -25.602410163839906,
+          5,
+          10.722891655848699
+        ],
+        "bottom": [
+          -25.602410163839906,
+          0,
+          10.722891655848699
+        ],
+        "front": [
+          -25.602410163839906,
+          2.5,
+          21.445783311697333
+        ],
+        "rear": [
+          -25.602410163839906,
+          2.5,
+          6.549493790286178e-14
+        ],
+        "left_side": [
+          -51.20482032767981,
+          2.5,
+          10.722891655848699
+        ],
+        "right_side": [
+          0,
+          2.5,
+          10.722891655848699
+        ],
+        "center": [
+          -25.602410163839906,
+          2.5,
+          10.722891655848699
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic computer keyboard to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/vsqTUPFSw6",
+      "triCount": 64,
+      "sourceModelId": "vsqTUPFSw6",
+      "source": "live"
+    },
+    "gaming-mouse": {
+      "id": "gaming-mouse",
+      "name": "Gaming Mouse",
+      "url": "/models/gaming-mouse.glb",
+      "scale": 197.4458863450971,
+      "yOffset": -0.000002199766568450146,
+      "boundingBox": {
+        "min": [
+          -8.300075697393764,
+          0,
+          -7.769661672080199
+        ],
+        "max": [
+          3.4742135322684327,
+          5,
+          7.769691065582502
+        ],
+        "size": [
+          11.774289229662196,
+          5,
+          15.5393527376627
+        ]
+      },
+      "anchors": {
+        "top": [
+          -2.4129310825626655,
+          5,
+          0.000014696751151621612
+        ],
+        "bottom": [
+          -2.4129310825626655,
+          0,
+          0.000014696751151621612
+        ],
+        "front": [
+          -2.4129310825626655,
+          2.5,
+          7.769691065582502
+        ],
+        "rear": [
+          -2.4129310825626655,
+          2.5,
+          -7.769661672080199
+        ],
+        "left_side": [
+          -8.300075697393764,
+          2.5,
+          0.000014696751151621612
+        ],
+        "right_side": [
+          3.4742135322684327,
+          2.5,
+          0.000014696751151621612
+        ],
+        "center": [
+          -2.4129310825626655,
+          2.5,
+          0.000014696751151621612
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming mouse to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
+      "triCount": 100,
+      "sourceModelId": "V2Ebx3pvo4",
+      "source": "live"
+    },
+    "gaming-desk": {
+      "id": "gaming-desk",
+      "name": "Gaming Desk",
+      "url": "/models/gaming-desk.glb",
+      "scale": 5.32937052023622,
+      "yOffset": 2.007109003817046,
+      "boundingBox": {
+        "min": [
+          -3.9555929013905318,
+          0,
+          -2.157105465694276
+        ],
+        "max": [
+          3.955592653222378,
+          5,
+          2.1571046778044365
+        ],
+        "size": [
+          7.91118555461291,
+          5,
+          4.314210143498713
+        ]
+      },
+      "anchors": {
+        "top": [
+          -1.2408407679131983e-7,
+          5,
+          -3.9394491979649615e-7
+        ],
+        "bottom": [
+          -1.2408407679131983e-7,
+          0,
+          -3.9394491979649615e-7
+        ],
+        "front": [
+          -1.2408407679131983e-7,
+          2.5,
+          2.1571046778044365
+        ],
+        "rear": [
+          -1.2408407679131983e-7,
+          2.5,
+          -2.157105465694276
+        ],
+        "left_side": [
+          -3.9555929013905318,
+          2.5,
+          -3.9394491979649615e-7
+        ],
+        "right_side": [
+          3.955592653222378,
+          2.5,
+          -3.9394491979649615e-7
+        ],
+        "center": [
+          -1.2408407679131983e-7,
+          2.5,
+          -3.9394491979649615e-7
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming desk to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC-BY 3.0",
+      "author": "Zsky",
+      "attributionUrl": "https://poly.pizza/m/dE6BqyF4Ws",
+      "triCount": 220,
+      "sourceModelId": "dE6BqyF4Ws",
+      "source": "live"
+    },
+    "mechanical-gaming-keyboard": {
+      "id": "mechanical-gaming-keyboard",
+      "name": "Mechanical Gaming Keyboard",
+      "url": "/models/mechanical-gaming-keyboard.glb",
+      "scale": 181.44868448490826,
+      "yOffset": -2.90855888237037e-29,
+      "boundingBox": {
+        "min": [
+          -51.20482032767981,
+          0,
+          6.549493790286178e-14
+        ],
+        "max": [
+          0,
+          5,
+          21.445783311697333
+        ],
+        "size": [
+          51.20482032767981,
+          5,
+          21.44578331169727
+        ]
+      },
+      "anchors": {
+        "top": [
+          -25.602410163839906,
+          5,
+          10.722891655848699
+        ],
+        "bottom": [
+          -25.602410163839906,
+          0,
+          10.722891655848699
+        ],
+        "front": [
+          -25.602410163839906,
+          2.5,
+          21.445783311697333
+        ],
+        "rear": [
+          -25.602410163839906,
+          2.5,
+          6.549493790286178e-14
+        ],
+        "left_side": [
+          -51.20482032767981,
+          2.5,
+          10.722891655848699
+        ],
+        "right_side": [
+          0,
+          2.5,
+          10.722891655848699
+        ],
+        "center": [
+          -25.602410163839906,
+          2.5,
+          10.722891655848699
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic mechanical gaming keyboard to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/vsqTUPFSw6",
+      "triCount": 64,
+      "sourceModelId": "vsqTUPFSw6",
+      "source": "live"
+    },
+    "computer-mouse": {
+      "id": "computer-mouse",
+      "name": "Computer Mouse",
+      "url": "/models/computer-mouse.glb",
+      "scale": 197.4458863450971,
+      "yOffset": -0.000002199766568450146,
+      "boundingBox": {
+        "min": [
+          -8.300075697393764,
+          0,
+          -7.769661672080199
+        ],
+        "max": [
+          3.4742135322684327,
+          5,
+          7.769691065582502
+        ],
+        "size": [
+          11.774289229662196,
+          5,
+          15.5393527376627
+        ]
+      },
+      "anchors": {
+        "top": [
+          -2.4129310825626655,
+          5,
+          0.000014696751151621612
+        ],
+        "bottom": [
+          -2.4129310825626655,
+          0,
+          0.000014696751151621612
+        ],
+        "front": [
+          -2.4129310825626655,
+          2.5,
+          7.769691065582502
+        ],
+        "rear": [
+          -2.4129310825626655,
+          2.5,
+          -7.769661672080199
+        ],
+        "left_side": [
+          -8.300075697393764,
+          2.5,
+          0.000014696751151621612
+        ],
+        "right_side": [
+          3.4742135322684327,
+          2.5,
+          0.000014696751151621612
+        ],
+        "center": [
+          -2.4129310825626655,
+          2.5,
+          0.000014696751151621612
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic computer mouse to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "CreativeTrio",
+      "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
+      "triCount": 100,
+      "sourceModelId": "V2Ebx3pvo4",
+      "source": "live"
+    },
+    "gaming-monitor": {
+      "id": "gaming-monitor",
+      "name": "Gaming Monitor",
+      "url": "/models/gaming-monitor.glb",
+      "scale": 16.990320492845616,
+      "yOffset": 1.3617448431676797e-30,
+      "boundingBox": {
+        "min": [
+          -6.671895078399846,
+          0,
+          9.199130802125524e-15
+        ],
+        "max": [
+          2.453101607197478e-14,
+          5,
+          1.767061345336148
+        ],
+        "size": [
+          6.671895078399871,
+          5,
+          1.7670613453361388
+        ]
+      },
+      "anchors": {
+        "top": [
+          -3.3359475391999105,
+          5,
+          0.8835306726680785
+        ],
+        "bottom": [
+          -3.3359475391999105,
+          0,
+          0.8835306726680785
+        ],
+        "front": [
+          -3.3359475391999105,
+          2.5,
+          1.767061345336148
+        ],
+        "rear": [
+          -3.3359475391999105,
+          2.5,
+          9.199130802125524e-15
+        ],
+        "left_side": [
+          -6.671895078399846,
+          2.5,
+          0.8835306726680785
+        ],
+        "right_side": [
+          2.453101607197478e-14,
+          2.5,
+          0.8835306726680785
+        ],
+        "center": [
+          -3.3359475391999105,
+          2.5,
+          0.8835306726680785
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming monitor to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/V5Qo141OcB",
+      "triCount": 144,
+      "sourceModelId": "V5Qo141OcB",
+      "source": "live"
+    },
+    "gaming-keyboard": {
+      "id": "gaming-keyboard",
+      "name": "Gaming Keyboard",
+      "url": "/models/gaming-keyboard.glb",
+      "scale": 181.44868448490826,
+      "yOffset": -2.90855888237037e-29,
+      "boundingBox": {
+        "min": [
+          -51.20482032767981,
+          0,
+          6.549493790286178e-14
+        ],
+        "max": [
+          0,
+          5,
+          21.445783311697333
+        ],
+        "size": [
+          51.20482032767981,
+          5,
+          21.44578331169727
+        ]
+      },
+      "anchors": {
+        "top": [
+          -25.602410163839906,
+          5,
+          10.722891655848699
+        ],
+        "bottom": [
+          -25.602410163839906,
+          0,
+          10.722891655848699
+        ],
+        "front": [
+          -25.602410163839906,
+          2.5,
+          21.445783311697333
+        ],
+        "rear": [
+          -25.602410163839906,
+          2.5,
+          6.549493790286178e-14
+        ],
+        "left_side": [
+          -51.20482032767981,
+          2.5,
+          10.722891655848699
+        ],
+        "right_side": [
+          0,
+          2.5,
+          10.722891655848699
+        ],
+        "center": [
+          -25.602410163839906,
+          2.5,
+          10.722891655848699
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming keyboard to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/vsqTUPFSw6",
+      "triCount": 64,
+      "sourceModelId": "vsqTUPFSw6",
+      "source": "live"
+    },
+    "gaming-chair": {
+      "id": "gaming-chair",
+      "name": "Gaming Chair",
+      "url": "/models/gaming-chair.glb",
+      "scale": 8.229098447336213,
+      "yOffset": 0,
+      "boundingBox": {
+        "min": [
+          -2.7563365253276584,
+          0,
+          0
+        ],
+        "max": [
+          0,
+          4.999999999999999,
+          2.5863973091189614
+        ],
+        "size": [
+          2.7563365253276584,
+          4.999999999999999,
+          2.5863973091189614
+        ]
+      },
+      "anchors": {
+        "top": [
+          -1.3781682626638292,
+          4.999999999999999,
+          1.2931986545594807
+        ],
+        "bottom": [
+          -1.3781682626638292,
+          0,
+          1.2931986545594807
+        ],
+        "front": [
+          -1.3781682626638292,
+          2.4999999999999996,
+          2.5863973091189614
+        ],
+        "rear": [
+          -1.3781682626638292,
+          2.4999999999999996,
+          0
+        ],
+        "left_side": [
+          -2.7563365253276584,
+          2.4999999999999996,
+          1.2931986545594807
+        ],
+        "right_side": [
+          0,
+          2.4999999999999996,
+          1.2931986545594807
+        ],
+        "center": [
+          -1.3781682626638292,
+          2.4999999999999996,
+          1.2931986545594807
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming chair to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Kenney",
+      "attributionUrl": "https://poly.pizza/m/CKSz6PB1vO",
+      "triCount": 656,
+      "sourceModelId": "CKSz6PB1vO",
+      "source": "live"
+    },
+    "gaming-office-desk": {
+      "id": "gaming-office-desk",
+      "name": "Gaming Office Desk",
+      "url": "/models/gaming-office-desk.glb",
+      "scale": 5.420060234491583,
+      "yOffset": 0.0038066609620930536,
+      "boundingBox": {
+        "min": [
+          -4.938495641478173,
+          0,
+          -2.4520830286498234
+        ],
+        "max": [
+          4.938495641478173,
+          5,
+          2.1366863158058593
+        ],
+        "size": [
+          9.876991282956347,
+          5,
+          4.588769344455683
+        ]
+      },
+      "anchors": {
+        "top": [
+          0,
+          5,
+          -0.15769835642198204
+        ],
+        "bottom": [
+          0,
+          0,
+          -0.15769835642198204
+        ],
+        "front": [
+          0,
+          2.5,
+          2.1366863158058593
+        ],
+        "rear": [
+          0,
+          2.5,
+          -2.4520830286498234
+        ],
+        "left_side": [
+          -4.938495641478173,
+          2.5,
+          -0.15769835642198204
+        ],
+        "right_side": [
+          4.938495641478173,
+          2.5,
+          -0.15769835642198204
+        ],
+        "center": [
+          0,
+          2.5,
+          -0.15769835642198204
+        ]
+      },
+      "aliases": [],
+      "concepts": [],
+      "intro": "Here's a realistic gaming office desk to explore. Click it to learn more, and tell me what to add or ask how any part works — we'll build up the science together.",
+      "license": "CC0 1.0",
+      "author": "Quaternius",
+      "attributionUrl": "https://poly.pizza/m/V86Go2rlnq",
+      "triCount": 0,
+      "sourceModelId": "V86Go2rlnq",
+      "source": "live"
+    }
+  },
+  "validationCache": {
+    "xbox": {
+      "modelId": null,
+      "ts": "2026-07-08T23:36:22.483Z"
+    },
+    "start fresh": {
+      "modelId": null,
+      "ts": "2026-07-08T23:44:28.842Z"
     }
   }
 }

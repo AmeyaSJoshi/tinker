@@ -46,6 +46,12 @@ export type Vec3 = z.infer<typeof vec3>;
 export const attachToSchema = z.object({
   anchor: z.string().min(1),
   offset: vec3.optional(),
+  /**
+   * Which entry of a compound scene's `baseAssets` array this attaches to
+   * (0-indexed; default 0 = the single/primary base). Schema-only for now —
+   * deeper multi-asset attachment resolution is a later phase.
+   */
+  assetIndex: z.number().int().nonnegative().optional(),
 });
 export type AttachTo = z.infer<typeof attachToSchema>;
 
@@ -62,6 +68,12 @@ export const partSchema = z.object({
   explanation: z.string().min(1),
   concepts: z.array(z.string()),
   attachTo: attachToSchema.optional(),
+  /**
+   * Optional group name. Parts with the same group string form a logical component
+   * (e.g., thruster = bell + nozzle + collar). Treated as a single item in the
+   * parts list and explanations. Helps the tutor compose multi-part systems.
+   */
+  group: z.string().optional(),
 });
 export type Part = z.infer<typeof partSchema>;
 
@@ -126,6 +138,28 @@ export interface BaseAsset {
   boundingBox: { min: Vec3; max: Vec3; size: Vec3 };
   /** Poly Pizza's own model id, tracked so a rejected model is never re-picked. */
   sourceModelId?: string;
+  /** LLM-generated semantic names for submeshes (Phase 3.4B). */
+  componentMetadata?: Array<{ rawName: string; semanticName: string }>;
+  /** Virtual components for single-mesh models (Phase 3.4B). */
+  virtualComponents?: Array<{
+    name: string;
+    position: Vec3; // normalized -1..1
+    whatItIs: string;
+  }>;
+}
+
+/**
+ * One GLB base model placed within a COMPOUND scene ("gaming setup" -> desk,
+ * monitor, chair, ...). `position` is the world-space offset for this
+ * component within the composed arrangement (added on top of the asset's own
+ * baked-in yOffset); `scale` is an extra footprint-relative multiplier on top
+ * of the asset's own baked-in scale. Single-asset builds don't use this —
+ * they keep using the plain `baseAsset` field untouched.
+ */
+export interface PlacedAsset {
+  asset: BaseAsset;
+  position: Vec3;
+  scale?: number;
 }
 
 export const tutorResponseSchema = z.object({
