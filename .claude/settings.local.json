@@ -45,7 +45,29 @@
       "Bash(git ls-remote *)",
       "Bash(rm -f public/models/bicycle.glb)",
       "Bash(grep -E '^\\\\+.*\\\\.0[,]?$')",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git branch *)",
+      "Bash(git fetch *)",
+      "Bash(cp /tmp/test-search.mjs scripts/_tmp-search.mjs)",
+      "Bash(rm -f scripts/_tmp-search.mjs)",
+      "Bash(curl -s -X POST http://localhost:63753/api/resolve-asset -H \"Content-Type: application/json\" -d '{\"phrase\":\"I want a peanut jar\"}')",
+      "Bash(curl -s http://localhost:63753/api/config)",
+      "Bash(curl -s -X POST http://localhost:63753/api/resolve-asset -H \"Content-Type: application/json\" -d '{\"phrase\":\"a volcano\"}')",
+      "Bash(time curl -s -X POST http://localhost:63753/api/tutor -H \"Content-Type: application/json\" -d '{\"message\":\"how does a heart work?\",\"history\":[],\"currentParts\":[{\"id\":\"a\",\"shape\":\"box\",\"dimensions\":{\"width\":1,\"height\":1,\"depth\":1},\"position\":[0,0,0],\"rotation\":[0,0,0],\"color\":\"#fff\",\"name\":\"Chamber\",\"explanation\":\"x\",\"concepts\":[]}]}')",
+      "Bash(node scripts/_tmp-verify.mjs 63753)",
+      "Bash(curl -s http://localhost:64578/api/config)",
+      "Bash(node scripts/_tmp-verify.mjs 64578)",
+      "Bash(node -e \"const m=require\\('./lib/assetManifest.generated.json'\\); console.log\\(Object.keys\\(m.assets\\).slice\\(0,20\\)\\)\")",
+      "Bash(node -e \"const m=require\\('./lib/assetManifest.generated.json'\\); console.log\\(JSON.stringify\\(m.assets.rocket,null,2\\)\\)\")",
+      "Bash(curl -s -X POST http://localhost:64925/api/tutor -H 'Content-Type: application/json' -d '{\"message\":\"make it smaller so I can see the whole thing\",\"history\":[],\"currentParts\":[],\"baseAssetId\":\"rocket\"}' --max-time 40)",
+      "Bash(curl -s -X POST http://localhost:64925/api/tutor -H 'Content-Type: application/json' -d '{\"message\":\"I can'\\\\''t see it, it'\\\\''s too dark\",\"history\":[],\"currentParts\":[],\"baseAssetId\":\"rocket\"}' --max-time 40)",
+      "Bash(curl -s -X POST http://localhost:64925/api/tutor -H 'Content-Type: application/json' -d '{\"message\":\"make the rocket red\",\"history\":[],\"currentParts\":[],\"baseAssetId\":\"rocket\"}' --max-time 40)",
+      "Bash(curl -s -X POST http://localhost:64925/api/tutor -H 'Content-Type: application/json' -d '{\"message\":\"I cannot see it, its too dark\",\"history\":[],\"currentParts\":[],\"baseAssetId\":\"rocket\"}' --max-time 60)",
+      "Bash(git rev-list *)",
+      "Bash(git diff *)"
     ]
   }
 }

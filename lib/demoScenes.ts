@@ -94,6 +94,7 @@ const spaceship: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Should we make it survive a fiery re-entry next?",
     suggestedActions: [
       "Make it survive re-entry",
@@ -122,6 +123,7 @@ const spaceship: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Now that it can come home, should we give it legs to land on?",
     suggestedActions: [
       "Add landing legs",
@@ -174,6 +176,7 @@ const spaceship: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Want to explore how the whole thing works together, or build something new?",
     suggestedActions: [
       "Explain the full flight profile",
@@ -241,6 +244,7 @@ const volcano: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Ready to make it erupt with an ash plume and a lava flow?",
     suggestedActions: [
       "Make it erupt",
@@ -305,6 +309,7 @@ const volcano: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Want to explore what determines whether a volcano oozes or explodes?",
     suggestedActions: [
       "Explain effusive vs explosive",
@@ -372,6 +377,7 @@ const heart: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Shall we plumb in the great vessels that carry blood in and out?",
     suggestedActions: [
       "Add the great vessels",
@@ -424,6 +430,7 @@ const heart: TutorResponse[] = [
       },
     ],
     removedPartIds: [],
+    sceneOps: [],
     followUpQuestion: "Want to trace one full loop of a blood cell, or build something new?",
     suggestedActions: [
       "Trace a blood cell's journey",

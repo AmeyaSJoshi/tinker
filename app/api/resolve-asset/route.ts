@@ -64,11 +64,17 @@ function toBaseAsset(entry: AssetEntry): BaseAsset {
   };
 }
 
-/** Strip build verbs and articles to get the core noun: "build a lighthouse" -> "lighthouse". */
+/**
+ * Strip build verbs and articles to get the core noun: "build a lighthouse" ->
+ * "lighthouse". The verb group is OPTIONAL: "I want a peanut jar" has no verb
+ * after "I want", so the verb group must not be required or nothing strips at
+ * all and the whole sentence leaks through as the "noun" (breaking both the
+ * live search query and the exact-match library check downstream).
+ */
 function extractNoun(phrase: string): string {
   let s = phrase.toLowerCase().trim().replace(/[.?!]+$/g, "");
   s = s.replace(
-    /^(please\s+)?(can you\s+|could you\s+)?(i\s+(want|wanna|would like|'?d like)\s+(to\s+)?)?(build|make|create|design|show me|give me|draw|model|render|let'?s\s+(build|make|create)|add)\s+/,
+    /^(please\s+)?(can you\s+|could you\s+)?(i\s+(want|wanna|would like|'?d like)\s+(to\s+)?)?((build|make|create|design|show me|give me|draw|model|render|let'?s\s+(build|make|create)|add)\s+)?/,
     "",
   );
   s = s.replace(/^(a|an|the|some|my)\s+/, "");
@@ -88,6 +94,10 @@ function titleCase(s: string): string {
  * A clean request (no exclusions) checks the validation cache first, so a
  * repeat phrase never re-spends an LLM call: a null cached verdict means "we
  * already confirmed nothing qualifies," so we go straight to primitives.
+ * The cache is keyed by the NOUN, not the raw phrase — "I want a peanut jar"
+ * and "give me a peanut jar" both search for "peanut jar" and should share
+ * one verdict, and the cache shouldn't need to be invalidated every time
+ * noun-extraction wording changes.
  */
 async function findValidatedModel(
   phrase: string,
@@ -97,7 +107,7 @@ async function findValidatedModel(
   const excludeSet = new Set(excludeIds);
 
   if (excludeSet.size === 0) {
-    const cached = getValidationVerdict(phrase);
+    const cached = getValidationVerdict(noun);
     if (cached) {
       if (cached.modelId === null) return null;
       try {
@@ -115,7 +125,7 @@ async function findValidatedModel(
   // Only cache "clean" resolutions — an exclusion-driven retry is a one-off
   // rejection, not the general verdict for this phrase.
   if (excludeSet.size === 0) {
-    await setValidationVerdict(phrase, winner ? winner.id : null);
+    await setValidationVerdict(noun, winner ? winner.id : null);
   }
 
   return winner;
@@ -217,13 +227,23 @@ export async function POST(request: Request) {
     ? body.excludeIds.filter((x): x is string => typeof x === "string" && x.length > 0)
     : [];
 
+  // Extract the core noun BEFORE any library lookup: matchAsset needs the
+  // noun (not the raw sentence) so it can require an EXACT match. Without
+  // this, a compound request like "peanut jar" would match "peanut" as a
+  // whole-word substring of the raw phrase and never even reach a live
+  // search — which is exactly the bug this ordering fixes.
+  const noun = extractNoun(phrase) || phrase;
+
   // Exclusions mean the learner just rejected the current match ("no, a real
   // bike") — they want something DIFFERENT, so the instant library/cache
   // shortcuts (which would just hand back the same rejected model) are skipped
   // in favor of a fresh, validated live search.
   if (excludeIds.length === 0) {
-    // 1. Local library — instant.
-    const local = matchAsset(phrase);
+    // 1. Local library — instant, but ONLY on an exact match to the noun. A
+    // more specific compound noun ("peanut jar") is NOT the same request as
+    // a known shorter asset ("peanut") and must go to a live, validated
+    // search instead of silently collapsing onto the wrong model.
+    const local = matchAsset(noun);
     if (local) {
       return NextResponse.json<ResolveResponse>({
         status: "library",
@@ -232,7 +252,6 @@ export async function POST(request: Request) {
     }
   }
 
-  const noun = extractNoun(phrase) || phrase;
   const slug = slugify(noun);
   if (slug === "") {
     return NextResponse.json<ResolveResponse>({ status: "primitives", noun });

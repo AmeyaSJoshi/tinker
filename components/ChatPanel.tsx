@@ -9,6 +9,7 @@ import {
   type TutorResponse,
 } from "@/lib/schema";
 import { demoScenes, parseDemoCommand } from "@/lib/demoScenes";
+import { SCENE_COMMAND_RE } from "@/lib/sceneCommandHeuristics";
 
 const WELCOME =
   "What do you want to build today? Tell me something like “a spaceship” and I’ll bring it to life in 3D — then we’ll upgrade it together.";
@@ -36,6 +37,7 @@ const REJECT_RE =
  * a question. Edits like "add a fin" on an existing scene do NOT.
  */
 function looksLikeCreate(text: string, hasScene: boolean): boolean {
+  if (hasScene && SCENE_COMMAND_RE.test(text)) return false;
   if (CREATE_RE.test(text)) return true;
   if (!hasScene) {
     if (/\?|^(why|how|what|explain|tell me|describe)\b/i.test(text.trim())) {
@@ -50,7 +52,7 @@ function looksLikeCreate(text: string, hasScene: boolean): boolean {
 function coreNoun(text: string): string {
   let s = text.toLowerCase().trim().replace(/[.?!]+$/g, "");
   s = s.replace(
-    /^(please\s+)?(can you\s+|could you\s+)?(i\s+(want|wanna|would like|'?d like)\s+(to\s+)?)?(build|make|create|design|show me|give me|draw|model|render|let'?s\s+(build|make|create)|add)\s+/,
+    /^(please\s+)?(can you\s+|could you\s+)?(i\s+(want|wanna|would like|'?d like)\s+(to\s+)?)?((build|make|create|design|show me|give me|draw|model|render|let'?s\s+(build|make|create)|add)\s+)?/,
     "",
   );
   s = s.replace(/^(a|an|the|some|my)\s+/, "");
@@ -71,6 +73,7 @@ export default function ChatPanel() {
   const messages = useSceneStore((s) => s.messages);
   const addMessage = useSceneStore((s) => s.addMessage);
   const applyManifest = useSceneStore((s) => s.applyManifest);
+  const applySceneOps = useSceneStore((s) => s.applySceneOps);
   const loadBaseAsset = useSceneStore((s) => s.loadBaseAsset);
   const swapBaseAsset = useSceneStore((s) => s.swapBaseAsset);
   const clearScene = useSceneStore((s) => s.clearScene);
@@ -82,10 +85,18 @@ export default function ChatPanel() {
   const [liveStatus, setLiveStatus] = useState<string | null>(null);
   // Chips from the latest tutor turn; cleared while a request is in flight.
   const [suggestedActions, setSuggestedActions] = useState<string[]>([]);
-  // Which model is answering — shown as a small badge for A/B visibility.
+  // Which models are answering — shown as a small badge for A/B visibility.
   const [modelLabel, setModelLabel] = useState<string | null>(null);
+  const [explainerLabel, setExplainerLabel] = useState<string | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  // The in-flight resolve-asset/tutor fetch for the current turn, if any —
+  // aborting it is what the Stop button does.
+  const abortRef = useRef<AbortController | null>(null);
+
+  function isAbortError(err: unknown): boolean {
+    return err instanceof DOMException && err.name === "AbortError";
+  }
 
   // Ask the server which brain is currently ACTIVE (never exposes the key). The
   // active model can change mid-session (auto-switch after repeated failures),
@@ -94,7 +105,8 @@ export default function ChatPanel() {
     fetch("/api/config")
       .then((r) => r.json())
       .then((d) => {
-        if (typeof d?.model === "string") setModelLabel(d.model);
+        if (typeof d?.tutorModel === "string") setModelLabel(d.tutorModel);
+        if (typeof d?.explainerModel === "string") setExplainerLabel(d.explainerModel);
       })
       .catch(() => {
         /* badge is non-essential; ignore failures */
@@ -130,6 +142,7 @@ export default function ChatPanel() {
       await sleep(800);
       setLoading(false);
       applyManifest(step);
+      applySceneOps(step.sceneOps ?? []);
       addMessage({ role: "tutor", content: step.reply });
       setSuggestedActions(step.suggestedActions ?? []);
       // Small beat between steps so parts visibly assemble one stage at a time.
@@ -137,16 +150,23 @@ export default function ChatPanel() {
     }
   }
 
-  /** Try to resolve a build request to a realistic base MODEL. Null = use primitives. */
+  /**
+   * Try to resolve a build request to a realistic base MODEL. Null = use
+   * primitives. An abort (the learner hit Stop) is rethrown rather than
+   * swallowed as "no match" — otherwise stopping mid-search would silently
+   * chain into a primitives build instead of actually stopping.
+   */
   async function resolveAsset(
     phrase: string,
-    excludeIds?: string[],
+    excludeIds: string[] | undefined,
+    signal: AbortSignal,
   ): Promise<BaseAsset | null> {
     try {
       const res = await fetch("/api/resolve-asset", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phrase, excludeIds }),
+        signal,
       });
       if (!res.ok) return null;
       const data = await res.json();
@@ -154,7 +174,8 @@ export default function ChatPanel() {
         return data.asset as BaseAsset;
       }
       return null;
-    } catch {
+    } catch (err) {
+      if (isAbortError(err)) throw err;
       return null;
     }
   }
@@ -163,17 +184,21 @@ export default function ChatPanel() {
   async function runTutor(
     text: string,
     priorHistory: ChatMessage[],
-    baseAssetId?: string,
+    baseAssetId: string | undefined,
+    signal: AbortSignal,
   ) {
     const res = await fetch("/api/tutor", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         message: text,
-        history: priorHistory,
+        // "note" turns (e.g. "Stopped.") are UI-only — never send them as
+        // conversation history to the (stateless) model.
+        history: priorHistory.filter((m) => m.role !== "note"),
         currentParts: useSceneStore.getState().parts,
         baseAssetId,
       }),
+      signal,
     });
     if (!res.ok) throw new Error(`Request failed (${res.status})`);
 
@@ -183,6 +208,7 @@ export default function ChatPanel() {
 
     const response: TutorResponse = parsed.data;
     applyManifest(response);
+    applySceneOps(response.sceneOps ?? []);
     addMessage({ role: "tutor", content: response.reply });
     setSuggestedActions(response.suggestedActions ?? []);
   }
@@ -211,6 +237,9 @@ export default function ChatPanel() {
     addMessage({ role: "user", content: trimmed });
     setLoading(true);
 
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     try {
       // Rejecting the current base model ("no, a real bike") re-resolves the
       // SAME topic with the old model excluded, instead of falling through to
@@ -223,7 +252,7 @@ export default function ChatPanel() {
           : before.rejectedModelIds;
 
         setLiveStatus(`🔍 Let me find a better ${noun}…`);
-        const next = await resolveAsset(rejected.name, exclude);
+        const next = await resolveAsset(rejected.name, exclude, controller.signal);
         setLiveStatus(null);
 
         if (next) {
@@ -245,7 +274,7 @@ export default function ChatPanel() {
 
       if (looksLikeCreate(trimmed, hasScene)) {
         setLiveStatus(`🔍 Finding you a realistic ${coreNoun(trimmed)}…`);
-        const asset = await resolveAsset(trimmed);
+        const asset = await resolveAsset(trimmed, undefined, controller.signal);
         setLiveStatus(null);
         if (asset) {
           loadBaseAsset(asset);
@@ -254,21 +283,26 @@ export default function ChatPanel() {
           return;
         }
         // No realistic model — build it from primitives instead (no base).
-        await runTutor(trimmed, priorHistory);
+        await runTutor(trimmed, priorHistory, undefined, controller.signal);
         return;
       }
 
       // Edit / question on the existing scene. Carry the base asset id (if any)
       // so the tutor gets its anchors and can attach parts precisely.
-      await runTutor(trimmed, priorHistory, before.baseAsset?.id);
+      await runTutor(trimmed, priorHistory, before.baseAsset?.id, controller.signal);
     } catch (err) {
-      console.error(err);
-      setError(
-        "I couldn’t reach the tutor just now. Check your connection and try again.",
-      );
+      if (isAbortError(err)) {
+        addMessage({ role: "note", content: "Stopped." });
+      } else {
+        console.error(err);
+        setError(
+          "I couldn’t reach the tutor just now. Check your connection and try again.",
+        );
+      }
     } finally {
       setLiveStatus(null);
       setLoading(false);
+      abortRef.current = null;
       // The active model may have auto-switched this turn — keep the badge honest.
       refreshModelBadge();
     }
@@ -277,6 +311,11 @@ export default function ChatPanel() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     void send(input);
+  }
+
+  /** Stop button: aborts the in-flight fetch. The catch block in send() takes it from there. */
+  function handleStop() {
+    abortRef.current?.abort();
   }
 
   return (
@@ -290,13 +329,22 @@ export default function ChatPanel() {
               BuildLab
             </h1>
           </div>
-          {modelLabel && (
-            <span
-              className="flex items-center gap-1 rounded-full border border-lab-border bg-lab-bg px-2 py-0.5 text-[11px] text-gray-400"
-              title="Model currently answering"
+          {(modelLabel || explainerLabel) && (
+            <div
+              className="flex flex-shrink-0 flex-col items-end gap-0.5 text-[11px] leading-tight text-gray-400"
+              title="Models currently answering: 🧠 tutor (build/modify) · ⚡ explainer (fast Q&A)"
             >
-              🧠 {modelLabel}
-            </span>
+              {modelLabel && (
+                <span className="whitespace-nowrap rounded-full border border-lab-border bg-lab-bg px-2 py-0.5">
+                  🧠 {modelLabel}
+                </span>
+              )}
+              {explainerLabel && (
+                <span className="whitespace-nowrap rounded-full border border-lab-border bg-lab-bg px-2 py-0.5">
+                  ⚡ {explainerLabel}
+                </span>
+              )}
+            </div>
           )}
         </div>
         <p className="mt-0.5 text-xs text-gray-400">
@@ -312,13 +360,11 @@ export default function ChatPanel() {
         {/* Persistent welcome bubble */}
         <TutorBubble text={WELCOME} />
 
-        {messages.map((m, i) =>
-          m.role === "tutor" ? (
-            <TutorBubble key={i} text={m.content} />
-          ) : (
-            <UserBubble key={i} text={m.content} />
-          ),
-        )}
+        {messages.map((m, i) => {
+          if (m.role === "tutor") return <TutorBubble key={i} text={m.content} />;
+          if (m.role === "note") return <NoteLine key={i} text={m.content} />;
+          return <UserBubble key={i} text={m.content} />;
+        })}
 
         {/* Live-fetch status takes over from the typing dots while we search. */}
         {liveStatus ? (
@@ -367,13 +413,25 @@ export default function ChatPanel() {
             }
             className="flex-1 rounded-lg border border-lab-border bg-lab-bg px-3 py-2 text-sm text-gray-100 placeholder-gray-600 focus:border-lab-accent focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
           />
-          <button
-            type="submit"
-            disabled={loading || input.trim() === ""}
-            className="rounded-lg bg-lab-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-lab-border disabled:text-gray-500"
-          >
-            Send
-          </button>
+          {loading ? (
+            <button
+              type="button"
+              onClick={handleStop}
+              aria-label="Stop"
+              title="Stop"
+              className="flex items-center gap-1.5 rounded-lg bg-red-500/90 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-500"
+            >
+              <span aria-hidden>■</span> Stop
+            </button>
+          ) : (
+            <button
+              type="submit"
+              disabled={input.trim() === ""}
+              className="rounded-lg bg-lab-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-lab-border disabled:text-gray-500"
+            >
+              Send
+            </button>
+          )}
         </div>
       </form>
     </div>
@@ -389,6 +447,17 @@ function TutorBubble({ text }: { text: string }) {
       <div className="rounded-2xl rounded-tl-sm bg-lab-bg px-4 py-3 text-sm leading-relaxed text-gray-200">
         {text}
       </div>
+    </div>
+  );
+}
+
+/** A quiet, client-only aside ("Stopped.") — never sent to the tutor as history. */
+function NoteLine({ text }: { text: string }) {
+  return (
+    <div className="flex justify-center">
+      <span className="rounded-full bg-lab-bg px-3 py-1 text-xs italic text-gray-500">
+        {text}
+      </span>
     </div>
   );
 }

@@ -1,8 +1,45 @@
 import { create } from "zustand";
-import type { BaseAsset, ChatMessage, Part, TutorResponse } from "./schema";
+import type {
+  BaseAsset,
+  ChatMessage,
+  Part,
+  SceneOp,
+  TutorResponse,
+} from "./schema";
 
-/** Reserved selection id used when the GLB base MODEL itself is clicked. */
-export const BASE_SELECTION_ID = "__base_asset__";
+/** Bounds on how far scale_base can shrink/grow the base model, total. */
+const MIN_BASE_SCALE = 0.2;
+const MAX_BASE_SCALE = 3;
+
+/** A GLB submesh the learner clicked/hovered — identifies one inspectable component. */
+export interface SelectedComponent {
+  assetId: string;
+  /** Grouping key used internally (name or material name); stable per load. */
+  key: string;
+  /** Cleaned, human-readable label shown in the tooltip + card. */
+  label: string;
+}
+
+export type ComponentExplanationStatus = "loading" | "ready" | "error";
+export interface ComponentExplanationEntry {
+  status: ComponentExplanationStatus;
+  text?: string;
+}
+
+/** One entry in the "Parts list" panel — mirrors a GlbComponent minus its mesh refs. */
+export interface BaseComponentSummary {
+  key: string;
+  label: string;
+}
+
+/** Cache key for a component explanation: one entry per (assetId, component). */
+export function componentCacheKey(assetId: string, key: string): string {
+  return `${assetId}::${key}`;
+}
+
+function clampBaseScale(n: number): number {
+  return Math.min(MAX_BASE_SCALE, Math.max(MIN_BASE_SCALE, n));
+}
 
 interface SceneState {
   /** The realistic GLB base model, if this build started from the asset library. */
@@ -11,8 +48,23 @@ interface SceneState {
   rejectedModelIds: string[];
   parts: Part[];
   selectedPartId: string | null;
+  /** The GLB submesh currently selected for inspection, if any. */
+  selectedComponent: SelectedComponent | null;
+  /** Cached component explanations, keyed by componentCacheKey(assetId, key). */
+  componentExplanations: Record<string, ComponentExplanationEntry>;
+  /** Detected components of the CURRENT base model, for the Parts list panel. */
+  baseComponents: BaseComponentSummary[];
   conceptsLearned: string[];
   messages: ChatMessage[];
+
+  /** Multiplier applied on top of the base asset's own scale (scale_base op). */
+  baseScaleMultiplier: number;
+  /** Hex color override applied to every material on the base model, if set. */
+  baseColorOverride: string | null;
+  /** Bumped each time a manual brighten_base op fires, so <BaseModel> can react. */
+  baseBrightenRequestId: number;
+  /** Bumped each time the camera should re-frame the scene (frame_all / reset_camera / button). */
+  frameSignal: number;
 
   /** Load a realistic GLB as a FRESH build's base: sets it, clears parts + rejections. */
   loadBaseAsset: (asset: BaseAsset) => void;
@@ -23,7 +75,16 @@ interface SceneState {
   swapBaseAsset: (asset: BaseAsset) => void;
   /** Apply a validated tutor response to the scene per the manifest rules. */
   applyManifest: (response: TutorResponse) => void;
+  /** Apply the response's deterministic sceneOps (scale/recolor/brighten/reframe). */
+  applySceneOps: (ops: SceneOp[]) => void;
   selectPart: (id: string | null) => void;
+  /** Select a GLB submesh for inspection; clears any primitive-part selection. */
+  selectComponent: (component: SelectedComponent) => void;
+  setComponentExplanation: (cacheKey: string, entry: ComponentExplanationEntry) => void;
+  /** Publish the current base model's detected components for the Parts list panel. */
+  setBaseComponents: (components: BaseComponentSummary[]) => void;
+  /** Manually request a camera reframe (the "⛶ Reset view" button). */
+  requestFrame: () => void;
   addMessage: (message: ChatMessage) => void;
   clearScene: () => void;
 }
@@ -42,8 +103,15 @@ export const useSceneStore = create<SceneState>((set) => ({
   rejectedModelIds: [],
   parts: [],
   selectedPartId: null,
+  selectedComponent: null,
+  componentExplanations: {},
+  baseComponents: [],
   conceptsLearned: [],
   messages: [],
+  baseScaleMultiplier: 1,
+  baseColorOverride: null,
+  baseBrightenRequestId: 0,
+  frameSignal: 0,
 
   loadBaseAsset: (asset) =>
     set((state) => ({
@@ -53,6 +121,11 @@ export const useSceneStore = create<SceneState>((set) => ({
       // A new base model replaces whatever was in the scene.
       parts: [],
       selectedPartId: null,
+      selectedComponent: null,
+      baseComponents: [],
+      // A fresh model starts at its own default look, not the old one's edits.
+      baseScaleMultiplier: 1,
+      baseColorOverride: null,
       conceptsLearned: Array.from(
         new Set([...state.conceptsLearned, ...asset.concepts]),
       ),
@@ -68,6 +141,10 @@ export const useSceneStore = create<SceneState>((set) => ({
           : state.rejectedModelIds,
         parts: [],
         selectedPartId: null,
+        selectedComponent: null,
+        baseComponents: [],
+        baseScaleMultiplier: 1,
+        baseColorOverride: null,
         conceptsLearned: Array.from(
           new Set([...state.conceptsLearned, ...asset.concepts]),
         ),
@@ -127,12 +204,10 @@ export const useSceneStore = create<SceneState>((set) => ({
         nextParts = nextParts.filter((p) => !removed.has(p.id));
       }
 
-      // If the selected part was removed, clear the selection. The base-model
-      // selection stays valid as long as a base model is still present.
+      // If the selected part was removed, clear the selection.
       const stillSelected =
         state.selectedPartId != null &&
-        ((state.selectedPartId === BASE_SELECTION_ID && nextBaseAsset != null) ||
-          nextParts.some((p) => p.id === state.selectedPartId));
+        nextParts.some((p) => p.id === state.selectedPartId);
 
       return {
         baseAsset: nextBaseAsset,
@@ -142,7 +217,63 @@ export const useSceneStore = create<SceneState>((set) => ({
       };
     }),
 
-  selectPart: (id) => set({ selectedPartId: id }),
+  applySceneOps: (ops) =>
+    set((state) => {
+      if (ops.length === 0) return state;
+
+      let baseScaleMultiplier = state.baseScaleMultiplier;
+      let baseColorOverride = state.baseColorOverride;
+      let baseBrightenRequestId = state.baseBrightenRequestId;
+      let frameSignal = state.frameSignal;
+      let parts = state.parts;
+
+      for (const op of ops) {
+        switch (op.op) {
+          case "scale_base":
+            baseScaleMultiplier = clampBaseScale(baseScaleMultiplier * op.factor);
+            // A resize is only useful if the camera reframes to match.
+            frameSignal += 1;
+            break;
+          case "recolor_base":
+            baseColorOverride = op.color;
+            break;
+          case "recolor_part":
+            parts = parts.map((p) =>
+              p.id === op.partId ? { ...p, color: op.color } : p,
+            );
+            break;
+          case "brighten_base":
+            baseBrightenRequestId += 1;
+            break;
+          case "reset_camera":
+          case "frame_all":
+            frameSignal += 1;
+            break;
+        }
+      }
+
+      return {
+        baseScaleMultiplier,
+        baseColorOverride,
+        baseBrightenRequestId,
+        frameSignal,
+        parts,
+      };
+    }),
+
+  selectPart: (id) => set({ selectedPartId: id, selectedComponent: null }),
+
+  selectComponent: (component) =>
+    set({ selectedComponent: component, selectedPartId: null }),
+
+  setComponentExplanation: (cacheKey, entry) =>
+    set((state) => ({
+      componentExplanations: { ...state.componentExplanations, [cacheKey]: entry },
+    })),
+
+  setBaseComponents: (components) => set({ baseComponents: components }),
+
+  requestFrame: () => set((state) => ({ frameSignal: state.frameSignal + 1 })),
 
   addMessage: (message) =>
     set((state) => ({ messages: [...state.messages, message] })),
@@ -153,7 +284,13 @@ export const useSceneStore = create<SceneState>((set) => ({
       rejectedModelIds: [],
       parts: [],
       selectedPartId: null,
+      selectedComponent: null,
+      baseComponents: [],
       conceptsLearned: [],
       messages: [],
+      baseScaleMultiplier: 1,
+      baseColorOverride: null,
+      baseBrightenRequestId: 0,
+      frameSignal: 0,
     }),
 }));

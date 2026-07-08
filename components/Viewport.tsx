@@ -6,11 +6,13 @@ import { useSceneStore } from "@/lib/sceneStore";
 import PartMesh from "./PartMesh";
 import BaseModel, { CameraRig } from "./BaseModel";
 import ExplanationCard from "./ExplanationCard";
+import PartsListPanel from "./PartsListPanel";
 
 export default function Viewport() {
   const parts = useSceneStore((s) => s.parts);
   const baseAsset = useSceneStore((s) => s.baseAsset);
   const selectPart = useSceneStore((s) => s.selectPart);
+  const requestFrame = useSceneStore((s) => s.requestFrame);
 
   const isEmpty = parts.length === 0 && baseAsset == null;
 
@@ -64,8 +66,13 @@ export default function Viewport() {
           makeDefault
           enableDamping
           dampingFactor={0.08}
-          minDistance={2}
-          maxDistance={60}
+          enableZoom
+          zoomSpeed={1}
+          minDistance={0.5}
+          maxDistance={100}
+          // Let the learner orbit close to overhead or low, but never flip
+          // under the floor grid.
+          maxPolarAngle={Math.PI * 0.9}
           target={[0, 0, 0]}
         />
       </Canvas>
@@ -81,8 +88,22 @@ export default function Viewport() {
         </div>
       )}
 
+      {/* Parts list lives in the opposite corner from the explanation card. */}
+      <PartsListPanel />
+
       {/* Explanation overlay lives in the viewport's corner. */}
       <ExplanationCard />
+
+      {!isEmpty && (
+        <button
+          onClick={requestFrame}
+          title="Reset view"
+          aria-label="Reset view"
+          className="pointer-events-auto absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full border border-lab-border bg-lab-panel/95 text-base text-gray-300 shadow-2xl backdrop-blur transition-colors hover:border-lab-accent hover:text-white"
+        >
+          ⛶
+        </button>
+      )}
     </div>
   );
 }

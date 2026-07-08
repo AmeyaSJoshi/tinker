@@ -180,26 +180,26 @@ function normalize(s: string): string {
 }
 
 /**
- * Match a free-text build request to a library asset. Checks the asset's id,
- * display name, and aliases as whole-word phrases inside the request; the
- * longest matching phrase wins (so "space shuttle" beats a bare "space").
- * Returns null on no match — the caller then tries a live fetch.
+ * Match a build request's core NOUN to a library asset by EXACT name/alias
+ * match (after normalization) — not a substring check against the whole
+ * sentence. A substring check is exactly what let a MORE SPECIFIC, compound
+ * request like "peanut jar" silently collapse onto the plain "peanut" asset,
+ * just because "peanut" happens to be a whole word inside it: the request
+ * never even reached a live search, so "peanut jar" could never be validated
+ * against a real jar/container model. The caller should pass the already
+ * noun-extracted phrase (not the raw sentence) so "build me a spaceship"
+ * still matches "spaceship" exactly. Returns null on no exact match — the
+ * caller then tries a live, validated search for the full noun.
  */
-export function matchAsset(phrase: string): AssetEntry | null {
-  const hay = normalize(phrase);
-  let best: AssetEntry | null = null;
-  let bestScore = 0;
+export function matchAsset(noun: string): AssetEntry | null {
+  const target = normalize(noun).trim();
+  if (target === "") return null;
 
   for (const asset of Object.values(loadManifest())) {
     const candidates = [asset.id.replace(/-/g, " "), asset.name, ...asset.aliases];
     for (const candidate of candidates) {
-      const token = normalize(candidate);
-      if (token.trim() === "") continue;
-      if (hay.includes(token) && token.length > bestScore) {
-        best = asset;
-        bestScore = token.length;
-      }
+      if (normalize(candidate).trim() === target) return asset;
     }
   }
-  return best;
+  return null;
 }

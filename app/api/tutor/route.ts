@@ -7,13 +7,16 @@ import {
 } from "@/lib/schema";
 import { buildExplainPrompt, buildSystemPrompt } from "@/lib/tutorPrompt";
 import {
+  callExplainer,
   callTutor,
   generateText,
   noteTutorOutcome,
+  LlmError,
   type LlmMessage,
 } from "@/lib/llm";
 import { getAsset, type AssetEntry } from "@/lib/assetManifest";
 import { resolveAnchor } from "@/lib/anchorResolver";
+import { SCENE_COMMAND_RE } from "@/lib/sceneCommandHeuristics";
 
 /** Shape of the POST body sent by the client. */
 interface TutorRequestBody {
@@ -34,6 +37,7 @@ const STATIC_FALLBACK: TutorResponse = {
   removedPartIds: [],
   followUpQuestion: null,
   suggestedActions: [],
+  sceneOps: [],
   quiz: null,
 };
 
@@ -70,6 +74,7 @@ function fallbackResponse(kind: "build" | "explain", message: string): TutorResp
     removedPartIds: [],
     followUpQuestion: null,
     suggestedActions: [],
+    sceneOps: [],
     quiz: null,
   };
 }
@@ -104,8 +109,17 @@ function heuristicIntent(message: string): "build" | "explain" {
  * cheap LLM call first; falls back to a keyword heuristic if that call fails.
  * An empty scene is always a BUILD — there's nothing yet to ask about.
  */
-async function classifyIntent(message: string, hasScene: boolean): Promise<"build" | "explain"> {
+async function classifyIntent(
+  message: string,
+  hasScene: boolean,
+  signal?: AbortSignal,
+): Promise<"build" | "explain"> {
   if (!hasScene) return "build";
+  // Scene commands ("it's too dark", "make it smaller") always need an actual
+  // sceneOp, never a prose explanation — skip the classifier (LLM or
+  // heuristic) entirely so one can't get misjudged as a question and answered
+  // with an inert, non-actionable reply instead of actually fixing the scene.
+  if (SCENE_COMMAND_RE.test(message)) return "build";
 
   const prompt = `Classify the learner's message in a 3D-model tutoring app as exactly one word: BUILD or EXPLAIN.
 
@@ -117,10 +131,11 @@ Message: "${message}"
 Reply with ONLY one word: BUILD or EXPLAIN.`;
 
   try {
-    const raw = (await generateText(prompt)).trim().toUpperCase();
+    const raw = (await generateText(prompt, signal)).trim().toUpperCase();
     if (raw.includes("EXPLAIN")) return "explain";
     if (raw.includes("BUILD")) return "build";
   } catch (err) {
+    if (err instanceof LlmError && err.reason === "aborted") throw err;
     console.warn("[tutor] intent classifier call failed, using heuristic:", err);
   }
   return heuristicIntent(message);
@@ -392,6 +407,11 @@ export async function POST(request: Request) {
     return NextResponse.json(STATIC_FALLBACK);
   }
 
+  // The learner's Stop button aborts this same request signal; every LLM
+  // fetch below is threaded through it so an abort actually cancels upstream
+  // work instead of just being ignored once the client stops waiting.
+  const signal = request.signal;
+
   // If the scene is built on a realistic GLB, load it so we can describe its
   // anchors to the model and resolve anchor-based attachments afterwards.
   const baseAsset = baseAssetId ? getAsset(baseAssetId) : null;
@@ -406,11 +426,21 @@ export async function POST(request: Request) {
   // BUILD vs EXPLAIN is decided BEFORE any JSON schema is involved. A pure
   // question never enters the build path, so it can never produce the old
   // "tangled up" fallback — its only failure mode is a plain-text LLM error.
-  const intent = await classifyIntent(message, hasScene);
+  let intent: "build" | "explain";
+  try {
+    intent = await classifyIntent(message, hasScene, signal);
+  } catch (err) {
+    if (err instanceof LlmError && err.reason === "aborted") {
+      return NextResponse.json(STATIC_FALLBACK);
+    }
+    throw err;
+  }
 
   if (intent === "explain") {
     try {
-      const reply = (await generateText(buildExplainPrompt(sceneContext, message))).trim();
+      const reply = (
+        await callExplainer(buildExplainPrompt(sceneContext, message), signal)
+      ).trim();
       noteTutorOutcome(true);
       const response: TutorResponse = {
         reasoning: "",
@@ -421,10 +451,14 @@ export async function POST(request: Request) {
         removedPartIds: [],
         followUpQuestion: null,
         suggestedActions: [],
+        sceneOps: [],
         quiz: null,
       };
       return NextResponse.json(response);
     } catch (err) {
+      if (err instanceof LlmError && err.reason === "aborted") {
+        return NextResponse.json(STATIC_FALLBACK);
+      }
       noteTutorOutcome(false);
       logFallback("explain call failed", null, err instanceof Error ? err.message : String(err));
       return NextResponse.json(fallbackResponse("explain", message));
@@ -446,7 +480,7 @@ export async function POST(request: Request) {
 
   try {
     // Attempt 1: raw validate, then a salvage pass before giving up on it.
-    let text = await callTutor(baseMessages);
+    let text = await callTutor(baseMessages, signal);
     let validated = validate(text) ?? salvage(text);
     if (validated) {
       noteTutorOutcome(true);
@@ -467,7 +501,7 @@ export async function POST(request: Request) {
       },
     ];
 
-    text = await callTutor(retryMessages);
+    text = await callTutor(retryMessages, signal);
     validated = validate(text) ?? salvage(text);
     if (validated) {
       noteTutorOutcome(true);
@@ -482,6 +516,9 @@ export async function POST(request: Request) {
     noteTutorOutcome(false);
     return NextResponse.json(fallbackResponse("build", message));
   } catch (err) {
+    if (err instanceof LlmError && err.reason === "aborted") {
+      return NextResponse.json(STATIC_FALLBACK);
+    }
     // Both models failed (timeout / rate limit / network). Never crash.
     noteTutorOutcome(false);
     logFallback("transport error (both models failed)", null, err instanceof Error ? err.message : String(err));

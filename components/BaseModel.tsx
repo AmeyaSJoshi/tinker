@@ -6,57 +6,196 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
-import { Vector3, type Mesh, type Object3D } from "three";
-import { BASE_SELECTION_ID, useSceneStore } from "@/lib/sceneStore";
-import type { BaseAsset } from "@/lib/schema";
+import { Color, Vector3, type Mesh, type MeshStandardMaterial, type Object3D } from "three";
+import { useSceneStore } from "@/lib/sceneStore";
+import type { BaseAsset, Part } from "@/lib/schema";
+import { extractComponents, type GlbComponent } from "@/lib/glbComponents";
+
+/** Below this average material-channel value (0-1), a model reads as "black" and auto-brightens. */
+const DARK_LUMINANCE_THRESHOLD = 0.15;
+/** How far brighten lifts a material's color toward light gray (0 = no change, 1 = fully gray). */
+const BRIGHTEN_LIFT = 0.45;
+const BRIGHTEN_TARGET = new Color("#9ca3af");
+const BRIGHTEN_EMISSIVE = new Color(0.08, 0.08, 0.08);
+const SELECT_EMISSIVE = new Color("#6366f1").multiplyScalar(0.55);
+const HOVER_EMISSIVE = new Color(1, 1, 1).multiplyScalar(0.12);
+
+function isMeshObject(obj: Object3D): obj is Mesh {
+  return (obj as unknown as { isMesh?: boolean }).isMesh === true;
+}
 
 /**
  * Renders the actual GLB. Suspends while the file loads (see <Suspense> below);
- * throws to the error boundary if the file is missing or corrupt. The mesh is
- * scaled + rested on the ground exactly as lib/autoManifest.ts computed, so the
- * server's anchors line up with what's on screen.
+ * throws to the error boundary if the file is missing or corrupt.
+ *
+ * Every material is CLONED per-instance (never the shared GLTF cache) so this
+ * load's recolor/brighten/highlight state can never bleed into another scene
+ * or a fresh reload of the same model. Meshes are grouped into inspectable
+ * "components" (see lib/glbComponents) for hover tooltips, click-to-explain,
+ * and the Parts list panel.
  */
 function GltfModel({ asset }: { asset: BaseAsset }) {
   const { scene } = useGLTF(asset.url);
-  const selectPart = useSceneStore((s) => s.selectPart);
+  const selectComponent = useSceneStore((s) => s.selectComponent);
+  const selectedComponent = useSceneStore((s) => s.selectedComponent);
+  const baseScaleMultiplier = useSceneStore((s) => s.baseScaleMultiplier);
+  const baseColorOverride = useSceneStore((s) => s.baseColorOverride);
+  const baseBrightenRequestId = useSceneStore((s) => s.baseBrightenRequestId);
+  const setBaseComponents = useSceneStore((s) => s.setBaseComponents);
 
-  // Clone so multiple loads / HMR don't mutate the cached original, and turn on
-  // shadows for every mesh in the hierarchy.
-  const model = useMemo(() => {
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
+  const [hoverPoint, setHoverPoint] = useState<Vector3 | null>(null);
+  const [manualBrighten, setManualBrighten] = useState(false);
+  const lastBrightenId = useRef(baseBrightenRequestId);
+
+  // Clone the hierarchy AND every material, and tally the average material
+  // color so we can tell if the model is "nearly black" at load time.
+  const { model, avgLuminance } = useMemo(() => {
     const clone = scene.clone(true);
+    let total = 0;
+    let count = 0;
     clone.traverse((obj: Object3D) => {
-      const mesh = obj as Mesh;
-      if (mesh.isMesh) {
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-      }
+      if (!isMeshObject(obj)) return;
+      obj.castShadow = true;
+      obj.receiveShadow = true;
+
+      const originals = Array.isArray(obj.material) ? obj.material : [obj.material];
+      const cloned = originals.map((mat) => {
+        const c = mat.clone() as MeshStandardMaterial;
+        if (c.color) {
+          c.userData.__origColor = c.color.clone();
+          total += (c.color.r + c.color.g + c.color.b) / 3;
+          count += 1;
+        }
+        return c;
+      });
+      obj.material = Array.isArray(obj.material) ? cloned : cloned[0];
     });
-    return clone;
+    return { model: clone, avgLuminance: count > 0 ? total / count : 1 };
   }, [scene]);
+
+  const components = useMemo(
+    () => extractComponents(model, asset.name),
+    [model, asset.name],
+  );
+
+  const meshToComponent = useMemo(() => {
+    const map = new Map<Mesh, GlbComponent>();
+    for (const comp of components) {
+      for (const mesh of comp.meshes) map.set(mesh, comp);
+    }
+    return map;
+  }, [components]);
+
+  // Publish the detected components (no mesh refs) for the Parts list panel,
+  // which lives outside the Canvas and can't reach into this Suspense subtree.
+  useEffect(() => {
+    setBaseComponents(components.map((c) => ({ key: c.key, label: c.label })));
+    return () => setBaseComponents([]);
+  }, [components, setBaseComponents]);
+
+  const autoDark = avgLuminance < DARK_LUMINANCE_THRESHOLD;
+  useEffect(() => {
+    if (autoDark) {
+      console.info(
+        `[BaseModel] "${asset.name}" looked nearly black (avg channel ${avgLuminance.toFixed(2)}) — auto-brightening so it stays visible`,
+      );
+    }
+  }, [autoDark, asset.name, avgLuminance]);
+
+  // A manual brighten_base op bumps this id in the store; react once per bump.
+  useEffect(() => {
+    if (baseBrightenRequestId !== lastBrightenId.current) {
+      lastBrightenId.current = baseBrightenRequestId;
+      setManualBrighten(true);
+    }
+  }, [baseBrightenRequestId]);
+
+  const brightenActive = autoDark || manualBrighten;
+
+  // Single source of truth for every material's final look. Recomputed from
+  // each material's ORIGINAL color every time, so recolor/brighten/hover never
+  // compound across repeated triggers — no mutation of the shared GLTF cache,
+  // and no drift from re-applying the same adjustment twice.
+  useEffect(() => {
+    const selectedKey =
+      selectedComponent?.assetId === asset.id ? selectedComponent.key : null;
+
+    for (const comp of components) {
+      const isSelected = comp.key === selectedKey;
+      const isHovered = !isSelected && comp.key === hoveredKey;
+
+      for (const mesh of comp.meshes) {
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        for (const mat of mats) {
+          const m = mat as MeshStandardMaterial;
+          const orig = m.userData.__origColor as Color | undefined;
+          if (!orig || !m.color) continue;
+
+          const color = orig.clone();
+          if (baseColorOverride) color.set(baseColorOverride);
+          if (brightenActive) color.lerp(BRIGHTEN_TARGET, BRIGHTEN_LIFT);
+          m.color.copy(color);
+
+          const emissive = new Color(0, 0, 0);
+          if (brightenActive) emissive.add(BRIGHTEN_EMISSIVE);
+          if (isSelected) emissive.add(SELECT_EMISSIVE);
+          else if (isHovered) emissive.add(HOVER_EMISSIVE);
+          m.emissive?.copy(emissive);
+          m.emissiveIntensity = 1;
+          m.needsUpdate = true;
+        }
+      }
+    }
+  }, [components, baseColorOverride, brightenActive, hoveredKey, selectedComponent, asset.id]);
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
-    selectPart(BASE_SELECTION_ID);
+    const comp = meshToComponent.get(e.object as Mesh);
+    if (!comp) return;
+    selectComponent({ assetId: asset.id, key: comp.key, label: comp.label });
   };
+
+  const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
+    e.stopPropagation();
+    const comp = meshToComponent.get(e.object as Mesh);
+    setHoveredKey(comp ? comp.key : null);
+    setHoverPoint(comp ? e.point.clone() : null);
+    document.body.style.cursor = comp ? "pointer" : "auto";
+  };
+
+  const handlePointerOut = () => {
+    setHoveredKey(null);
+    setHoverPoint(null);
+    document.body.style.cursor = "auto";
+  };
+
+  const hoveredLabel =
+    hoveredKey != null
+      ? components.find((c) => c.key === hoveredKey)?.label ?? null
+      : null;
 
   return (
     <group
-      scale={asset.scale}
+      scale={asset.scale * baseScaleMultiplier}
       position={[0, asset.yOffset, 0]}
       onClick={handleClick}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        document.body.style.cursor = "pointer";
-      }}
-      onPointerOut={() => {
-        document.body.style.cursor = "auto";
-      }}
+      onPointerMove={handlePointerMove}
+      onPointerOut={handlePointerOut}
     >
       <primitive object={model} />
+      {hoveredLabel && hoverPoint && (
+        <Html position={hoverPoint} style={{ pointerEvents: "none" }}>
+          <div className="-translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-lab-border bg-lab-panel/95 px-2 py-1 text-xs text-white shadow-lg">
+            {hoveredLabel}
+          </div>
+        </Html>
+      )}
     </group>
   );
 }
@@ -142,40 +281,149 @@ export default function BaseModel() {
   );
 }
 
+/** Axis-aligned world-space bounds, used to frame the camera on the scene. */
+interface Bounds {
+  min: Vector3;
+  max: Vector3;
+}
+
+function expandBounds(bounds: Bounds | null, min: Vector3, max: Vector3): Bounds {
+  if (!bounds) return { min: min.clone(), max: max.clone() };
+  return { min: bounds.min.clone().min(min), max: bounds.max.clone().max(max) };
+}
+
 /**
- * Smoothly frames the camera on a newly-loaded base model. Watches the store's
- * baseAsset; when a new one appears, it eases the camera + orbit target to fit
- * the model's bounding box over a few frames. Requires OrbitControls with
- * `makeDefault` so `controls` is available from the R3F state.
+ * World-space bbox of the base model after `multiplier` is applied on top of
+ * its own baked-in scale. The group renders as `scale * multiplier` about the
+ * model's own origin, THEN translates by `[0, yOffset, 0]` — so only the Y
+ * axis has an offset to hold fixed while X/Z scale about 0.
+ */
+function scaledBaseBounds(asset: BaseAsset, multiplier: number): Bounds {
+  const bb = asset.boundingBox;
+  const scaleAroundOffset = (lo: number, hi: number, offset: number): [number, number] => [
+    (lo - offset) * multiplier + offset,
+    (hi - offset) * multiplier + offset,
+  ];
+  const [minX, maxX] = scaleAroundOffset(bb.min[0], bb.max[0], 0);
+  const [minY, maxY] = scaleAroundOffset(bb.min[1], bb.max[1], asset.yOffset);
+  const [minZ, maxZ] = scaleAroundOffset(bb.min[2], bb.max[2], 0);
+  return { min: new Vector3(minX, minY, minZ), max: new Vector3(maxX, maxY, maxZ) };
+}
+
+/** Approximate half-extents [x, y, z] of a primitive part from its shape + dimensions. */
+function partHalfExtent(part: Part): [number, number, number] {
+  const d = part.dimensions;
+  switch (part.shape) {
+    case "box":
+      return [(d.width ?? 1) / 2, (d.height ?? 1) / 2, (d.depth ?? 1) / 2];
+    case "sphere": {
+      const r = d.radius ?? 0.5;
+      return [r, r, r];
+    }
+    case "cylinder":
+    case "cone": {
+      const r = Math.max(d.radiusTop ?? d.radius ?? 0.5, d.radiusBottom ?? d.radius ?? 0.5);
+      return [r, (d.height ?? 1) / 2, r];
+    }
+    case "torus": {
+      const r = d.radius ?? 0.5;
+      const tube = r * 0.35;
+      return [r + tube, tube, r + tube];
+    }
+    case "capsule": {
+      const r = d.radius ?? 0.3;
+      return [r, (d.height ?? 1) / 2 + r, r];
+    }
+    default:
+      return [0.5, 0.5, 0.5];
+  }
+}
+
+/** Union of the (scaled) base model's bounds with every primitive part's bounds. */
+function computeSceneBounds(
+  baseAsset: BaseAsset | null,
+  baseScaleMultiplier: number,
+  parts: Part[],
+): Bounds | null {
+  let bounds: Bounds | null = baseAsset
+    ? scaledBaseBounds(baseAsset, baseScaleMultiplier)
+    : null;
+
+  for (const part of parts) {
+    const [hx, hy, hz] = partHalfExtent(part);
+    const [px, py, pz] = part.position;
+    bounds = expandBounds(
+      bounds,
+      new Vector3(px - hx, py - hy, pz - hz),
+      new Vector3(px + hx, py + hy, pz + hz),
+    );
+  }
+
+  return bounds;
+}
+
+function framingGoal(bounds: Bounds): { camPos: Vector3; target: Vector3 } {
+  const target = bounds.min.clone().add(bounds.max).multiplyScalar(0.5);
+  const size = bounds.max.clone().sub(bounds.min);
+  const extent = Math.max(size.x, size.y, size.z, 1);
+  const dist = extent * 1.9 + 2;
+  const dir = new Vector3(1, 0.65, 1).normalize();
+  return { camPos: target.clone().add(dir.multiplyScalar(dist)), target };
+}
+
+/**
+ * Smoothly frames the camera on the whole scene (base model + primitive
+ * parts). Reframes when: a new base model loads, or `frameSignal` in the
+ * store bumps (the "⛶ Reset view" button, or a scale_base / frame_all /
+ * reset_camera sceneOp). The moment the learner drags or zooms, any
+ * in-progress auto-frame is cancelled — user input always wins, so it can
+ * never fight an animation the way the old camera rig did. Requires
+ * OrbitControls with `makeDefault` so `controls` is available from R3F state.
  */
 export function CameraRig() {
   const baseAsset = useSceneStore((s) => s.baseAsset);
+  const baseScaleMultiplier = useSceneStore((s) => s.baseScaleMultiplier);
+  const parts = useSceneStore((s) => s.parts);
+  const frameSignal = useSceneStore((s) => s.frameSignal);
   const { camera, controls } = useThree();
-  const lastId = useRef<string | null>(null);
+  const lastAssetId = useRef<string | null>(null);
+  const lastFrameSignal = useRef(frameSignal);
   const goal = useRef<{ camPos: Vector3; target: Vector3 } | null>(null);
 
   useEffect(() => {
     if (!baseAsset) {
-      lastId.current = null;
+      lastAssetId.current = null;
       return;
     }
-    if (baseAsset.id === lastId.current) return;
-    lastId.current = baseAsset.id;
+    if (baseAsset.id === lastAssetId.current) return;
+    lastAssetId.current = baseAsset.id;
 
-    const bb = baseAsset.boundingBox;
-    const target = new Vector3(
-      (bb.min[0] + bb.max[0]) / 2,
-      (bb.min[1] + bb.max[1]) / 2,
-      (bb.min[2] + bb.max[2]) / 2,
-    );
-    const extent = Math.max(bb.size[0], bb.size[1], bb.size[2], 1);
-    const dist = extent * 1.9 + 2;
-    const dir = new Vector3(1, 0.65, 1).normalize();
-    goal.current = {
-      camPos: target.clone().add(dir.multiplyScalar(dist)),
-      target,
+    const bounds = computeSceneBounds(baseAsset, baseScaleMultiplier, parts);
+    if (bounds) goal.current = framingGoal(bounds);
+  }, [baseAsset, baseScaleMultiplier, parts]);
+
+  useEffect(() => {
+    if (frameSignal === lastFrameSignal.current) return;
+    lastFrameSignal.current = frameSignal;
+
+    const bounds = computeSceneBounds(baseAsset, baseScaleMultiplier, parts);
+    if (bounds) goal.current = framingGoal(bounds);
+  }, [frameSignal, baseAsset, baseScaleMultiplier, parts]);
+
+  // Cancel any in-progress auto-frame the instant the learner interacts, so
+  // zoom/drag/pan is never fought by the camera snapping back mid-gesture.
+  useEffect(() => {
+    const ctrl = controls as unknown as {
+      addEventListener?: (event: string, cb: () => void) => void;
+      removeEventListener?: (event: string, cb: () => void) => void;
+    } | null;
+    if (!ctrl?.addEventListener) return;
+    const onUserStart = () => {
+      goal.current = null;
     };
-  }, [baseAsset]);
+    ctrl.addEventListener("start", onUserStart);
+    return () => ctrl.removeEventListener?.("start", onUserStart);
+  }, [controls]);
 
   useFrame(() => {
     const g = goal.current;

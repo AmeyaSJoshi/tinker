@@ -73,13 +73,38 @@ export const actionSchema = z.enum([
 ]);
 export type Action = z.infer<typeof actionSchema>;
 
+const hexColor = z.string().regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, {
+  message: "color must be a hex string like #aabbcc",
+});
+
+/**
+ * Deterministic, client-executed scene commands ("make it smaller", "change
+ * the color", "reset view"). These never depend on the LLM getting world
+ * coordinates right — each op is applied by fixed client logic after the
+ * reply arrives, so a vague request always produces a correct, visible effect.
+ */
+export const sceneOpSchema = z.discriminatedUnion("op", [
+  z.object({ op: z.literal("scale_base"), factor: z.number().positive() }),
+  z.object({ op: z.literal("recolor_base"), color: hexColor }),
+  z.object({
+    op: z.literal("recolor_part"),
+    partId: z.string().min(1),
+    color: hexColor,
+  }),
+  z.object({ op: z.literal("brighten_base") }),
+  z.object({ op: z.literal("reset_camera") }),
+  z.object({ op: z.literal("frame_all") }),
+]);
+export type SceneOp = z.infer<typeof sceneOpSchema>;
+
 /**
  * A single chat turn. `role` mirrors the sender; `content` is the human-readable
  * text (the tutor's `reply`, never raw JSON). Sent to the API so Gemini — which
- * is stateless — has the full conversation on every request.
+ * is stateless — has the full conversation on every request. "note" is a quiet,
+ * client-only aside (e.g. "Stopped.") — it's never sent as conversation history.
  */
 export interface ChatMessage {
-  role: "user" | "tutor";
+  role: "user" | "tutor" | "note";
   content: string;
 }
 
@@ -127,6 +152,8 @@ export const tutorResponseSchema = z.object({
   removedPartIds: z.array(z.string()).optional().default([]),
   followUpQuestion: z.string().nullable().optional(),
   suggestedActions: z.array(z.string()).optional().default([]),
+  /** Deterministic scene commands (scale/recolor/brighten/reframe). See sceneOpSchema. */
+  sceneOps: z.array(sceneOpSchema).optional().default([]),
   /** Reserved for Phase 5 quiz mode; unused today. */
   quiz: z.unknown().nullable().optional(),
 });
