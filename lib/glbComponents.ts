@@ -78,13 +78,20 @@ export function extractComponents(
   if (meshes.length === 0) return [];
 
   // If semantic names are provided (Phase 3.4B LLM-generated), use them directly.
-  // Each semantic name maps 1:1 to a mesh by index.
+  // Each semantic name maps 1:1 to a mesh by index. Still run these through
+  // disambiguateLabels: the LLM can legitimately repeat a name (two "Nosecone"
+  // details), and its failure fallback (lib/componentNaming.ts) repeats the
+  // RAW mesh name for every mesh when the model's response doesn't parse —
+  // either way, duplicates need the same "Cone 1"/"Cone 2" numbering the
+  // heuristic path already gets, or they'd render as indistinguishable entries.
   if (semanticNames && semanticNames.length === meshes.length) {
-    return semanticNames.map((name, index) => ({
-      key: `__semantic_${index}__`,
-      label: name,
-      meshes: [meshes[index]],
-    }));
+    return disambiguateLabels(
+      semanticNames.map((name, index) => ({
+        key: `__semantic_${index}__`,
+        label: name,
+        meshes: [meshes[index]],
+      })),
+    );
   }
 
   // Fallback to the original heuristic-based grouping.

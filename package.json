@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "fetch-assets": "tsx scripts/fetch-assets.mjs",
-    "audit-assets": "tsx scripts/audit-assets.mjs"
+    "audit-assets": "tsx scripts/audit-assets.mjs",
+    "generate-part-names": "tsx scripts/generate-part-names.mjs"
   },
   "dependencies": {
     "@gltf-transform/core": "^4.4.1",

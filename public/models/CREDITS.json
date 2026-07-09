@@ -160,6 +160,14 @@
     "attribution": "\"Computer Keyboard\" by Kenney, https://poly.pizza/m/vsqTUPFSw6. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "keyboard",
+    "name": "Computer Keyboard",
+    "author": "Kenney",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/vsqTUPFSw6",
+    "attribution": "\"Computer Keyboard\" by Kenney, https://poly.pizza/m/vsqTUPFSw6. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "mouse",
     "name": "Computer Mouse",
     "author": "CreativeTrio",
@@ -272,6 +280,14 @@
     "attribution": "\"Glasses\" by iPoly3D, https://poly.pizza/m/j3zHqDAnzH. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
   },
   {
+    "slug": "sunglasses",
+    "name": "Glasses",
+    "author": "iPoly3D",
+    "license": "CC0 1.0",
+    "url": "https://poly.pizza/m/j3zHqDAnzH",
+    "attribution": "\"Glasses\" by iPoly3D, https://poly.pizza/m/j3zHqDAnzH. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
+  },
+  {
     "slug": "headphones",
     "name": "Headphones",
     "author": "CreativeTrio",
@@ -334,14 +350,6 @@
     "license": "CC0 1.0",
     "url": "https://poly.pizza/m/NO45sbSt99",
     "attribution": "\"Juicer\" by MilkAndBanana, https://poly.pizza/m/NO45sbSt99. Licence at https://creativecommons.org/publicdomain/zero/1.0/"
-  },
-  {
-    "slug": "keyboard",
-    "name": "Keyboard",
-    "author": "Alex Safayan",
-    "license": "CC-BY 3.0",
-    "url": "https://poly.pizza/m/fOy2zvPJAj-",
-    "attribution": "\"Keyboard\" by Alex Safayan, https://poly.pizza/m/fOy2zvPJAj-. Licence at https://creativecommons.org/licenses/by/3.0"
   },
   {
     "slug": "bean",

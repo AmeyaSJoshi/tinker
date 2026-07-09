@@ -4,9 +4,18 @@
  * Given a GLB's submesh metadata, calls the explainer LLM to generate real
  * component names instead of junk like "Cone 1", "Mesh.001", etc.
  */
-import { NodeIO, getBounds } from "@gltf-transform/core";
-import type { Mesh, Object3D } from "three";
+import { NodeIO, getBounds, type Accessor, type Node as GltfNode, type mat4 } from "@gltf-transform/core";
 import { callExplainer } from "./llm";
+
+/** Transform a point by a column-major glTF mat4 (standard glTF/gl-matrix convention). */
+function transformPoint(m: mat4, p: [number, number, number]): [number, number, number] {
+  const [x, y, z] = p;
+  return [
+    m[0] * x + m[4] * y + m[8] * z + m[12],
+    m[1] * x + m[5] * y + m[9] * z + m[13],
+    m[2] * x + m[6] * y + m[10] * z + m[14],
+  ];
+}
 
 export interface SubmeshMetadata {
   index: number;
@@ -18,8 +27,21 @@ export interface SubmeshMetadata {
 }
 
 /**
- * Extract per-mesh metadata from a GLB file. Returns an array of metadata
- * objects suitable for passing to an LLM for semantic naming.
+ * Extract per-PRIMITIVE metadata from a GLB file — one entry per draw call,
+ * matching three.js's GLTFLoader granularity (which creates one Mesh per
+ * primitive even when several primitives share a single node/mesh name). This
+ * matters because plenty of these assets have exactly that shape: one node
+ * named e.g. "Cone" whose mesh has 4 primitives, which three.js's client-side
+ * loader renders — and this codebase's glbComponents.ts disambiguates — as
+ * 4 separate components ("Cone 1".."Cone 4"). Grouping by NODE instead would
+ * silently collapse all 4 into a single metadata entry, undercounting real
+ * submeshes and mismatching the semantic names 1:1 against the client's
+ * per-primitive component list.
+ *
+ * Uses @gltf-transform/core's own Node/Mesh/Primitive object model (NOT
+ * three.js — this runs in Node, not a renderer, and gltf-transform's Node has
+ * no `.isMesh` flag; that's a three.js-only concept a naive port of this code
+ * once mistakenly assumed, which silently matched zero meshes on every asset).
  */
 export async function extractSubmeshMetadata(glbPath: string): Promise<SubmeshMetadata[]> {
   const io = new NodeIO();
@@ -37,72 +59,84 @@ export async function extractSubmeshMetadata(glbPath: string): Promise<SubmeshMe
   ];
   const globalVolume = globalSize[0] * globalSize[1] * globalSize[2];
 
-  const meshes: Array<Mesh & { name: string }> = [];
+  interface Entry {
+    node: GltfNode;
+    name: string;
+    posAccessor: Accessor | null;
+    materialName: string | null;
+  }
+  const entries: Entry[] = [];
+
   try {
-    scene.traverse((obj: any) => {
-      if (obj.isMesh) meshes.push(obj);
+    scene.traverse((node) => {
+      const mesh = node.getMesh();
+      if (!mesh) return;
+      const baseName = node.getName() || mesh.getName() || "Mesh";
+      for (const primitive of mesh.listPrimitives()) {
+        const posAccessor = primitive.getAttribute("POSITION");
+        const material = primitive.getMaterial();
+        entries.push({
+          node,
+          name: baseName,
+          posAccessor,
+          materialName: material?.getName() || null,
+        });
+      }
     });
   } catch {
     return [];
   }
 
-  if (meshes.length === 0) return [];
+  if (entries.length === 0) return [];
 
-  // Collect per-mesh metadata
-  const metadata: SubmeshMetadata[] = meshes.map((mesh, index) => {
-    // Compute bounds by collecting vertices from geometry
-    const geometry = (mesh as any).geometry;
-    let meshMin = [Infinity, Infinity, Infinity];
-    let meshMax = [-Infinity, -Infinity, -Infinity];
+  const metadata: SubmeshMetadata[] = entries.map((entry, index) => {
+    const worldMatrix = entry.node.getWorldMatrix();
+    const posAccessor = entry.posAccessor;
 
-    if (geometry?.attributes?.position) {
-      const positions = geometry.attributes.position.array as Float32Array;
-      for (let i = 0; i < positions.length; i += 3) {
-        meshMin[0] = Math.min(meshMin[0], positions[i]);
-        meshMin[1] = Math.min(meshMin[1], positions[i + 1]);
-        meshMin[2] = Math.min(meshMin[2], positions[i + 2]);
-        meshMax[0] = Math.max(meshMax[0], positions[i]);
-        meshMax[1] = Math.max(meshMax[1], positions[i + 1]);
-        meshMax[2] = Math.max(meshMax[2], positions[i + 2]);
+    let localMin = [0, 0, 0];
+    let localMax = [0, 0, 0];
+    if (posAccessor) {
+      localMin = posAccessor.getMin([0, 0, 0]);
+      localMax = posAccessor.getMax([0, 0, 0]);
+    }
+
+    // Transform all 8 local corners into world space to get a true world AABB
+    // (the node may be rotated/scaled, so min/max don't transform directly).
+    let wMin: [number, number, number] = [Infinity, Infinity, Infinity];
+    let wMax: [number, number, number] = [-Infinity, -Infinity, -Infinity];
+    for (const sx of [localMin[0], localMax[0]]) {
+      for (const sy of [localMin[1], localMax[1]]) {
+        for (const sz of [localMin[2], localMax[2]]) {
+          const [wx, wy, wz] = transformPoint(worldMatrix, [sx, sy, sz]);
+          wMin = [Math.min(wMin[0], wx), Math.min(wMin[1], wy), Math.min(wMin[2], wz)];
+          wMax = [Math.max(wMax[0], wx), Math.max(wMax[1], wy), Math.max(wMax[2], wz)];
+        }
       }
     }
 
-    // Fallback to simple bounds if no geometry
-    if (!isFinite(meshMin[0])) {
-      meshMin = [0, 0, 0];
-      meshMax = [1, 1, 1];
-    }
-
-    const center = [
-      (meshMin[0] + meshMax[0]) / 2,
-      (meshMin[1] + meshMax[1]) / 2,
-      (meshMin[2] + meshMax[2]) / 2,
+    const center: [number, number, number] = [
+      (wMin[0] + wMax[0]) / 2,
+      (wMin[1] + wMax[1]) / 2,
+      (wMin[2] + wMax[2]) / 2,
     ];
 
-    // Normalize center to -1..1 range relative to global bbox
     const normalized: [number, number, number] = [
       globalSize[0] > 1e-6 ? ((center[0] - globalMin[0]) / globalSize[0]) * 2 - 1 : 0,
       globalSize[1] > 1e-6 ? ((center[1] - globalMin[1]) / globalSize[1]) * 2 - 1 : 0,
       globalSize[2] > 1e-6 ? ((center[2] - globalMin[2]) / globalSize[2]) * 2 - 1 : 0,
     ];
 
-    const meshVolume = (meshMax[0] - meshMin[0]) * (meshMax[1] - meshMin[1]) * (meshMax[2] - meshMin[2]);
+    const meshVolume =
+      Math.max(0, wMax[0] - wMin[0]) * Math.max(0, wMax[1] - wMin[1]) * Math.max(0, wMax[2] - wMin[2]);
     const relVol = globalVolume > 1e-6 ? meshVolume / globalVolume : 0;
-
-    const matName =
-      (mesh.material as any)?.name || (Array.isArray(mesh.material) ? mesh.material[0]?.name : null);
-
-    // Count vertices
-    const geo = mesh.geometry as any;
-    const vertexCount = geo?.attributes?.position?.count || 0;
 
     return {
       index,
-      name: mesh.name || `Mesh ${index}`,
-      materialName: typeof matName === "string" ? matName : null,
+      name: entry.name,
+      materialName: entry.materialName,
       position: normalized,
       relativeVolume: relVol,
-      vertexCount,
+      vertexCount: posAccessor ? posAccessor.getCount() : 0,
     };
   });
 

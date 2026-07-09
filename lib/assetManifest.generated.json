@@ -78,7 +78,25 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/9awwTQWYux",
       "triCount": 672,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Cone",
+          "semanticName": "Nosecone"
+        },
+        {
+          "rawName": "Cone",
+          "semanticName": "Nosecone"
+        },
+        {
+          "rawName": "Cone",
+          "semanticName": "Engine bell"
+        },
+        {
+          "rawName": "Cone",
+          "semanticName": "Fuselage"
+        }
+      ]
     },
     "space-shuttle": {
       "id": "space-shuttle",
@@ -155,7 +173,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/htfBk9vPfw",
       "triCount": 540,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": []
     },
     "satellite": {
       "id": "satellite",
@@ -233,7 +252,45 @@
       "attributionUrl": "https://poly.pizza/m/K7kE2DCBY8",
       "triCount": 0,
       "source": "prefetch",
-      "sourceModelId": "K7kE2DCBY8"
+      "sourceModelId": "K7kE2DCBY8",
+      "componentMetadata": [
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Cube"
+        }
+      ]
     },
     "volcano": {
       "id": "volcano",
@@ -310,7 +367,81 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/8gkFBBcS6aM",
       "triCount": 414,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": [
+        {
+          "name": "Cone",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main structure of the volcano."
+        },
+        {
+          "name": "Crater",
+          "position": [
+            0,
+            -0.8,
+            0
+          ],
+          "whatItIs": "The depression at the top of the volcano."
+        },
+        {
+          "name": "Slope",
+          "position": [
+            0,
+            0.4,
+            0
+          ],
+          "whatItIs": "The side of the volcano."
+        },
+        {
+          "name": "Lava chamber",
+          "position": [
+            0,
+            0,
+            -0.8
+          ],
+          "whatItIs": "The underground space where magma accumulates."
+        },
+        {
+          "name": "Volcanic plug",
+          "position": [
+            0.7,
+            0,
+            0
+          ],
+          "whatItIs": "A hard, solidified piece of rock that forms when magma cools quickly."
+        },
+        {
+          "name": "Ash cloud",
+          "position": [
+            0,
+            0.4,
+            0.8
+          ],
+          "whatItIs": "A cloud of ash and gas that rises into the air when a volcano erupts."
+        },
+        {
+          "name": "Lava flow",
+          "position": [
+            0.5,
+            0,
+            -0.5
+          ],
+          "whatItIs": "A stream of molten rock that flows out of the volcano during an eruption."
+        },
+        {
+          "name": "Pyroclastic flow",
+          "position": [
+            0.5,
+            -0.8,
+            -0.5
+          ],
+          "whatItIs": "A fast-moving, hot cloud of ash, gas, and rock that flows out of the volcano during an eruption."
+        }
+      ]
     },
     "human-heart": {
       "id": "human-heart",
@@ -388,7 +519,81 @@
       "attributionUrl": "https://poly.pizza/m/1yCRUwFnwX",
       "triCount": 0,
       "source": "prefetch",
-      "sourceModelId": "1yCRUwFnwX"
+      "sourceModelId": "1yCRUwFnwX",
+      "virtualComponents": [
+        {
+          "name": "Left Atrium",
+          "position": [
+            -0.9,
+            -0.2,
+            0.2
+          ],
+          "whatItIs": "Receives oxygen-depleted blood from the body and sends it to the ventricles."
+        },
+        {
+          "name": "Right Ventricle",
+          "position": [
+            0,
+            -0.6,
+            0.4
+          ],
+          "whatItIs": "Pumps oxygen-depleted blood to the lungs for oxygenation."
+        },
+        {
+          "name": "Left Ventricle",
+          "position": [
+            0,
+            -0.6,
+            -0.4
+          ],
+          "whatItIs": "Pumps oxygenated blood to the body via the aorta."
+        },
+        {
+          "name": "Septum",
+          "position": [
+            0,
+            -0.4,
+            0
+          ],
+          "whatItIs": "Separates the left and right sides of the heart."
+        },
+        {
+          "name": "Tricuspid Valve",
+          "position": [
+            0,
+            -0.7,
+            0.6
+          ],
+          "whatItIs": "Regulates blood flow from the right atrium to the right ventricle."
+        },
+        {
+          "name": "Mitral Valve",
+          "position": [
+            0,
+            -0.7,
+            -0.6
+          ],
+          "whatItIs": "Regulates blood flow from the left atrium to the left ventricle."
+        },
+        {
+          "name": "Pulmonary Valve",
+          "position": [
+            0.8,
+            -0.4,
+            0.4
+          ],
+          "whatItIs": "Regulates blood flow from the right ventricle to the lungs."
+        },
+        {
+          "name": "Aortic Valve",
+          "position": [
+            0.8,
+            -0.4,
+            -0.4
+          ],
+          "whatItIs": "Regulates blood flow from the left ventricle to the body."
+        }
+      ]
     },
     "brain": {
       "id": "brain",
@@ -465,7 +670,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/5mPRPZkI3qt",
       "triCount": 3070,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": []
     },
     "skeleton": {
       "id": "skeleton",
@@ -542,7 +748,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/wODZYCgX5Z",
       "triCount": 1810,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": []
     },
     "airplane": {
       "id": "airplane",
@@ -621,7 +828,21 @@
       "attributionUrl": "https://poly.pizza/m/4zE4UQ4siZa",
       "triCount": 339,
       "source": "prefetch",
-      "sourceModelId": "4zE4UQ4siZa"
+      "sourceModelId": "4zE4UQ4siZa",
+      "componentMetadata": [
+        {
+          "rawName": "pCube60",
+          "semanticName": "Fuselage"
+        },
+        {
+          "rawName": "pCube60",
+          "semanticName": "Wing (right)"
+        },
+        {
+          "rawName": "pCube60",
+          "semanticName": "Wing (left)"
+        }
+      ]
     },
     "helicopter": {
       "id": "helicopter",
@@ -698,7 +919,25 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/EQJ2MECUbx",
       "triCount": 1094,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Cube",
+          "semanticName": "Fuselage"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Landing gear (front)"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Tail rotor"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Rotor mast"
+        }
+      ]
     },
     "submarine": {
       "id": "submarine",
@@ -775,7 +1014,21 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/dfSQmeuuYt3",
       "triCount": 1348,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Node",
+          "semanticName": "Hull"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Propeller"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Periscope"
+        }
+      ]
     },
     "sailboat": {
       "id": "sailboat",
@@ -853,7 +1106,33 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/5u49Hzbo5WH",
       "triCount": 676,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Cube.025_Cube.031",
+          "semanticName": "Hull"
+        },
+        {
+          "rawName": "Cube.025_Cube.031",
+          "semanticName": "Deck"
+        },
+        {
+          "rawName": "Cube.025_Cube.031",
+          "semanticName": "Mast"
+        },
+        {
+          "rawName": "Cube.025_Cube.031",
+          "semanticName": "Keel"
+        },
+        {
+          "rawName": "Cube.025_Cube.031",
+          "semanticName": "Bow Pulpit"
+        },
+        {
+          "rawName": "Cube.025_Cube.031",
+          "semanticName": "Sail"
+        }
+      ]
     },
     "race-car": {
       "id": "race-car",
@@ -932,7 +1211,29 @@
       "attributionUrl": "https://poly.pizza/m/EMcTJiXibv",
       "triCount": 1120,
       "source": "prefetch",
-      "sourceModelId": "EMcTJiXibv"
+      "sourceModelId": "EMcTJiXibv",
+      "componentMetadata": [
+        {
+          "rawName": "Icosphere",
+          "semanticName": "Icosphere"
+        },
+        {
+          "rawName": "Icosphere",
+          "semanticName": "Icosphere"
+        },
+        {
+          "rawName": "Icosphere",
+          "semanticName": "Icosphere"
+        },
+        {
+          "rawName": "Icosphere",
+          "semanticName": "Icosphere"
+        },
+        {
+          "rawName": "Icosphere",
+          "semanticName": "Icosphere"
+        }
+      ]
     },
     "train": {
       "id": "train",
@@ -1010,7 +1311,49 @@
       "attributionUrl": "https://poly.pizza/m/WY84FHug9s",
       "triCount": 0,
       "source": "prefetch",
-      "sourceModelId": "WY84FHug9s"
+      "sourceModelId": "WY84FHug9s",
+      "componentMetadata": [
+        {
+          "rawName": "BigWheels1",
+          "semanticName": "Wheel (front)"
+        },
+        {
+          "rawName": "BigWheels1",
+          "semanticName": "Wheel (front)"
+        },
+        {
+          "rawName": "BigWheels2",
+          "semanticName": "Wheel (middle)"
+        },
+        {
+          "rawName": "BigWheels2",
+          "semanticName": "Wheel (middle)"
+        },
+        {
+          "rawName": "BigWheels3",
+          "semanticName": "Wheel (rear)"
+        },
+        {
+          "rawName": "BigWheels3",
+          "semanticName": "Locomotive"
+        },
+        {
+          "rawName": "Locomotive",
+          "semanticName": "Front buffer"
+        },
+        {
+          "rawName": "Locomotive",
+          "semanticName": "Trailing wheels"
+        },
+        {
+          "rawName": "SmallWheels1",
+          "semanticName": "Small wheels (front)"
+        },
+        {
+          "rawName": "SmallWheels_2",
+          "semanticName": "Small wheels (rear)"
+        }
+      ]
     },
     "bridge": {
       "id": "bridge",
@@ -1087,7 +1430,8 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/Iw8iXLqVs5",
       "triCount": 486,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": []
     },
     "castle": {
       "id": "castle",
@@ -1165,7 +1509,21 @@
       "attributionUrl": "https://poly.pizza/m/opTOmcN3o9",
       "triCount": 7050,
       "source": "prefetch",
-      "sourceModelId": "opTOmcN3o9"
+      "sourceModelId": "opTOmcN3o9",
+      "componentMetadata": [
+        {
+          "rawName": "WonderWalls_SecondAge",
+          "semanticName": "WonderWalls_SecondAge (rear wall)"
+        },
+        {
+          "rawName": "WonderWalls_SecondAge",
+          "semanticName": "WonderWalls_SecondAge (front wall)"
+        },
+        {
+          "rawName": "WonderWalls_SecondAge",
+          "semanticName": "WonderWalls_SecondAge (wooden door)"
+        }
+      ]
     },
     "windmill": {
       "id": "windmill",
@@ -1242,7 +1600,37 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/WUbU1Nct2W",
       "triCount": 1714,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Windmill foundation"
+        },
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Main windmill body"
+        },
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Base stone"
+        },
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Main wooden structure"
+        },
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Fabric (presumably a sail or flag)"
+        },
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Light stone detail"
+        },
+        {
+          "rawName": "Windmill_SecondAge",
+          "semanticName": "Light wooden detail"
+        }
+      ]
     },
     "wind-turbine": {
       "id": "wind-turbine",
@@ -1320,7 +1708,81 @@
       "attributionUrl": "https://poly.pizza/m/n9lfMIPumB",
       "triCount": 0,
       "source": "prefetch",
-      "sourceModelId": "n9lfMIPumB"
+      "sourceModelId": "n9lfMIPumB",
+      "virtualComponents": [
+        {
+          "name": "Tower",
+          "position": [
+            0,
+            0,
+            -0.5
+          ],
+          "whatItIs": "Supports the entire wind turbine structure."
+        },
+        {
+          "name": "Nacelle",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "Houses the main electrical equipment."
+        },
+        {
+          "name": "Blade",
+          "position": [
+            0.7,
+            0,
+            0.3
+          ],
+          "whatItIs": "Captures wind energy and converts it into rotational energy."
+        },
+        {
+          "name": "Hub",
+          "position": [
+            0,
+            0,
+            0.1
+          ],
+          "whatItIs": "Connects the blades to the main shaft."
+        },
+        {
+          "name": "Main Shaft",
+          "position": [
+            0,
+            0,
+            0.2
+          ],
+          "whatItIs": "Transfers rotational energy from the hub to the generator."
+        },
+        {
+          "name": "Generator",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "Converts rotational energy into electrical energy."
+        },
+        {
+          "name": "Control System",
+          "position": [
+            0,
+            0,
+            0.6
+          ],
+          "whatItIs": "Monitors and controls the wind turbine's performance and safety."
+        },
+        {
+          "name": "Anemometer",
+          "position": [
+            0.3,
+            0,
+            -0.1
+          ],
+          "whatItIs": "Measures wind speed and direction."
+        }
+      ]
     },
     "solar-panel": {
       "id": "solar-panel",
@@ -1397,7 +1859,81 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/ah89Y79JdT",
       "triCount": 0,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": [
+        {
+          "name": "Glass",
+          "position": [
+            0,
+            0,
+            0.1
+          ],
+          "whatItIs": "Protects the solar cells from environmental elements."
+        },
+        {
+          "name": "Solar cells",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "Convert sunlight into electrical energy."
+        },
+        {
+          "name": "Wiring",
+          "position": [
+            0,
+            0,
+            -0.1
+          ],
+          "whatItIs": "Transfers electrical energy from solar cells to the inverter."
+        },
+        {
+          "name": "Inverter",
+          "position": [
+            0,
+            0,
+            -0.2
+          ],
+          "whatItIs": "Converts DC power from solar cells to AC power for household use."
+        },
+        {
+          "name": "Mounting frame",
+          "position": [
+            0,
+            -0.8,
+            0
+          ],
+          "whatItIs": "Secures the solar panel to a roof or other surface."
+        },
+        {
+          "name": "Frame",
+          "position": [
+            0,
+            0,
+            -0.3
+          ],
+          "whatItIs": "Provides structural support for the solar panel."
+        },
+        {
+          "name": "Temperature sensor",
+          "position": [
+            0.2,
+            0,
+            -0.1
+          ],
+          "whatItIs": "Monitors the temperature of the solar panel to prevent overheating."
+        },
+        {
+          "name": "Monitoring system",
+          "position": [
+            0.2,
+            0,
+            -0.2
+          ],
+          "whatItIs": "Tracks the performance and health of the solar panel in real-time."
+        }
+      ]
     },
     "robot": {
       "id": "robot",
@@ -1474,7 +2010,85 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/QCm7qe9uNJ",
       "triCount": 1425,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Foot.L",
+          "semanticName": "Foot.L"
+        },
+        {
+          "rawName": "Torso",
+          "semanticName": "Torso"
+        },
+        {
+          "rawName": "Torso",
+          "semanticName": "Torso"
+        },
+        {
+          "rawName": "Head",
+          "semanticName": "Head"
+        },
+        {
+          "rawName": "Head",
+          "semanticName": "Head"
+        },
+        {
+          "rawName": "Head",
+          "semanticName": "Head"
+        },
+        {
+          "rawName": "Shoulder.L",
+          "semanticName": "Shoulder.L"
+        },
+        {
+          "rawName": "Arm.L",
+          "semanticName": "Arm.L"
+        },
+        {
+          "rawName": "Shoulder.R",
+          "semanticName": "Shoulder.R"
+        },
+        {
+          "rawName": "Arm.R",
+          "semanticName": "Arm.R"
+        },
+        {
+          "rawName": "Leg.L",
+          "semanticName": "Leg.L"
+        },
+        {
+          "rawName": "LowerLeg.L",
+          "semanticName": "LowerLeg.L"
+        },
+        {
+          "rawName": "Leg.R",
+          "semanticName": "Leg.R"
+        },
+        {
+          "rawName": "LowerLeg.R",
+          "semanticName": "LowerLeg.R"
+        },
+        {
+          "rawName": "Foot.R",
+          "semanticName": "Foot.R"
+        },
+        {
+          "rawName": "Hand.R",
+          "semanticName": "Hand.R"
+        },
+        {
+          "rawName": "Hand.R",
+          "semanticName": "Hand.R"
+        },
+        {
+          "rawName": "Hand.L",
+          "semanticName": "Hand.L"
+        },
+        {
+          "rawName": "Hand.L",
+          "semanticName": "Hand.L"
+        }
+      ]
     },
     "t-rex": {
       "id": "t-rex",
@@ -1552,7 +2166,29 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/UYtneO5FpF",
       "triCount": 1270,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "Trex",
+          "semanticName": "Trex"
+        },
+        {
+          "rawName": "Trex",
+          "semanticName": "Trex"
+        },
+        {
+          "rawName": "Trex",
+          "semanticName": "Trex"
+        },
+        {
+          "rawName": "Trex",
+          "semanticName": "Trex"
+        },
+        {
+          "rawName": "Trex",
+          "semanticName": "Trex"
+        }
+      ]
     },
     "shark": {
       "id": "shark",
@@ -1628,7 +2264,81 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/AyHTK3zUSG",
       "triCount": 644,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": [
+        {
+          "name": "Head",
+          "position": [
+            0,
+            0.8,
+            1
+          ],
+          "whatItIs": "Contains sensory organs and the mouth for feeding."
+        },
+        {
+          "name": "Dorsal fin",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "Provides stability while swimming."
+        },
+        {
+          "name": "Pectoral fins",
+          "position": [
+            -0.5,
+            0,
+            0.3
+          ],
+          "whatItIs": "Assists in maneuvering and turning."
+        },
+        {
+          "name": "Pelvic fins",
+          "position": [
+            -0.5,
+            -0.3,
+            0.3
+          ],
+          "whatItIs": "Helps with balance and braking."
+        },
+        {
+          "name": "Caudal fin",
+          "position": [
+            0,
+            -0.5,
+            -1
+          ],
+          "whatItIs": "Primary propulsion for swimming."
+        },
+        {
+          "name": "Gills",
+          "position": [
+            -0.3,
+            0.2,
+            0.8
+          ],
+          "whatItIs": "Extracts oxygen from water for respiration."
+        },
+        {
+          "name": "Teeth",
+          "position": [
+            0,
+            0.7,
+            1
+          ],
+          "whatItIs": "Used for gripping and tearing prey."
+        },
+        {
+          "name": "Lateral line",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "Detects vibrations and movement in the water."
+        }
+      ]
     },
     "whale": {
       "id": "whale",
@@ -1705,7 +2415,81 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/JGFwp6xWgk",
       "triCount": 447,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": [
+        {
+          "name": "Head",
+          "position": [
+            0,
+            0.9,
+            1
+          ],
+          "whatItIs": "Contains the brain and sensory organs."
+        },
+        {
+          "name": "Fins",
+          "position": [
+            0.8,
+            0.3,
+            0
+          ],
+          "whatItIs": "Used for stabilization and steering."
+        },
+        {
+          "name": "Fluke",
+          "position": [
+            0,
+            -0.9,
+            -1
+          ],
+          "whatItIs": "Horizontal tail fin for propulsion."
+        },
+        {
+          "name": "Blowhole",
+          "position": [
+            0,
+            1,
+            0.8
+          ],
+          "whatItIs": "Opening for breathing at the surface."
+        },
+        {
+          "name": "Body",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "Main elongated structure of the whale."
+        },
+        {
+          "name": "Dorsal fin",
+          "position": [
+            0,
+            0.6,
+            -0.5
+          ],
+          "whatItIs": "Vertical fin on the back for stability."
+        },
+        {
+          "name": "Mouth",
+          "position": [
+            0,
+            0.7,
+            0.9
+          ],
+          "whatItIs": "Used for feeding and communication."
+        },
+        {
+          "name": "Eyes",
+          "position": [
+            -0.2,
+            0.8,
+            0.8
+          ],
+          "whatItIs": "Visual organs for detecting prey and predators."
+        }
+      ]
     },
     "tree": {
       "id": "tree",
@@ -1783,7 +2567,72 @@
       "attributionUrl": "https://poly.pizza/m/2paAm1ja4w",
       "triCount": 0,
       "source": "prefetch",
-      "sourceModelId": "2paAm1ja4w"
+      "sourceModelId": "2paAm1ja4w",
+      "virtualComponents": [
+        {
+          "name": "Trunk",
+          "position": [
+            0,
+            -0.5,
+            0
+          ],
+          "whatItIs": "The main vertical support structure of the tree."
+        },
+        {
+          "name": "Branches",
+          "position": [
+            0,
+            0.2,
+            0
+          ],
+          "whatItIs": "Extensions from the trunk that support leaves and flowers."
+        },
+        {
+          "name": "Leaves",
+          "position": [
+            0.3,
+            0.8,
+            0
+          ],
+          "whatItIs": "Flat, green structures that perform photosynthesis."
+        },
+        {
+          "name": "Roots",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "Underground parts that absorb water and nutrients."
+        },
+        {
+          "name": "Bark",
+          "position": [
+            0,
+            -0.3,
+            0
+          ],
+          "whatItIs": "The protective outer layer covering the trunk and branches."
+        },
+        {
+          "name": "Fruits",
+          "position": [
+            0.4,
+            0.7,
+            0.2
+          ],
+          "whatItIs": "Seed-containing structures that develop from flowers."
+        },
+        {
+          "name": "Flowers",
+          "position": [
+            0.2,
+            0.6,
+            -0.1
+          ],
+          "whatItIs": "Reproductive structures that attract pollinators."
+        }
+      ]
     },
     "house": {
       "id": "house",
@@ -1860,7 +2709,29 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/7VSVwAg2T3",
       "triCount": 381,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "house_type05",
+          "semanticName": "Walls"
+        },
+        {
+          "rawName": "house_type05",
+          "semanticName": "Window (front)"
+        },
+        {
+          "rawName": "house_type05",
+          "semanticName": "Door (front)"
+        },
+        {
+          "rawName": "house_type05",
+          "semanticName": "Roof"
+        },
+        {
+          "rawName": "house_type05",
+          "semanticName": "Foundation"
+        }
+      ]
     },
     "telescope": {
       "id": "telescope",
@@ -1936,7 +2807,81 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/RjyTCQvA8b",
       "triCount": 734,
-      "source": "prefetch"
+      "source": "prefetch",
+      "virtualComponents": [
+        {
+          "name": "Optical Tube",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main cylindrical body containing lenses or mirrors for light collection."
+        },
+        {
+          "name": "Eyepiece",
+          "position": [
+            0,
+            0,
+            1
+          ],
+          "whatItIs": "The lens assembly where the observer looks to view the magnified image."
+        },
+        {
+          "name": "Mount",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The support structure that holds the telescope and allows for movement."
+        },
+        {
+          "name": "Finder Scope",
+          "position": [
+            0.5,
+            0.5,
+            0.8
+          ],
+          "whatItIs": "A small auxiliary telescope used to locate objects in the sky."
+        },
+        {
+          "name": "Focuser",
+          "position": [
+            0,
+            0,
+            0.8
+          ],
+          "whatItIs": "Adjusts the eyepiece position to achieve sharp focus."
+        },
+        {
+          "name": "Tripod",
+          "position": [
+            0,
+            -1,
+            -0.5
+          ],
+          "whatItIs": "The three-legged stand that provides stability for the mount."
+        },
+        {
+          "name": "Primary Mirror",
+          "position": [
+            0,
+            0,
+            -0.8
+          ],
+          "whatItIs": "Reflects incoming light to a focal point in reflecting telescopes."
+        },
+        {
+          "name": "Diagonal Mirror",
+          "position": [
+            0.2,
+            0,
+            0.6
+          ],
+          "whatItIs": "Redirects the light path to the eyepiece for more comfortable viewing."
+        }
+      ]
     },
     "lighthouse": {
       "id": "lighthouse",
@@ -2013,7 +2958,89 @@
       "authorUrl": "",
       "attributionUrl": "https://poly.pizza/m/3gEvVZoTN7e",
       "triCount": 192,
-      "source": "prefetch"
+      "source": "prefetch",
+      "componentMetadata": [
+        {
+          "rawName": "main_body",
+          "semanticName": "main_body"
+        },
+        {
+          "rawName": "llight",
+          "semanticName": "llight"
+        },
+        {
+          "rawName": "glass",
+          "semanticName": "glass"
+        },
+        {
+          "rawName": "glass_frame",
+          "semanticName": "glass_frame"
+        },
+        {
+          "rawName": "bottom_walk_bar",
+          "semanticName": "bottom_walk_bar"
+        },
+        {
+          "rawName": "top_walk_bar",
+          "semanticName": "top_walk_bar"
+        },
+        {
+          "rawName": "black_body",
+          "semanticName": "black_body"
+        },
+        {
+          "rawName": "support",
+          "semanticName": "support"
+        },
+        {
+          "rawName": "glass_frame_horiz",
+          "semanticName": "glass_frame_horiz"
+        },
+        {
+          "rawName": "roof",
+          "semanticName": "roof"
+        },
+        {
+          "rawName": "top_sphere",
+          "semanticName": "top_sphere"
+        },
+        {
+          "rawName": "roof_lines",
+          "semanticName": "roof_lines"
+        },
+        {
+          "rawName": "spire",
+          "semanticName": "spire"
+        },
+        {
+          "rawName": "light_base",
+          "semanticName": "light_base"
+        },
+        {
+          "rawName": "under_brace_body",
+          "semanticName": "under_brace_body"
+        },
+        {
+          "rawName": "upper_walk",
+          "semanticName": "upper_walk"
+        },
+        {
+          "rawName": "poles001",
+          "semanticName": "poles001"
+        },
+        {
+          "rawName": "Cylinder001",
+          "semanticName": "Cylinder001"
+        },
+        {
+          "rawName": "base_ring_white",
+          "semanticName": "base_ring_white"
+        },
+        {
+          "rawName": "poles",
+          "semanticName": "poles"
+        }
+      ]
     },
     "bear": {
       "id": "bear",
@@ -2084,7 +3111,33 @@
       "triCount": 0,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "3Eb9oLfZYIc"
+      "sourceModelId": "3Eb9oLfZYIc",
+      "componentMetadata": [
+        {
+          "rawName": "Generic04",
+          "semanticName": "Tail"
+        },
+        {
+          "rawName": "default01",
+          "semanticName": "Head"
+        },
+        {
+          "rawName": "Object001",
+          "semanticName": "Snout"
+        },
+        {
+          "rawName": "Object002",
+          "semanticName": "Body"
+        },
+        {
+          "rawName": "Object003",
+          "semanticName": "Ear (left)"
+        },
+        {
+          "rawName": "Object004",
+          "semanticName": "Ear (right)"
+        }
+      ]
     },
     "car": {
       "id": "car",
@@ -2153,7 +3206,29 @@
       "author": "Kay Lousberg",
       "attributionUrl": "https://poly.pizza/m/BG0KAhmGDt",
       "triCount": 1194,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "car_hatchback",
+          "semanticName": "Body"
+        },
+        {
+          "rawName": "car_hatchback_wheel_front_left",
+          "semanticName": "Wheel (front left)"
+        },
+        {
+          "rawName": "car_hatchback_wheel_rear_left",
+          "semanticName": "Wheel (rear left)"
+        },
+        {
+          "rawName": "car_hatchback_wheel_front_right",
+          "semanticName": "Wheel (front right)"
+        },
+        {
+          "rawName": "car_hatchback_wheel_rear_right",
+          "semanticName": "Wheel (rear right)"
+        }
+      ]
     },
     "water-bottle": {
       "id": "water-bottle",
@@ -2222,7 +3297,21 @@
       "author": "Quaternius",
       "attributionUrl": "https://poly.pizza/m/KpxDpidn1Z",
       "triCount": 260,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "WaterBottle_3",
+          "semanticName": "Body"
+        },
+        {
+          "rawName": "WaterBottle_3",
+          "semanticName": "Cap"
+        },
+        {
+          "rawName": "WaterBottle_3",
+          "semanticName": "Label"
+        }
+      ]
     },
     "computer": {
       "id": "computer",
@@ -2293,7 +3382,81 @@
       "triCount": 324,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "7KNoiQlSxi"
+      "sourceModelId": "7KNoiQlSxi",
+      "virtualComponents": [
+        {
+          "name": "Motherboard",
+          "position": [
+            0,
+            0,
+            -0.8
+          ],
+          "whatItIs": "The main circuit board connecting all components."
+        },
+        {
+          "name": "CPU",
+          "position": [
+            0,
+            0.2,
+            -0.8
+          ],
+          "whatItIs": "The central processing unit that executes instructions."
+        },
+        {
+          "name": "RAM",
+          "position": [
+            0,
+            0.2,
+            -0.6
+          ],
+          "whatItIs": "Temporary memory for active applications and data."
+        },
+        {
+          "name": "Storage (HDD/SSD)",
+          "position": [
+            0,
+            -0.2,
+            -0.8
+          ],
+          "whatItIs": "Permanent storage for files and the operating system."
+        },
+        {
+          "name": "Power Supply",
+          "position": [
+            -0.8,
+            -0.8,
+            -0.8
+          ],
+          "whatItIs": "Converts AC power to DC for the computer's components."
+        },
+        {
+          "name": "Graphics Card",
+          "position": [
+            0.5,
+            0,
+            -0.8
+          ],
+          "whatItIs": "Renders visuals for display output."
+        },
+        {
+          "name": "Cooling Fan",
+          "position": [
+            0.3,
+            0.4,
+            -0.7
+          ],
+          "whatItIs": "Dissipates heat to prevent overheating."
+        },
+        {
+          "name": "Optical Drive",
+          "position": [
+            0.5,
+            -0.5,
+            -0.8
+          ],
+          "whatItIs": "Reads and writes data from optical discs."
+        }
+      ]
     },
     "mouse": {
       "id": "mouse",
@@ -2362,7 +3525,72 @@
       "author": "CreativeTrio",
       "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
       "triCount": 100,
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Shell",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The outer casing that houses internal components."
+        },
+        {
+          "name": "Left Button",
+          "position": [
+            -0.7,
+            0,
+            0.8
+          ],
+          "whatItIs": "Primary click button for selections."
+        },
+        {
+          "name": "Right Button",
+          "position": [
+            0.7,
+            0,
+            0.8
+          ],
+          "whatItIs": "Secondary click button for context menus."
+        },
+        {
+          "name": "Scroll Wheel",
+          "position": [
+            0,
+            0,
+            0.8
+          ],
+          "whatItIs": "Allows vertical scrolling and sometimes horizontal."
+        },
+        {
+          "name": "Sensor",
+          "position": [
+            0,
+            -0.9,
+            -0.8
+          ],
+          "whatItIs": "Tracks movement for cursor control."
+        },
+        {
+          "name": "Circuit Board",
+          "position": [
+            0,
+            0,
+            -0.5
+          ],
+          "whatItIs": "Processes signals from buttons and sensor."
+        },
+        {
+          "name": "Battery",
+          "position": [
+            0,
+            0,
+            -0.7
+          ],
+          "whatItIs": "Provides power for wireless or optical functions."
+        }
+      ]
     },
     "phone": {
       "id": "phone",
@@ -2431,7 +3659,81 @@
       "author": "smallbigsquare",
       "attributionUrl": "https://poly.pizza/m/4DRZmTs3jq",
       "triCount": 182,
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Screen",
+          "position": [
+            0,
+            0.8,
+            1
+          ],
+          "whatItIs": "Displays visual output and touch interface."
+        },
+        {
+          "name": "Front camera",
+          "position": [
+            0,
+            0.9,
+            1
+          ],
+          "whatItIs": "Captures selfies and video calls."
+        },
+        {
+          "name": "Earpiece",
+          "position": [
+            0,
+            0.9,
+            1
+          ],
+          "whatItIs": "Outputs sound during calls."
+        },
+        {
+          "name": "Home button",
+          "position": [
+            0,
+            -0.8,
+            1
+          ],
+          "whatItIs": "Used for navigation and unlocking."
+        },
+        {
+          "name": "Battery",
+          "position": [
+            0,
+            0,
+            -0.5
+          ],
+          "whatItIs": "Provides power to the device."
+        },
+        {
+          "name": "Rear camera",
+          "position": [
+            0,
+            0.2,
+            -1
+          ],
+          "whatItIs": "Captures photos and videos."
+        },
+        {
+          "name": "Speaker",
+          "position": [
+            -0.8,
+            -0.9,
+            -0.5
+          ],
+          "whatItIs": "Outputs audio for media and calls."
+        },
+        {
+          "name": "Charging port",
+          "position": [
+            0,
+            -1,
+            -0.5
+          ],
+          "whatItIs": "Connects to a power source for charging."
+        }
+      ]
     },
     "bean": {
       "id": "bean",
@@ -2502,7 +3804,81 @@
       "triCount": 220,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "5jAiqW0J0Ni"
+      "sourceModelId": "5jAiqW0J0Ni",
+      "virtualComponents": [
+        {
+          "name": "Bean body",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main curved structure resembling a bean shape."
+        },
+        {
+          "name": "Bean seam",
+          "position": [
+            0,
+            0.2,
+            0.1
+          ],
+          "whatItIs": "A crease or ridge running along the bean's length."
+        },
+        {
+          "name": "Bean stem",
+          "position": [
+            -0.3,
+            0.8,
+            0
+          ],
+          "whatItIs": "A small attachment point where the bean would connect to a plant."
+        },
+        {
+          "name": "Bean surface texture",
+          "position": [
+            0.2,
+            -0.1,
+            -0.1
+          ],
+          "whatItIs": "The outer layer with visible bumps or veins."
+        },
+        {
+          "name": "Bean tip (top)",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The pointed end of the bean."
+        },
+        {
+          "name": "Bean tip (bottom)",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The wider, rounded end of the bean."
+        },
+        {
+          "name": "Bean interior",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The inner section where seeds would typically be found."
+        },
+        {
+          "name": "Bean shadow",
+          "position": [
+            0.1,
+            -0.5,
+            -0.5
+          ],
+          "whatItIs": "A faint dark area indicating depth or curvature."
+        }
+      ]
     },
     "glasses": {
       "id": "glasses",
@@ -2573,7 +3949,21 @@
       "triCount": 882,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "j3zHqDAnzH"
+      "sourceModelId": "j3zHqDAnzH",
+      "componentMetadata": [
+        {
+          "rawName": "glasses2.001",
+          "semanticName": "glasses2.001"
+        },
+        {
+          "rawName": "glasses2.001",
+          "semanticName": "glasses2.001"
+        },
+        {
+          "rawName": "glasses2.001",
+          "semanticName": "glasses2.001"
+        }
+      ]
     },
     "bike": {
       "id": "bike",
@@ -2643,7 +4033,117 @@
       "attributionUrl": "https://poly.pizza/m/19VoUuA2pcN",
       "triCount": 1714,
       "sourceModelId": "19VoUuA2pcN",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Frame",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The structural backbone holding everything together."
+        },
+        {
+          "name": "Front wheel",
+          "position": [
+            0,
+            -0.7,
+            -0.6
+          ],
+          "whatItIs": "Rotates to propel and steer the bike forward."
+        },
+        {
+          "name": "Rear wheel",
+          "position": [
+            0,
+            -0.7,
+            0.6
+          ],
+          "whatItIs": "Rotates to provide drive and stability."
+        },
+        {
+          "name": "Seat",
+          "position": [
+            0,
+            0.8,
+            0.3
+          ],
+          "whatItIs": "Where the rider sits to balance and control."
+        },
+        {
+          "name": "Handlebars",
+          "position": [
+            0,
+            0.9,
+            -0.8
+          ],
+          "whatItIs": "Grips for steering and balance."
+        },
+        {
+          "name": "Pedals",
+          "position": [
+            0,
+            -0.3,
+            0
+          ],
+          "whatItIs": "Where the rider applies power to the chain."
+        },
+        {
+          "name": "Chain",
+          "position": [
+            0.3,
+            -0.5,
+            0.3
+          ],
+          "whatItIs": "Transfers power from pedals to rear wheel."
+        },
+        {
+          "name": "Gears",
+          "position": [
+            0.5,
+            -0.5,
+            0.1
+          ],
+          "whatItIs": "Allows the rider to adjust difficulty and speed."
+        },
+        {
+          "name": "Brakes",
+          "position": [
+            0,
+            -0.5,
+            -0.8
+          ],
+          "whatItIs": "Provides a safe way to slow or stop the bike."
+        },
+        {
+          "name": "Kickstand",
+          "position": [
+            0,
+            -0.8,
+            0.4
+          ],
+          "whatItIs": "Supports the bike when not in use."
+        },
+        {
+          "name": "Stem",
+          "position": [
+            0,
+            0.9,
+            -0.9
+          ],
+          "whatItIs": "Connects the handlebars to the frame."
+        },
+        {
+          "name": "Headset",
+          "position": [
+            0,
+            0.95,
+            -0.95
+          ],
+          "whatItIs": "Allows the handlebars to turn and move freely."
+        }
+      ]
     },
     "me-a-spoon": {
       "id": "me-a-spoon",
@@ -2712,7 +4212,81 @@
       "author": "Kenney",
       "attributionUrl": "https://poly.pizza/m/YNDbNrxQ1I",
       "triCount": 46,
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Bowl",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The concave container that holds food or liquid."
+        },
+        {
+          "name": "Handle",
+          "position": [
+            0.8,
+            0,
+            -0.5
+          ],
+          "whatItIs": "The protruding part used to grip and lift the spoon."
+        },
+        {
+          "name": "Scoop",
+          "position": [
+            0,
+            0,
+            0.8
+          ],
+          "whatItIs": "The curved front edge for scooping food."
+        },
+        {
+          "name": "Base",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The flat bottom that rests on surfaces."
+        },
+        {
+          "name": "Rim",
+          "position": [
+            0,
+            0.5,
+            0.6
+          ],
+          "whatItIs": "The edge of the bowl that defines its opening."
+        },
+        {
+          "name": "Shank",
+          "position": [
+            0.4,
+            0,
+            0
+          ],
+          "whatItIs": "The stem connecting the bowl to the handle."
+        },
+        {
+          "name": "Tip",
+          "position": [
+            0,
+            0,
+            1
+          ],
+          "whatItIs": "The pointed end of the scoop for precision."
+        },
+        {
+          "name": "Back",
+          "position": [
+            0,
+            0,
+            -1
+          ],
+          "whatItIs": "The outer surface of the bowl opposite the scoop."
+        }
+      ]
     },
     "thermos": {
       "id": "thermos",
@@ -2781,7 +4355,33 @@
       "author": "Poly by Google",
       "attributionUrl": "https://poly.pizza/m/dm0ZTuKAs45",
       "triCount": 920,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Box004",
+          "semanticName": "Base connector"
+        },
+        {
+          "rawName": "Box005",
+          "semanticName": "Upper connector"
+        },
+        {
+          "rawName": "Cylinder002",
+          "semanticName": "Inner lid ring"
+        },
+        {
+          "rawName": "Cylinder002",
+          "semanticName": "Outer shell"
+        },
+        {
+          "rawName": "Cylinder002",
+          "semanticName": "Inner insulation layer"
+        },
+        {
+          "rawName": "Box006",
+          "semanticName": "Lower connector"
+        }
+      ]
     },
     "human": {
       "id": "human",
@@ -2852,7 +4452,33 @@
       "triCount": 1216,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "HMnuH5geEG"
+      "sourceModelId": "HMnuH5geEG",
+      "componentMetadata": [
+        {
+          "rawName": "BaseHuman",
+          "semanticName": "Shirt"
+        },
+        {
+          "rawName": "BaseHuman",
+          "semanticName": "Skin"
+        },
+        {
+          "rawName": "BaseHuman",
+          "semanticName": "Pants"
+        },
+        {
+          "rawName": "BaseHuman",
+          "semanticName": "Head"
+        },
+        {
+          "rawName": "BaseHuman",
+          "semanticName": "Socks"
+        },
+        {
+          "rawName": "BaseHuman",
+          "semanticName": "Hair"
+        }
+      ]
     },
     "star": {
       "id": "star",
@@ -2921,7 +4547,81 @@
       "author": "Quaternius",
       "attributionUrl": "https://poly.pizza/m/Tyau1aS2r0",
       "triCount": 0,
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Core",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The central region where nuclear fusion occurs, producing energy."
+        },
+        {
+          "name": "Radiative Zone",
+          "position": [
+            0,
+            0.3,
+            0
+          ],
+          "whatItIs": "A layer where energy is transferred outward by radiation."
+        },
+        {
+          "name": "Convective Zone",
+          "position": [
+            0,
+            0.7,
+            0
+          ],
+          "whatItIs": "An outer layer where energy is carried by convection currents."
+        },
+        {
+          "name": "Photosphere",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The visible surface of the star that emits light."
+        },
+        {
+          "name": "Chromosphere",
+          "position": [
+            0,
+            1.1,
+            0
+          ],
+          "whatItIs": "A thin layer above the photosphere that emits light in specific wavelengths."
+        },
+        {
+          "name": "Corona",
+          "position": [
+            0,
+            1.2,
+            0
+          ],
+          "whatItIs": "The outermost layer, extending millions of kilometers, visible during solar eclipses."
+        },
+        {
+          "name": "Sunspots",
+          "position": [
+            -0.5,
+            0.9,
+            0
+          ],
+          "whatItIs": "Cooler, darker areas on the photosphere caused by magnetic activity."
+        },
+        {
+          "name": "Solar Prominences",
+          "position": [
+            0.8,
+            1.3,
+            0
+          ],
+          "whatItIs": "Large, bright loops of plasma extending outward from the solar surface."
+        }
+      ]
     },
     "woman": {
       "id": "woman",
@@ -2990,7 +4690,29 @@
       "author": "Quaternius",
       "attributionUrl": "https://poly.pizza/m/zMyPlQXBzq",
       "triCount": 0,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Female",
+          "semanticName": "Dress"
+        },
+        {
+          "rawName": "Female",
+          "semanticName": "Body"
+        },
+        {
+          "rawName": "Female",
+          "semanticName": "Shoes"
+        },
+        {
+          "rawName": "Female",
+          "semanticName": "Hair"
+        },
+        {
+          "rawName": "Female",
+          "semanticName": "Eyes"
+        }
+      ]
     },
     "camera": {
       "id": "camera",
@@ -3061,7 +4783,33 @@
       "triCount": 232,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "6RNCP1PTavR"
+      "sourceModelId": "6RNCP1PTavR",
+      "componentMetadata": [
+        {
+          "rawName": "group1500837857",
+          "semanticName": "Lens (rear)"
+        },
+        {
+          "rawName": "group1605139574",
+          "semanticName": "Lens housing (rear)"
+        },
+        {
+          "rawName": "group694323100",
+          "semanticName": "Viewfinder"
+        },
+        {
+          "rawName": "group578873317",
+          "semanticName": "Flash"
+        },
+        {
+          "rawName": "group1064511980",
+          "semanticName": "Camera body"
+        },
+        {
+          "rawName": "group2000811360",
+          "semanticName": "Lens cap"
+        }
+      ]
     },
     "lanyard": {
       "id": "lanyard",
@@ -3130,7 +4878,21 @@
       "author": "S. Paul Michael",
       "attributionUrl": "https://poly.pizza/m/61c0YuAgEhE",
       "triCount": 4080,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "s0000.05850",
+          "semanticName": "Main strap"
+        },
+        {
+          "rawName": "s0001.50123",
+          "semanticName": "Clip (left)"
+        },
+        {
+          "rawName": "s0002.90828",
+          "semanticName": "Clip (right)"
+        }
+      ]
     },
     "scissors": {
       "id": "scissors",
@@ -3199,7 +4961,81 @@
       "author": "MilkAndBanana",
       "attributionUrl": "https://poly.pizza/m/bPoDmWdmdj",
       "triCount": 596,
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Blade (left)",
+          "position": [
+            -0.7,
+            0.1,
+            0
+          ],
+          "whatItIs": "Sharp edge for cutting material."
+        },
+        {
+          "name": "Blade (right)",
+          "position": [
+            0.7,
+            0.1,
+            0
+          ],
+          "whatItIs": "Sharp edge for cutting material."
+        },
+        {
+          "name": "Handle (left)",
+          "position": [
+            -0.8,
+            0.9,
+            0
+          ],
+          "whatItIs": "Grip for holding and operating."
+        },
+        {
+          "name": "Handle (right)",
+          "position": [
+            0.8,
+            0.9,
+            0
+          ],
+          "whatItIs": "Grip for holding and operating."
+        },
+        {
+          "name": "Pivot",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "whatItIs": "Connects blades and handles, allowing movement."
+        },
+        {
+          "name": "Screw",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "whatItIs": "Secures the pivot and adjusts tension."
+        },
+        {
+          "name": "Finger hole (left)",
+          "position": [
+            -0.8,
+            0.9,
+            0.1
+          ],
+          "whatItIs": "Where the thumb is placed for leverage."
+        },
+        {
+          "name": "Finger hole (right)",
+          "position": [
+            0.8,
+            0.9,
+            0.1
+          ],
+          "whatItIs": "Where fingers are placed for leverage."
+        }
+      ]
     },
     "frog": {
       "id": "frog",
@@ -3268,7 +5104,25 @@
       "author": "Quaternius",
       "attributionUrl": "https://poly.pizza/m/9Z2V8fpazF",
       "triCount": 0,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Frog",
+          "semanticName": "Body"
+        },
+        {
+          "rawName": "Frog",
+          "semanticName": "Belly"
+        },
+        {
+          "rawName": "Frog",
+          "semanticName": "Right hind leg"
+        },
+        {
+          "rawName": "Frog",
+          "semanticName": "Right hind foot"
+        }
+      ]
     },
     "peanuts": {
       "id": "peanuts",
@@ -3339,7 +5193,8 @@
       "triCount": 160,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "1KRzEPIJwax"
+      "sourceModelId": "1KRzEPIJwax",
+      "virtualComponents": []
     },
     "peanut": {
       "id": "peanut",
@@ -3410,7 +5265,81 @@
       "triCount": 160,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "1KRzEPIJwax"
+      "sourceModelId": "1KRzEPIJwax",
+      "virtualComponents": [
+        {
+          "name": "Outer shell",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The hard outer layer protecting the inner nut."
+        },
+        {
+          "name": "Inner kernel",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The edible seed inside the peanut."
+        },
+        {
+          "name": "Left lobe",
+          "position": [
+            -0.5,
+            0,
+            0
+          ],
+          "whatItIs": "One of the two connected lobes of the peanut."
+        },
+        {
+          "name": "Right lobe",
+          "position": [
+            0.5,
+            0,
+            0
+          ],
+          "whatItIs": "The other connected lobe of the peanut."
+        },
+        {
+          "name": "Skin",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The thin, papery covering over the outer shell."
+        },
+        {
+          "name": "Germ",
+          "position": [
+            0,
+            0.3,
+            0
+          ],
+          "whatItIs": "The small sprouting point where growth begins."
+        },
+        {
+          "name": "Vein",
+          "position": [
+            0,
+            -0.3,
+            0
+          ],
+          "whatItIs": "The crease or ridge running along the peanut's length."
+        },
+        {
+          "name": "Tip",
+          "position": [
+            0,
+            0,
+            1
+          ],
+          "whatItIs": "The pointed end of the peanut."
+        }
+      ]
     },
     "clock": {
       "id": "clock",
@@ -3481,7 +5410,21 @@
       "triCount": 74,
       "source": "live",
       "authorUrl": "",
-      "sourceModelId": "0bcQotWTmTi"
+      "sourceModelId": "0bcQotWTmTi",
+      "componentMetadata": [
+        {
+          "rawName": "pCube19",
+          "semanticName": "Clock face"
+        },
+        {
+          "rawName": "pCube19",
+          "semanticName": "Clock hand (hour)"
+        },
+        {
+          "rawName": "pCube19",
+          "semanticName": "Clock hand (minute)"
+        }
+      ]
     },
     "juice": {
       "id": "juice",
@@ -3550,7 +5493,72 @@
       "author": "MilkAndBanana",
       "attributionUrl": "https://poly.pizza/m/NO45sbSt99",
       "triCount": 1076,
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Glass",
+          "position": [
+            0,
+            0,
+            1
+          ],
+          "whatItIs": "Transparent container holding the liquid."
+        },
+        {
+          "name": "Liquid",
+          "position": [
+            0,
+            0,
+            0.8
+          ],
+          "whatItIs": "The drinkable substance inside the glass."
+        },
+        {
+          "name": "Straw",
+          "position": [
+            0,
+            0.8,
+            0.9
+          ],
+          "whatItIs": "Tube for sipping the liquid without tilting."
+        },
+        {
+          "name": "Ice cubes",
+          "position": [
+            0,
+            -0.2,
+            0.7
+          ],
+          "whatItIs": "Frozen water to keep the drink cold."
+        },
+        {
+          "name": "Lid",
+          "position": [
+            0,
+            0.8,
+            1
+          ],
+          "whatItIs": "Cover to prevent spills and keep the drink clean."
+        },
+        {
+          "name": "Label",
+          "position": [
+            0,
+            0.2,
+            0.9
+          ],
+          "whatItIs": "Brand or flavor identifier on the glass."
+        },
+        {
+          "name": "Stirrer",
+          "position": [
+            0.5,
+            0,
+            0.8
+          ],
+          "whatItIs": "Tool for mixing ingredients or ice."
+        }
+      ]
     },
     "nintendo-switch": {
       "id": "nintendo-switch",
@@ -3619,7 +5627,21 @@
       "author": "Jasmine Roberts",
       "attributionUrl": "https://poly.pizza/m/600PeFCBopv",
       "triCount": 1202,
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Cube",
+          "semanticName": "Main body"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Left Joy-Con"
+        },
+        {
+          "rawName": "Cube",
+          "semanticName": "Right Joy-Con"
+        }
+      ]
     },
     "one-tree": {
       "id": "one-tree",
@@ -3689,7 +5711,49 @@
       "attributionUrl": "https://poly.pizza/m/etFGNvsiFv",
       "triCount": 0,
       "sourceModelId": "etFGNvsiFv",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "NormalTree_1",
+          "semanticName": "Trunk (far left)"
+        },
+        {
+          "rawName": "NormalTree_1",
+          "semanticName": "Foliage (far left)"
+        },
+        {
+          "rawName": "NormalTree_2",
+          "semanticName": "Trunk (mid-left)"
+        },
+        {
+          "rawName": "NormalTree_2",
+          "semanticName": "Foliage (mid-left)"
+        },
+        {
+          "rawName": "NormalTree_3",
+          "semanticName": "Trunk (center)"
+        },
+        {
+          "rawName": "NormalTree_3",
+          "semanticName": "Foliage (center)"
+        },
+        {
+          "rawName": "NormalTree_4",
+          "semanticName": "Trunk (mid-right)"
+        },
+        {
+          "rawName": "NormalTree_4",
+          "semanticName": "Foliage (mid-right)"
+        },
+        {
+          "rawName": "NormalTree_5",
+          "semanticName": "Trunk (far right)"
+        },
+        {
+          "rawName": "NormalTree_5",
+          "semanticName": "Foliage (far right)"
+        }
+      ]
     },
     "peanut-jar": {
       "id": "peanut-jar",
@@ -3759,7 +5823,72 @@
       "attributionUrl": "https://poly.pizza/m/XGe3q5zQ5s",
       "triCount": 308,
       "sourceModelId": "XGe3q5zQ5s",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Jar Body",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main container that holds the peanuts."
+        },
+        {
+          "name": "Lid",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The removable top that seals the jar."
+        },
+        {
+          "name": "Label",
+          "position": [
+            0,
+            0.5,
+            1
+          ],
+          "whatItIs": "A decorative or informational sticker on the front."
+        },
+        {
+          "name": "Rim",
+          "position": [
+            0,
+            0.9,
+            0
+          ],
+          "whatItIs": "The reinforced edge where the lid attaches."
+        },
+        {
+          "name": "Handle",
+          "position": [
+            0.8,
+            0.7,
+            0
+          ],
+          "whatItIs": "A grip for carrying the jar."
+        },
+        {
+          "name": "Seal",
+          "position": [
+            0,
+            0.95,
+            0
+          ],
+          "whatItIs": "A rubber or plastic ring ensuring an airtight closure."
+        },
+        {
+          "name": "Base",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The flat bottom that supports the jar on surfaces."
+        }
+      ]
     },
     "get-rid-of-the-cone-and-make-the-colors-of-the-lid-and-jar-red": {
       "id": "get-rid-of-the-cone-and-make-the-colors-of-the-lid-and-jar-red",
@@ -3829,7 +5958,72 @@
       "attributionUrl": "https://poly.pizza/m/fHdBheWmuN",
       "triCount": 208,
       "sourceModelId": "fHdBheWmuN",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Jar Base",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The cylindrical bottom part of the jar where contents are stored."
+        },
+        {
+          "name": "Jar Lid",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The top cover that seals the jar, now colored red."
+        },
+        {
+          "name": "Jar Body",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main container holding the jar's contents, now colored red."
+        },
+        {
+          "name": "Handle",
+          "position": [
+            0.8,
+            0.3,
+            0.5
+          ],
+          "whatItIs": "A grip for easy carrying, attached to the jar body."
+        },
+        {
+          "name": "Seal Ring",
+          "position": [
+            0,
+            0.9,
+            0
+          ],
+          "whatItIs": "A rubber or plastic ring ensuring an airtight seal between the lid and jar."
+        },
+        {
+          "name": "Lid Knob",
+          "position": [
+            0,
+            1,
+            0.5
+          ],
+          "whatItIs": "A small protrusion on the lid for easier opening."
+        },
+        {
+          "name": "Base Rim",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The reinforced edge at the bottom of the jar for stability."
+        }
+      ]
     },
     "how-does-this-get-rid-of-the-cone-and-make-the-colors-of-the-lid-and-jar-red-work": {
       "id": "how-does-this-get-rid-of-the-cone-and-make-the-colors-of-the-lid-and-jar-red-work",
@@ -3899,7 +6093,21 @@
       "attributionUrl": "https://poly.pizza/m/IuoYedcdXQ",
       "triCount": 332,
       "sourceModelId": "IuoYedcdXQ",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Can_Red",
+          "semanticName": "Lid"
+        },
+        {
+          "rawName": "Can_Red",
+          "semanticName": "Jar"
+        },
+        {
+          "rawName": "Can_Red",
+          "semanticName": "Lid"
+        }
+      ]
     },
     "remove-the-jar-and-make-a-tree": {
       "id": "remove-the-jar-and-make-a-tree",
@@ -3969,7 +6177,81 @@
       "attributionUrl": "https://poly.pizza/m/0bUFnd68NWH",
       "triCount": 414,
       "sourceModelId": "0bUFnd68NWH",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Jar",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "A container that holds the tree before removal."
+        },
+        {
+          "name": "Tree",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "whatItIs": "A small plant that grows when the jar is removed."
+        },
+        {
+          "name": "Soil",
+          "position": [
+            0,
+            -0.3,
+            0
+          ],
+          "whatItIs": "The medium in which the tree roots grow."
+        },
+        {
+          "name": "Roots",
+          "position": [
+            0,
+            -0.4,
+            0
+          ],
+          "whatItIs": "The part of the tree that absorbs nutrients from the soil."
+        },
+        {
+          "name": "Leaves",
+          "position": [
+            0,
+            0.8,
+            0.2
+          ],
+          "whatItIs": "The green parts that perform photosynthesis."
+        },
+        {
+          "name": "Branches",
+          "position": [
+            0.2,
+            0.6,
+            0
+          ],
+          "whatItIs": "Structures that support the leaves and growth."
+        },
+        {
+          "name": "Trunk",
+          "position": [
+            0,
+            0.2,
+            0
+          ],
+          "whatItIs": "The main stem that supports the branches and leaves."
+        },
+        {
+          "name": "Label",
+          "position": [
+            0,
+            0.9,
+            -0.8
+          ],
+          "whatItIs": "Instructions or decorative text on the jar."
+        }
+      ]
     },
     "multiple-trees": {
       "id": "multiple-trees",
@@ -4039,7 +6321,49 @@
       "attributionUrl": "https://poly.pizza/m/etFGNvsiFv",
       "triCount": 0,
       "sourceModelId": "etFGNvsiFv",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "NormalTree_1",
+          "semanticName": "Trunk (Tree 1)"
+        },
+        {
+          "rawName": "NormalTree_1",
+          "semanticName": "Foliage (Tree 1)"
+        },
+        {
+          "rawName": "NormalTree_2",
+          "semanticName": "Trunk (Tree 2)"
+        },
+        {
+          "rawName": "NormalTree_2",
+          "semanticName": "Foliage (Tree 2)"
+        },
+        {
+          "rawName": "NormalTree_3",
+          "semanticName": "Trunk (Tree 3)"
+        },
+        {
+          "rawName": "NormalTree_3",
+          "semanticName": "Foliage (Tree 3)"
+        },
+        {
+          "rawName": "NormalTree_4",
+          "semanticName": "Trunk (Tree 4)"
+        },
+        {
+          "rawName": "NormalTree_4",
+          "semanticName": "Foliage (Tree 4)"
+        },
+        {
+          "rawName": "NormalTree_5",
+          "semanticName": "Trunk (Tree 5)"
+        },
+        {
+          "rawName": "NormalTree_5",
+          "semanticName": "Foliage (Tree 5)"
+        }
+      ]
     },
     "headphones": {
       "id": "headphones",
@@ -4109,7 +6433,81 @@
       "attributionUrl": "https://poly.pizza/m/PSsWSIAYIL",
       "triCount": 472,
       "sourceModelId": "PSsWSIAYIL",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Headband",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The curved band that fits over the top of the head."
+        },
+        {
+          "name": "Earcup",
+          "position": [
+            0.8,
+            0.3,
+            0.9
+          ],
+          "whatItIs": "The circular part that covers the ear and houses drivers."
+        },
+        {
+          "name": "Earcup Padding",
+          "position": [
+            0.8,
+            0.3,
+            0.8
+          ],
+          "whatItIs": "Soft material for comfort and noise isolation."
+        },
+        {
+          "name": "Headband Padding",
+          "position": [
+            0,
+            0.9,
+            0
+          ],
+          "whatItIs": "Cushioned strip for comfort on the head."
+        },
+        {
+          "name": "Driver",
+          "position": [
+            0.8,
+            0.3,
+            0.95
+          ],
+          "whatItIs": "The speaker component that produces sound."
+        },
+        {
+          "name": "Microphone",
+          "position": [
+            0,
+            -0.5,
+            0.8
+          ],
+          "whatItIs": "The small device for voice input."
+        },
+        {
+          "name": "Cable",
+          "position": [
+            0,
+            -0.8,
+            0.6
+          ],
+          "whatItIs": "The wire connecting the headphones to an audio source."
+        },
+        {
+          "name": "Volume Control",
+          "position": [
+            0.5,
+            -0.6,
+            0.7
+          ],
+          "whatItIs": "The button or dial to adjust audio volume."
+        }
+      ]
     },
     "monitor": {
       "id": "monitor",
@@ -4179,7 +6577,25 @@
       "attributionUrl": "https://poly.pizza/m/V5Qo141OcB",
       "triCount": 144,
       "sourceModelId": "V5Qo141OcB",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "computerScreen",
+          "semanticName": "Screen panel"
+        },
+        {
+          "rawName": "computerScreen",
+          "semanticName": "Bezel (top)"
+        },
+        {
+          "rawName": "computerScreen_1",
+          "semanticName": "Bezel (bottom)"
+        },
+        {
+          "rawName": "computerScreen_1",
+          "semanticName": "Screen panel (alternate)"
+        }
+      ]
     },
     "battery": {
       "id": "battery",
@@ -4249,7 +6665,81 @@
       "attributionUrl": "https://poly.pizza/m/2TKK0wpiWPw",
       "triCount": 260,
       "sourceModelId": "2TKK0wpiWPw",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Positive Terminal",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "Conducts current to external circuits from the positive electrode."
+        },
+        {
+          "name": "Negative Terminal",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "Conducts current to external circuits from the negative electrode."
+        },
+        {
+          "name": "Casing",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The outer protective shell containing the battery's internal components."
+        },
+        {
+          "name": "Electrolyte",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "A conductive medium allowing ion flow between electrodes."
+        },
+        {
+          "name": "Separator",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "Prevents short circuits by isolating the positive and negative electrodes."
+        },
+        {
+          "name": "Positive Electrode",
+          "position": [
+            0.5,
+            0,
+            0
+          ],
+          "whatItIs": "Collects and releases electrons during discharge and charge cycles."
+        },
+        {
+          "name": "Negative Electrode",
+          "position": [
+            -0.5,
+            0,
+            0
+          ],
+          "whatItIs": "Stores and releases ions during discharge and charge cycles."
+        },
+        {
+          "name": "Current Collector",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "Conducts electricity from the electrodes to the terminals."
+        }
+      ]
     },
     "pen": {
       "id": "pen",
@@ -4319,7 +6809,29 @@
       "attributionUrl": "https://poly.pizza/m/mvIEvKJnmZ",
       "triCount": 180,
       "sourceModelId": "mvIEvKJnmZ",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Cube",
+          "semanticName": "Clip"
+        },
+        {
+          "rawName": "Plane",
+          "semanticName": "Barrel"
+        },
+        {
+          "rawName": "Cylinder",
+          "semanticName": "Grip"
+        },
+        {
+          "rawName": "Cylinder",
+          "semanticName": "Trigger"
+        },
+        {
+          "rawName": "Cylinder",
+          "semanticName": "Muzzle"
+        }
+      ]
     },
     "modern-pen": {
       "id": "modern-pen",
@@ -4389,7 +6901,81 @@
       "attributionUrl": "https://poly.pizza/m/f3-XXzf_6Uv",
       "triCount": 98,
       "sourceModelId": "f3-XXzf_6Uv",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Barrel",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main cylindrical body that holds the ink cartridge."
+        },
+        {
+          "name": "Clip",
+          "position": [
+            0.9,
+            0.8,
+            0
+          ],
+          "whatItIs": "Attaches the pen to pockets or notebooks for easy carrying."
+        },
+        {
+          "name": "Tip",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The writing end that applies ink to paper."
+        },
+        {
+          "name": "Ink Cartridge",
+          "position": [
+            0,
+            0.2,
+            0
+          ],
+          "whatItIs": "Holds the ink reservoir for writing."
+        },
+        {
+          "name": "Grip",
+          "position": [
+            0,
+            -0.6,
+            0
+          ],
+          "whatItIs": "The textured area for comfortable holding."
+        },
+        {
+          "name": "Cap",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "Covers the tip to prevent ink drying or smudging."
+        },
+        {
+          "name": "Push Mechanism",
+          "position": [
+            0,
+            -0.4,
+            0
+          ],
+          "whatItIs": "Extends or retracts the tip when pressed."
+        },
+        {
+          "name": "Branding Label",
+          "position": [
+            0,
+            0.5,
+            0.8
+          ],
+          "whatItIs": "Displays the manufacturer's logo or model name."
+        }
+      ]
     },
     "watch": {
       "id": "watch",
@@ -4459,7 +7045,41 @@
       "attributionUrl": "https://poly.pizza/m/5MFJqeBgWBn",
       "triCount": 796,
       "sourceModelId": "5MFJqeBgWBn",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Wirst_Watch",
+          "semanticName": "Watch body"
+        },
+        {
+          "rawName": "Second_hand1",
+          "semanticName": "Second hand"
+        },
+        {
+          "rawName": "Hour_hand1",
+          "semanticName": "Hour hand"
+        },
+        {
+          "rawName": "Minute_hand1",
+          "semanticName": "Minute hand"
+        },
+        {
+          "rawName": "a",
+          "semanticName": "Crown"
+        },
+        {
+          "rawName": "b",
+          "semanticName": "Bezel"
+        },
+        {
+          "rawName": "Strap",
+          "semanticName": "Strap (left)"
+        },
+        {
+          "rawName": "Strap2",
+          "semanticName": "Strap (right)"
+        }
+      ]
     },
     "modern-watch": {
       "id": "modern-watch",
@@ -4529,7 +7149,41 @@
       "attributionUrl": "https://poly.pizza/m/5MFJqeBgWBn",
       "triCount": 796,
       "sourceModelId": "5MFJqeBgWBn",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Wirst_Watch",
+          "semanticName": "Watch case"
+        },
+        {
+          "rawName": "Second_hand1",
+          "semanticName": "Second hand"
+        },
+        {
+          "rawName": "Hour_hand1",
+          "semanticName": "Hour hand"
+        },
+        {
+          "rawName": "Minute_hand1",
+          "semanticName": "Minute hand"
+        },
+        {
+          "rawName": "a",
+          "semanticName": "Crown"
+        },
+        {
+          "rawName": "b",
+          "semanticName": "Lug"
+        },
+        {
+          "rawName": "Strap",
+          "semanticName": "Watch strap"
+        },
+        {
+          "rawName": "Strap2",
+          "semanticName": "Watch strap (upper)"
+        }
+      ]
     },
     "bike-lock": {
       "id": "bike-lock",
@@ -4599,7 +7253,72 @@
       "attributionUrl": "https://poly.pizza/m/2ZSHgKVr3F",
       "triCount": 0,
       "sourceModelId": "2ZSHgKVr3F",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Shackle",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The U-shaped metal bar that locks around the bike frame and wheel."
+        },
+        {
+          "name": "Locking Mechanism",
+          "position": [
+            0,
+            0,
+            1
+          ],
+          "whatItIs": "The internal component that secures the shackle in place."
+        },
+        {
+          "name": "Keyhole",
+          "position": [
+            0,
+            0.1,
+            1
+          ],
+          "whatItIs": "The slot where the key is inserted to open or close the lock."
+        },
+        {
+          "name": "Body",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "The outer casing that houses the locking mechanism."
+        },
+        {
+          "name": "Shackle Protector",
+          "position": [
+            0,
+            0,
+            -0.5
+          ],
+          "whatItIs": "A rubber or plastic cover to prevent scratches on the bike."
+        },
+        {
+          "name": "Key",
+          "position": [
+            0,
+            0,
+            1.5
+          ],
+          "whatItIs": "The tool used to engage the locking mechanism."
+        },
+        {
+          "name": "Mounting Bracket",
+          "position": [
+            0,
+            -0.5,
+            0.8
+          ],
+          "whatItIs": "The attachment point for securing the lock to the bike frame."
+        }
+      ]
     },
     "box": {
       "id": "box",
@@ -4669,7 +7388,81 @@
       "attributionUrl": "https://poly.pizza/m/ykZ23x9d6p",
       "triCount": 32,
       "sourceModelId": "ykZ23x9d6p",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Top",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The top surface of the box."
+        },
+        {
+          "name": "Bottom",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The bottom surface of the box."
+        },
+        {
+          "name": "Left side",
+          "position": [
+            -1,
+            0,
+            0
+          ],
+          "whatItIs": "The left side of the box."
+        },
+        {
+          "name": "Right side",
+          "position": [
+            1,
+            0,
+            0
+          ],
+          "whatItIs": "The right side of the box."
+        },
+        {
+          "name": "Front face",
+          "position": [
+            0,
+            0,
+            1
+          ],
+          "whatItIs": "The front face of the box."
+        },
+        {
+          "name": "Back face",
+          "position": [
+            0,
+            0,
+            -1
+          ],
+          "whatItIs": "The back face of the box."
+        },
+        {
+          "name": "Front edge",
+          "position": [
+            0,
+            0,
+            0.9
+          ],
+          "whatItIs": "The edge where the front face meets the box."
+        },
+        {
+          "name": "Back edge",
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "whatItIs": "The edge where the back face meets the box."
+        }
+      ]
     },
     "me-a-thermos": {
       "id": "me-a-thermos",
@@ -4739,7 +7532,81 @@
       "attributionUrl": "https://poly.pizza/m/19Jm93tRYF0",
       "triCount": 66,
       "sourceModelId": "19Jm93tRYF0",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Outer Shell",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The insulated container that holds liquids."
+        },
+        {
+          "name": "Inner Bottle",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The vacuum-sealed vessel that retains temperature."
+        },
+        {
+          "name": "Lid",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "Seals the thermos to prevent spills and heat loss."
+        },
+        {
+          "name": "Drinking Spout",
+          "position": [
+            0,
+            1,
+            0.8
+          ],
+          "whatItIs": "Allows controlled pouring of liquids."
+        },
+        {
+          "name": "Handle",
+          "position": [
+            -0.8,
+            0.5,
+            0
+          ],
+          "whatItIs": "Provides grip for carrying the thermos."
+        },
+        {
+          "name": "Base",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The bottom support that keeps the thermos upright."
+        },
+        {
+          "name": "Vacuum Seal",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The insulating barrier between inner and outer walls."
+        },
+        {
+          "name": "Lock Mechanism",
+          "position": [
+            0,
+            1,
+            0.5
+          ],
+          "whatItIs": "Secures the lid to prevent accidental opening."
+        }
+      ]
     },
     "keyboard": {
       "id": "keyboard",
@@ -4809,7 +7676,277 @@
       "attributionUrl": "https://poly.pizza/m/fOy2zvPJAj-",
       "triCount": 612,
       "sourceModelId": "fOy2zvPJAj-",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "group425587018",
+          "semanticName": "group425587018"
+        },
+        {
+          "rawName": "group311988427",
+          "semanticName": "group311988427"
+        },
+        {
+          "rawName": "group96314515",
+          "semanticName": "group96314515"
+        },
+        {
+          "rawName": "group449779970",
+          "semanticName": "group449779970"
+        },
+        {
+          "rawName": "group2106755496",
+          "semanticName": "group2106755496"
+        },
+        {
+          "rawName": "group1753917514",
+          "semanticName": "group1753917514"
+        },
+        {
+          "rawName": "group1529968652",
+          "semanticName": "group1529968652"
+        },
+        {
+          "rawName": "group252681800",
+          "semanticName": "group252681800"
+        },
+        {
+          "rawName": "group1581414308",
+          "semanticName": "group1581414308"
+        },
+        {
+          "rawName": "group295085766",
+          "semanticName": "group295085766"
+        },
+        {
+          "rawName": "group384612072",
+          "semanticName": "group384612072"
+        },
+        {
+          "rawName": "group150579309",
+          "semanticName": "group150579309"
+        },
+        {
+          "rawName": "group1675960081",
+          "semanticName": "group1675960081"
+        },
+        {
+          "rawName": "group287159489",
+          "semanticName": "group287159489"
+        },
+        {
+          "rawName": "group1956214489",
+          "semanticName": "group1956214489"
+        },
+        {
+          "rawName": "group196400395",
+          "semanticName": "group196400395"
+        },
+        {
+          "rawName": "group954813675",
+          "semanticName": "group954813675"
+        },
+        {
+          "rawName": "group706802639",
+          "semanticName": "group706802639"
+        },
+        {
+          "rawName": "group1976194690",
+          "semanticName": "group1976194690"
+        },
+        {
+          "rawName": "group1152190519",
+          "semanticName": "group1152190519"
+        },
+        {
+          "rawName": "group2074153597",
+          "semanticName": "group2074153597"
+        },
+        {
+          "rawName": "group1629609685",
+          "semanticName": "group1629609685"
+        },
+        {
+          "rawName": "group1030983910",
+          "semanticName": "group1030983910"
+        },
+        {
+          "rawName": "group145618305",
+          "semanticName": "group145618305"
+        },
+        {
+          "rawName": "group826580911",
+          "semanticName": "group826580911"
+        },
+        {
+          "rawName": "group601803475",
+          "semanticName": "group601803475"
+        },
+        {
+          "rawName": "group1589752359",
+          "semanticName": "group1589752359"
+        },
+        {
+          "rawName": "group806343109",
+          "semanticName": "group806343109"
+        },
+        {
+          "rawName": "group1238060299",
+          "semanticName": "group1238060299"
+        },
+        {
+          "rawName": "group801095923",
+          "semanticName": "group801095923"
+        },
+        {
+          "rawName": "group418912012",
+          "semanticName": "group418912012"
+        },
+        {
+          "rawName": "group205302596",
+          "semanticName": "group205302596"
+        },
+        {
+          "rawName": "group1323238240",
+          "semanticName": "group1323238240"
+        },
+        {
+          "rawName": "group1571332333",
+          "semanticName": "group1571332333"
+        },
+        {
+          "rawName": "group34220672",
+          "semanticName": "group34220672"
+        },
+        {
+          "rawName": "group1272091893",
+          "semanticName": "group1272091893"
+        },
+        {
+          "rawName": "group1899843208",
+          "semanticName": "group1899843208"
+        },
+        {
+          "rawName": "group42243725",
+          "semanticName": "group42243725"
+        },
+        {
+          "rawName": "group2146178072",
+          "semanticName": "group2146178072"
+        },
+        {
+          "rawName": "group1316349499",
+          "semanticName": "group1316349499"
+        },
+        {
+          "rawName": "group1754683637",
+          "semanticName": "group1754683637"
+        },
+        {
+          "rawName": "group475225180",
+          "semanticName": "group475225180"
+        },
+        {
+          "rawName": "group77921105",
+          "semanticName": "group77921105"
+        },
+        {
+          "rawName": "group96968687",
+          "semanticName": "group96968687"
+        },
+        {
+          "rawName": "group268332703",
+          "semanticName": "group268332703"
+        },
+        {
+          "rawName": "group993315105",
+          "semanticName": "group993315105"
+        },
+        {
+          "rawName": "group1740918352",
+          "semanticName": "group1740918352"
+        },
+        {
+          "rawName": "group588539140",
+          "semanticName": "group588539140"
+        },
+        {
+          "rawName": "group729811280",
+          "semanticName": "group729811280"
+        },
+        {
+          "rawName": "group573547017",
+          "semanticName": "group573547017"
+        },
+        {
+          "rawName": "group1180881246",
+          "semanticName": "group1180881246"
+        },
+        {
+          "rawName": "group687259746",
+          "semanticName": "group687259746"
+        },
+        {
+          "rawName": "group45382983",
+          "semanticName": "group45382983"
+        },
+        {
+          "rawName": "group1149852049",
+          "semanticName": "group1149852049"
+        },
+        {
+          "rawName": "group790925258",
+          "semanticName": "group790925258"
+        },
+        {
+          "rawName": "group873458270",
+          "semanticName": "group873458270"
+        },
+        {
+          "rawName": "group616518658",
+          "semanticName": "group616518658"
+        },
+        {
+          "rawName": "group2085389804",
+          "semanticName": "group2085389804"
+        },
+        {
+          "rawName": "group1075691498",
+          "semanticName": "group1075691498"
+        },
+        {
+          "rawName": "group2091112366",
+          "semanticName": "group2091112366"
+        },
+        {
+          "rawName": "group1764140354",
+          "semanticName": "group1764140354"
+        },
+        {
+          "rawName": "group1238428394",
+          "semanticName": "group1238428394"
+        },
+        {
+          "rawName": "group873558583",
+          "semanticName": "group873558583"
+        },
+        {
+          "rawName": "group1486350934",
+          "semanticName": "group1486350934"
+        },
+        {
+          "rawName": "group1629393722",
+          "semanticName": "group1629393722"
+        },
+        {
+          "rawName": "group1870575723",
+          "semanticName": "group1870575723"
+        },
+        {
+          "rawName": "group877249531",
+          "semanticName": "group877249531"
+        }
+      ]
     },
     "desk": {
       "id": "desk",
@@ -4879,7 +8016,25 @@
       "attributionUrl": "https://poly.pizza/m/LCfBX1FVJr",
       "triCount": 456,
       "sourceModelId": "LCfBX1FVJr",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "deskCorner",
+          "semanticName": "Desk Top"
+        },
+        {
+          "rawName": "deskCorner_1",
+          "semanticName": "Desk Base"
+        },
+        {
+          "rawName": "drawer",
+          "semanticName": "Drawer (front)"
+        },
+        {
+          "rawName": "drawer",
+          "semanticName": "Drawer Handle"
+        }
+      ]
     },
     "mug": {
       "id": "mug",
@@ -4949,7 +8104,81 @@
       "attributionUrl": "https://poly.pizza/m/fis2ugeLbn",
       "triCount": 232,
       "sourceModelId": "fis2ugeLbn",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Body",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main container that holds the liquid."
+        },
+        {
+          "name": "Handle",
+          "position": [
+            1,
+            0,
+            0
+          ],
+          "whatItIs": "Allows the user to grip and lift the mug safely."
+        },
+        {
+          "name": "Base",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The flat bottom that provides stability on a surface."
+        },
+        {
+          "name": "Rim",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The top edge where the user drinks from."
+        },
+        {
+          "name": "Interior",
+          "position": [
+            0,
+            0.3,
+            0
+          ],
+          "whatItIs": "The inner surface that comes into contact with the liquid."
+        },
+        {
+          "name": "Exterior",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "The outer surface, often decorated or textured."
+        },
+        {
+          "name": "Spout",
+          "position": [
+            0.5,
+            0.8,
+            0
+          ],
+          "whatItIs": "A small extension that directs liquid flow when pouring."
+        },
+        {
+          "name": "Logo",
+          "position": [
+            0,
+            0.7,
+            0.5
+          ],
+          "whatItIs": "A brand or design element for identification."
+        }
+      ]
     },
     "filter-big": {
       "id": "filter-big",
@@ -5019,7 +8248,8 @@
       "attributionUrl": "https://poly.pizza/m/Ia9S6Ut5yF",
       "triCount": 156,
       "sourceModelId": "Ia9S6Ut5yF",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": []
     },
     "gaming-setup": {
       "id": "gaming-setup",
@@ -5089,7 +8319,113 @@
       "attributionUrl": "https://poly.pizza/m/4U4lI91VbsO",
       "triCount": 24,
       "sourceModelId": "4U4lI91VbsO",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Box003",
+          "semanticName": "Desk"
+        },
+        {
+          "rawName": "Box004",
+          "semanticName": "Desk leg"
+        },
+        {
+          "rawName": "Box005",
+          "semanticName": "Desk leg"
+        },
+        {
+          "rawName": "Box001",
+          "semanticName": "Monitor stand"
+        },
+        {
+          "rawName": "Box001",
+          "semanticName": "Monitor"
+        },
+        {
+          "rawName": "Box001",
+          "semanticName": "Monitor"
+        },
+        {
+          "rawName": "Box001",
+          "semanticName": "Monitor"
+        },
+        {
+          "rawName": "Box001",
+          "semanticName": "Monitor"
+        },
+        {
+          "rawName": "Box001",
+          "semanticName": "Cable"
+        },
+        {
+          "rawName": "Line001",
+          "semanticName": "Cable"
+        },
+        {
+          "rawName": "Line001",
+          "semanticName": "Cable"
+        },
+        {
+          "rawName": "Line001",
+          "semanticName": "Cable"
+        },
+        {
+          "rawName": "Line001",
+          "semanticName": "Cable"
+        },
+        {
+          "rawName": "Line001",
+          "semanticName": "Light"
+        },
+        {
+          "rawName": "GeoSphere001",
+          "semanticName": "Light"
+        },
+        {
+          "rawName": "GeoSphere001",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "GeoSphere002",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "GeoSphere002",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        },
+        {
+          "rawName": "Box009",
+          "semanticName": "Box"
+        }
+      ]
     },
     "mousepad": {
       "id": "mousepad",
@@ -5159,7 +8495,63 @@
       "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
       "triCount": 100,
       "sourceModelId": "V2Ebx3pvo4",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Surface",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The flat, smooth area for mouse movement."
+        },
+        {
+          "name": "Edge",
+          "position": [
+            1,
+            0,
+            0
+          ],
+          "whatItIs": "The border that contains the surface."
+        },
+        {
+          "name": "Grip",
+          "position": [
+            0,
+            -0.9,
+            0
+          ],
+          "whatItIs": "A textured area for holding the mousepad."
+        },
+        {
+          "name": "Logo",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "A visual representation of the brand or product."
+        },
+        {
+          "name": "Cutout",
+          "position": [
+            -0.7,
+            0,
+            0
+          ],
+          "whatItIs": "A recessed area for cable management or aesthetic purposes."
+        },
+        {
+          "name": "Feet",
+          "position": [
+            0,
+            -1,
+            -0.5
+          ],
+          "whatItIs": "Small protrusions to prevent the mousepad from slipping."
+        }
+      ]
     },
     "that-is-not-a-mousepad-make-a-mousepad": {
       "id": "that-is-not-a-mousepad-make-a-mousepad",
@@ -5229,7 +8621,72 @@
       "attributionUrl": "https://poly.pizza/m/S5sNqsyyOs",
       "triCount": 92,
       "sourceModelId": "S5sNqsyyOs",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Greeting text",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The initial message displayed on the mousepad."
+        },
+        {
+          "name": "Challenge",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "whatItIs": "The central statement that sets the task for the user."
+        },
+        {
+          "name": "Image of a mousepad",
+          "position": [
+            -0.7,
+            -0.7,
+            0
+          ],
+          "whatItIs": "A visual representation of the desired outcome."
+        },
+        {
+          "name": "Instructions",
+          "position": [
+            0.7,
+            -0.5,
+            0
+          ],
+          "whatItIs": "Step-by-step guidance for creating the desired mousepad."
+        },
+        {
+          "name": "Example image",
+          "position": [
+            0,
+            -0.7,
+            -0.6
+          ],
+          "whatItIs": "A visual representation of a completed mousepad."
+        },
+        {
+          "name": "Call to action",
+          "position": [
+            0,
+            0.8,
+            0
+          ],
+          "whatItIs": "A prompt to encourage the user to start creating."
+        },
+        {
+          "name": "Disclaimer",
+          "position": [
+            0.5,
+            -0.9,
+            0
+          ],
+          "whatItIs": "Important information about the project's scope and limitations."
+        }
+      ]
     },
     "modern-camera": {
       "id": "modern-camera",
@@ -5299,7 +8756,45 @@
       "attributionUrl": "https://poly.pizza/m/AYBr4bMYvS",
       "triCount": 494,
       "sourceModelId": "AYBr4bMYvS",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        },
+        {
+          "rawName": "Instant Camera",
+          "semanticName": "Instant Camera"
+        }
+      ]
     },
     "computer-monitor": {
       "id": "computer-monitor",
@@ -5369,7 +8864,81 @@
       "attributionUrl": "https://poly.pizza/m/PvSjEbz11k",
       "triCount": 84,
       "sourceModelId": "PvSjEbz11k",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": [
+        {
+          "name": "Panel",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The screen display surface."
+        },
+        {
+          "name": "Backlight",
+          "position": [
+            0,
+            0,
+            0.6
+          ],
+          "whatItIs": "Provides illumination for the screen."
+        },
+        {
+          "name": "Power button",
+          "position": [
+            0.8,
+            0.9,
+            0.1
+          ],
+          "whatItIs": "Used to turn the monitor on and off."
+        },
+        {
+          "name": "HDMI port",
+          "position": [
+            0.7,
+            -0.7,
+            0.1
+          ],
+          "whatItIs": "Connects the monitor to an external device."
+        },
+        {
+          "name": "Speakers",
+          "position": [
+            0.3,
+            -0.7,
+            0.1
+          ],
+          "whatItIs": "Produces audio for the user."
+        },
+        {
+          "name": "VESA mount",
+          "position": [
+            0,
+            0,
+            -0.6
+          ],
+          "whatItIs": "Used to attach the monitor to a wall or stand."
+        },
+        {
+          "name": "Cable management",
+          "position": [
+            0,
+            0,
+            -0.8
+          ],
+          "whatItIs": "Organizes and secures cables for a clean appearance."
+        },
+        {
+          "name": "Stand",
+          "position": [
+            0,
+            0,
+            -0.2
+          ],
+          "whatItIs": "Raises the monitor to a comfortable viewing height."
+        }
+      ]
     },
     "gaming-pc-tower": {
       "id": "gaming-pc-tower",
@@ -5439,7 +9008,41 @@
       "attributionUrl": "https://poly.pizza/m/4TZXM3lO5KK",
       "triCount": 612,
       "sourceModelId": "4TZXM3lO5KK",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        },
+        {
+          "rawName": "Node",
+          "semanticName": "Node"
+        }
+      ]
     },
     "office-desk": {
       "id": "office-desk",
@@ -5509,7 +9112,25 @@
       "attributionUrl": "https://poly.pizza/m/LCfBX1FVJr",
       "triCount": 456,
       "sourceModelId": "LCfBX1FVJr",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "deskCorner",
+          "semanticName": "Desk corner"
+        },
+        {
+          "rawName": "deskCorner_1",
+          "semanticName": "Desk corner"
+        },
+        {
+          "rawName": "drawer",
+          "semanticName": "Drawer"
+        },
+        {
+          "rawName": "drawer",
+          "semanticName": "Drawer pull"
+        }
+      ]
     },
     "computer-keyboard": {
       "id": "computer-keyboard",
@@ -5579,7 +9200,25 @@
       "attributionUrl": "https://poly.pizza/m/vsqTUPFSw6",
       "triCount": 64,
       "sourceModelId": "vsqTUPFSw6",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "computerKeyboard",
+          "semanticName": "Main Chassis"
+        },
+        {
+          "rawName": "computerKeyboard",
+          "semanticName": "Space Bar"
+        },
+        {
+          "rawName": "computerKeyboard_1",
+          "semanticName": "Space Bar"
+        },
+        {
+          "rawName": "computerKeyboard_1",
+          "semanticName": "Main Chassis"
+        }
+      ]
     },
     "gaming-mouse": {
       "id": "gaming-mouse",
@@ -5649,7 +9288,8 @@
       "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
       "triCount": 100,
       "sourceModelId": "V2Ebx3pvo4",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": []
     },
     "gaming-desk": {
       "id": "gaming-desk",
@@ -5719,7 +9359,8 @@
       "attributionUrl": "https://poly.pizza/m/dE6BqyF4Ws",
       "triCount": 220,
       "sourceModelId": "dE6BqyF4Ws",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": []
     },
     "mechanical-gaming-keyboard": {
       "id": "mechanical-gaming-keyboard",
@@ -5789,7 +9430,25 @@
       "attributionUrl": "https://poly.pizza/m/vsqTUPFSw6",
       "triCount": 64,
       "sourceModelId": "vsqTUPFSw6",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "computerKeyboard",
+          "semanticName": "computerKeyboard"
+        },
+        {
+          "rawName": "computerKeyboard",
+          "semanticName": "computerKeyboard"
+        },
+        {
+          "rawName": "computerKeyboard_1",
+          "semanticName": "computerKeyboard_1"
+        },
+        {
+          "rawName": "computerKeyboard_1",
+          "semanticName": "computerKeyboard_1"
+        }
+      ]
     },
     "computer-mouse": {
       "id": "computer-mouse",
@@ -5859,7 +9518,8 @@
       "attributionUrl": "https://poly.pizza/m/V2Ebx3pvo4",
       "triCount": 100,
       "sourceModelId": "V2Ebx3pvo4",
-      "source": "live"
+      "source": "live",
+      "virtualComponents": []
     },
     "gaming-monitor": {
       "id": "gaming-monitor",
@@ -5929,7 +9589,25 @@
       "attributionUrl": "https://poly.pizza/m/V5Qo141OcB",
       "triCount": 144,
       "sourceModelId": "V5Qo141OcB",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "computerScreen",
+          "semanticName": "computerScreen"
+        },
+        {
+          "rawName": "computerScreen",
+          "semanticName": "computerScreen"
+        },
+        {
+          "rawName": "computerScreen_1",
+          "semanticName": "computerScreen_1"
+        },
+        {
+          "rawName": "computerScreen_1",
+          "semanticName": "computerScreen_1"
+        }
+      ]
     },
     "gaming-keyboard": {
       "id": "gaming-keyboard",
@@ -5999,7 +9677,25 @@
       "attributionUrl": "https://poly.pizza/m/vsqTUPFSw6",
       "triCount": 64,
       "sourceModelId": "vsqTUPFSw6",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "computerKeyboard",
+          "semanticName": "Keyboard base"
+        },
+        {
+          "rawName": "computerKeyboard",
+          "semanticName": "Keycap cluster"
+        },
+        {
+          "rawName": "computerKeyboard_1",
+          "semanticName": "Keycap cluster"
+        },
+        {
+          "rawName": "computerKeyboard_1",
+          "semanticName": "Keyboard plate"
+        }
+      ]
     },
     "gaming-chair": {
       "id": "gaming-chair",
@@ -6069,7 +9765,25 @@
       "attributionUrl": "https://poly.pizza/m/CKSz6PB1vO",
       "triCount": 656,
       "sourceModelId": "CKSz6PB1vO",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "chairDesk",
+          "semanticName": "Chair desk"
+        },
+        {
+          "rawName": "chairDesk_1",
+          "semanticName": "Chair desk"
+        },
+        {
+          "rawName": "chair",
+          "semanticName": "Seat"
+        },
+        {
+          "rawName": "chair",
+          "semanticName": "Seat cover"
+        }
+      ]
     },
     "gaming-office-desk": {
       "id": "gaming-office-desk",
@@ -6139,7 +9853,49 @@
       "attributionUrl": "https://poly.pizza/m/V86Go2rlnq",
       "triCount": 0,
       "sourceModelId": "V86Go2rlnq",
-      "source": "live"
+      "source": "live",
+      "componentMetadata": [
+        {
+          "rawName": "Desk_Drawer3",
+          "semanticName": "Drawer (left, front)"
+        },
+        {
+          "rawName": "Desk_Drawer3",
+          "semanticName": "Drawer front panel (left)"
+        },
+        {
+          "rawName": "Desk_Drawer4",
+          "semanticName": "Drawer (left, back)"
+        },
+        {
+          "rawName": "Desk_Drawer4",
+          "semanticName": "Drawer back panel (left)"
+        },
+        {
+          "rawName": "Desk_Drawer2",
+          "semanticName": "Drawer (right, front)"
+        },
+        {
+          "rawName": "Desk_Drawer2",
+          "semanticName": "Drawer front panel (right)"
+        },
+        {
+          "rawName": "Desk_Drawer1",
+          "semanticName": "Drawer (right, back)"
+        },
+        {
+          "rawName": "Desk_Drawer1",
+          "semanticName": "Drawer back panel (right)"
+        },
+        {
+          "rawName": "Desk",
+          "semanticName": "Desk top"
+        },
+        {
+          "rawName": "Desk",
+          "semanticName": "Desk base"
+        }
+      ]
     }
   },
   "validationCache": {

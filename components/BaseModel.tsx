@@ -15,6 +15,7 @@ import { Color, Vector3, type Mesh, type MeshStandardMaterial, type Object3D } f
 import { useSceneStore } from "@/lib/sceneStore";
 import type { BaseAsset, Part, PlacedAsset } from "@/lib/schema";
 import { extractComponents, type GlbComponent } from "@/lib/glbComponents";
+import VirtualHotspots, { virtualComponentKey } from "./VirtualHotspots";
 
 /** Below this average material-channel value (0-1), a model reads as "black" and auto-brightens. */
 const DARK_LUMINANCE_THRESHOLD = 0.15;
@@ -97,10 +98,17 @@ function GltfModel({ asset }: { asset: BaseAsset }) {
 
   // Publish the detected components (no mesh refs) for the Parts list panel,
   // which lives outside the Canvas and can't reach into this Suspense subtree.
+  // Virtual hotspots (Phase 3.4B Task 2) are listed identically alongside any
+  // real components — a model typically has one or the other, never both.
   useEffect(() => {
-    setBaseComponents(components.map((c) => ({ key: c.key, label: c.label })));
+    const real = components.map((c) => ({ key: c.key, label: c.label }));
+    const virtual = (asset.virtualComponents ?? []).map((c, i) => ({
+      key: virtualComponentKey(i),
+      label: c.name,
+    }));
+    setBaseComponents([...real, ...virtual]);
     return () => setBaseComponents([]);
-  }, [components, setBaseComponents]);
+  }, [components, asset.virtualComponents, setBaseComponents]);
 
   const autoDark = avgLuminance < DARK_LUMINANCE_THRESHOLD;
   useEffect(() => {
@@ -184,22 +192,28 @@ function GltfModel({ asset }: { asset: BaseAsset }) {
       : null;
 
   return (
-    <group
-      scale={asset.scale * baseScaleMultiplier}
-      position={[0, asset.yOffset, 0]}
-      onClick={handleClick}
-      onPointerMove={handlePointerMove}
-      onPointerOut={handlePointerOut}
-    >
-      <primitive object={model} />
-      {hoveredLabel && hoverPoint && (
-        <Html position={hoverPoint} style={{ pointerEvents: "none" }}>
-          <div className="-translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-lab-border bg-lab-panel/95 px-2 py-1 text-xs text-white shadow-lg">
-            {hoveredLabel}
-          </div>
-        </Html>
-      )}
-    </group>
+    <>
+      <group
+        scale={asset.scale * baseScaleMultiplier}
+        position={[0, asset.yOffset, 0]}
+        onClick={handleClick}
+        onPointerMove={handlePointerMove}
+        onPointerOut={handlePointerOut}
+      >
+        <primitive object={model} />
+        {hoveredLabel && hoverPoint && (
+          <Html position={hoverPoint} style={{ pointerEvents: "none" }}>
+            <div className="-translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-lab-border bg-lab-panel/95 px-2 py-1 text-xs text-white shadow-lg">
+              {hoveredLabel}
+            </div>
+          </Html>
+        )}
+      </group>
+      {/* Rendered OUTSIDE the scaled/offset group above: asset.boundingBox is
+          already world-space (post scale + yOffset), so hotspot positions
+          derived from it must not be transformed again. */}
+      <VirtualHotspots asset={asset} />
+    </>
   );
 }
 

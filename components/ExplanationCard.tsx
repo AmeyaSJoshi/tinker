@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { componentCacheKey, useSceneStore } from "@/lib/sceneStore";
+import { virtualComponentIndex } from "./VirtualHotspots";
 
 /** Matches the whole-model fallback key from lib/glbComponents.ts. */
 const WHOLE_MODEL_KEY = "__whole__";
@@ -24,9 +25,13 @@ export default function ExplanationCard() {
   // Fetch (once, cached) the explanation for a newly-selected GLB component.
   // The "whole model" fallback skips the network call — it just reuses the
   // asset's own teacherly intro, since there's nothing more specific to ask.
+  // A virtual hotspot (Phase 3.4B Task 2) also skips it — its explanation
+  // (whatItIs) was already generated and cached in the manifest server-side,
+  // so there's nothing left to fetch.
   useEffect(() => {
     if (!selectedComponent || !baseAsset) return;
     if (selectedComponent.key === WHOLE_MODEL_KEY) return;
+    if (virtualComponentIndex(selectedComponent.key) !== null) return;
 
     const key = componentCacheKey(selectedComponent.assetId, selectedComponent.key);
     if (useSceneStore.getState().componentExplanations[key]) return;
@@ -69,9 +74,12 @@ export default function ExplanationCard() {
 
   if (selectedComponent && baseAsset) {
     const isWhole = selectedComponent.key === WHOLE_MODEL_KEY;
+    const virtualIdx = virtualComponentIndex(selectedComponent.key);
+    const virtualText =
+      virtualIdx !== null ? baseAsset.virtualComponents?.[virtualIdx]?.whatItIs ?? null : null;
     const cacheKey = componentCacheKey(selectedComponent.assetId, selectedComponent.key);
     const cached = componentExplanations[cacheKey];
-    const explanation = isWhole ? baseAsset.intro : (cached?.text ?? null);
+    const explanation = isWhole ? baseAsset.intro : virtualIdx !== null ? virtualText : (cached?.text ?? null);
 
     return (
       <div className="pointer-events-auto absolute bottom-4 left-4 right-4 max-w-sm rounded-xl border border-lab-border bg-lab-panel/95 p-4 shadow-2xl backdrop-blur sm:right-auto">

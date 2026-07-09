@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSceneStore } from "@/lib/sceneStore";
+import { isVirtualComponentKey } from "./VirtualHotspots";
 
 /**
  * Small collapsible "what is this thing made of" panel in the viewport corner
@@ -38,13 +39,18 @@ export default function PartsListPanel() {
                   onClick={() =>
                     selectComponent({ assetId: baseAsset.id, key: c.key, label: c.label })
                   }
-                  className={`w-full truncate rounded-md px-2 py-1 text-left text-xs transition-colors ${
+                  className={`flex w-full items-center gap-1.5 truncate rounded-md px-2 py-1 text-left text-xs transition-colors ${
                     isSelected
                       ? "bg-lab-accent text-white"
                       : "text-gray-300 hover:bg-lab-bg hover:text-white"
                   }`}
                 >
-                  {c.label}
+                  {isVirtualComponentKey(c.key) && (
+                    <span className="flex-shrink-0 text-[8px] opacity-70" aria-hidden>
+                      ●
+                    </span>
+                  )}
+                  <span className="truncate">{c.label}</span>
                 </button>
               </li>
             );

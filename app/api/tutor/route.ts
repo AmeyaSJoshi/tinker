@@ -20,7 +20,7 @@ import {
   type LlmMessage,
 } from "@/lib/llm";
 import { getAsset, type AssetEntry } from "@/lib/assetManifest";
-import { resolveAnchor } from "@/lib/anchorResolver";
+import { resolveAnchor, getAnchorDirection } from "@/lib/anchorResolver";
 import { SCENE_COMMAND_RE } from "@/lib/sceneCommandHeuristics";
 
 /** Shape of the POST body sent by the client. */
@@ -232,28 +232,229 @@ function describeBaseAsset(asset: AssetEntry): string {
     )}]. Its lowest point rests on y=0. When you ADD parts to it, prefer "attachTo" with one of these named anchors:\n${anchors}`;
 }
 
-/** Calculate the half-extent of a part's bounding box along a given axis. */
-function partHalfExtent(part: Part, axis: 0 | 1 | 2): number {
+/**
+ * A part's half-extent along each of ITS OWN local axes (before rotation) —
+ * e.g. for a cylinder, the "height" half-extent is always local-Y regardless
+ * of how the part is rotated in the world. Used as the input to
+ * `worldHalfExtents`, which is what callers actually want.
+ */
+function localHalfExtents(part: Part): [number, number, number] {
   const d = part.dimensions;
   switch (part.shape) {
     case "box":
-      return axis === 0
-        ? (d.width ?? 1) / 2
-        : axis === 1
-          ? (d.height ?? 1) / 2
-          : (d.depth ?? 1) / 2;
-    case "sphere":
-      return d.radius ?? 0.5;
+      return [(d.width ?? 1) / 2, (d.height ?? 1) / 2, (d.depth ?? 1) / 2];
+    case "sphere": {
+      const r = d.radius ?? 0.5;
+      return [r, r, r];
+    }
     case "cylinder":
-    case "cone":
-      return axis === 1 ? (d.height ?? 1) / 2 : d.radius ?? 0.5;
-    case "capsule":
-      return axis === 1 ? (d.height ?? 1) / 2 + (d.radius ?? 0.3) : d.radius ?? 0.3;
-    case "torus":
-      return d.radius ?? 0.5;
+    case "cone": {
+      const r = Math.max(d.radiusTop ?? d.radius ?? 0.5, d.radiusBottom ?? d.radius ?? 0.5);
+      return [r, (d.height ?? 1) / 2, r];
+    }
+    case "capsule": {
+      const r = d.radius ?? 0.3;
+      return [r, (d.height ?? 1) / 2 + r, r];
+    }
+    case "torus": {
+      const r = d.radius ?? 0.5;
+      return [r, r * 0.35, r];
+    }
     default:
-      return 0.5;
+      return [0.5, 0.5, 0.5];
   }
+}
+
+/**
+ * Apply a three.js-style Euler XYZ rotation (radians) to a vector: rotate
+ * about X, then Y, then Z, each about the fixed world axes — matching
+ * Object3D's default Euler order, which is what every part's `rotation`
+ * field means when PartMesh renders it.
+ */
+function applyEulerXYZ(
+  v: [number, number, number],
+  rotation: [number, number, number],
+): [number, number, number] {
+  const [rx, ry, rz] = rotation;
+  let [x, y, z] = v;
+  {
+    const c = Math.cos(rx);
+    const s = Math.sin(rx);
+    const ny = y * c - z * s;
+    const nz = y * s + z * c;
+    y = ny;
+    z = nz;
+  }
+  {
+    const c = Math.cos(ry);
+    const s = Math.sin(ry);
+    const nx = x * c + z * s;
+    const nz = -x * s + z * c;
+    x = nx;
+    z = nz;
+  }
+  {
+    const c = Math.cos(rz);
+    const s = Math.sin(rz);
+    const nx = x * c - y * s;
+    const ny = x * s + y * c;
+    x = nx;
+    y = ny;
+  }
+  return [x, y, z];
+}
+
+/**
+ * A part's TRUE world-space AABB half-extents, accounting for rotation: rotate
+ * all 8 corners of its local box by its Euler rotation and take the max abs
+ * per axis. This is the fix for the bug where a rotated cylinder/cone (e.g. a
+ * thruster laid on its side) was being measured as if it were still upright,
+ * making the attachment-touch test unreliable for anything but axis-aligned parts.
+ */
+function worldHalfExtents(part: Part): [number, number, number] {
+  const [hx, hy, hz] = localHalfExtents(part);
+  const [rx, ry, rz] = part.rotation;
+  if (rx === 0 && ry === 0 && rz === 0) return [hx, hy, hz];
+
+  let maxX = 0;
+  let maxY = 0;
+  let maxZ = 0;
+  for (const sx of [-1, 1]) {
+    for (const sy of [-1, 1]) {
+      for (const sz of [-1, 1]) {
+        const rotated = applyEulerXYZ([sx * hx, sy * hy, sz * hz], part.rotation);
+        maxX = Math.max(maxX, Math.abs(rotated[0]));
+        maxY = Math.max(maxY, Math.abs(rotated[1]));
+        maxZ = Math.max(maxZ, Math.abs(rotated[2]));
+      }
+    }
+  }
+  return [maxX, maxY, maxZ];
+}
+
+/** Small overlap (world units) enforced when snapping a part onto a surface, so it never sits exactly flush (which can z-fight / look separated). */
+const SNAP_OVERLAP = 0.05;
+/** AABB touch tolerance — anything closer than this counts as "already touching". */
+const TOUCH_TOLERANCE = 0.01;
+
+interface Box3 {
+  min: [number, number, number];
+  max: [number, number, number];
+}
+
+function partBox(part: Part, center: [number, number, number]): Box3 {
+  const [hx, hy, hz] = worldHalfExtents(part);
+  return {
+    min: [center[0] - hx, center[1] - hy, center[2] - hz],
+    max: [center[0] + hx, center[1] + hy, center[2] + hz],
+  };
+}
+
+/**
+ * The canonical rotation that points a cylinder/cone/capsule's default local
+ * +Y axis exactly along a given anchor's outward direction (see
+ * getAnchorDirection). Used to auto-correct a part whose LLM-given rotation
+ * doesn't actually match its own stated intent (e.g. reasoning says "points
+ * up" but the rotation value points it sideways).
+ */
+function canonicalRotationForAnchor(anchorName: string): [number, number, number] {
+  switch (anchorName) {
+    case "top":
+      return [0, 0, 0];
+    case "bottom":
+      return [Math.PI, 0, 0];
+    case "front":
+      return [Math.PI / 2, 0, 0];
+    case "rear":
+      return [-Math.PI / 2, 0, 0];
+    case "right_side":
+      return [0, 0, -Math.PI / 2];
+    case "left_side":
+      return [0, 0, Math.PI / 2];
+    default:
+      return [0, 0, 0];
+  }
+}
+
+/** Shapes with a clear default long axis (local +Y) worth auto-orienting. Boxes/spheres/tori have no single "points this way" axis. */
+const ORIENTABLE_SHAPES = new Set(["cylinder", "cone", "capsule"]);
+
+/**
+ * If a part's rotation doesn't actually point its long axis along its own
+ * anchor's outward direction (dot product below threshold), override it with
+ * the canonical rotation for that anchor. This catches exactly the failure
+ * mode observed in testing: the LLM's "reasoning" states one intended
+ * direction but the numeric rotation it emits points somewhere else entirely
+ * (e.g. a "vertical exhaust" that's actually rotated 90° into the horizontal
+ * plane). Only applies to shapes with an unambiguous default axis.
+ */
+function autoOrientToAnchor(part: Part, anchorName: string): Part {
+  if (!ORIENTABLE_SHAPES.has(part.shape)) return part;
+
+  const dir = getAnchorDirection(anchorName);
+  const currentYAxis = applyEulerXYZ([0, 1, 0], part.rotation);
+  const alignment =
+    currentYAxis[0] * dir[0] + currentYAxis[1] * dir[1] + currentYAxis[2] * dir[2];
+
+  const ALIGNMENT_THRESHOLD = 0.85; // ~32 degrees off is still "aligned enough" to trust the LLM's intent
+  if (alignment >= ALIGNMENT_THRESHOLD) return part;
+
+  const rotation = canonicalRotationForAnchor(anchorName);
+  console.warn(
+    `[tutor] part "${part.id}" (${part.shape}) rotation [${part.rotation.map((r) => r.toFixed(2)).join(", ")}] ` +
+      `points its long axis away from anchor "${anchorName}"'s outward direction [${dir.join(", ")}] (dot=${alignment.toFixed(2)}) ` +
+      `— auto-orienting to [${rotation.map((r) => r.toFixed(2)).join(", ")}]`,
+  );
+  return { ...part, rotation };
+}
+
+function boxesTouch(a: Box3, b: Box3): boolean {
+  return !(
+    a.max[0] < b.min[0] - TOUCH_TOLERANCE ||
+    a.min[0] > b.max[0] + TOUCH_TOLERANCE ||
+    a.max[1] < b.min[1] - TOUCH_TOLERANCE ||
+    a.min[1] > b.max[1] + TOUCH_TOLERANCE ||
+    a.max[2] < b.min[2] - TOUCH_TOLERANCE ||
+    a.min[2] > b.max[2] + TOUCH_TOLERANCE
+  );
+}
+
+/**
+ * Force a part's bounding box to touch the target bounding box, guaranteed.
+ *
+ * Strategy: push the part along the anchor's outward axis so it clears the gap
+ * on that axis (tier 1). If the two boxes still don't intersect afterward —
+ * meaning the LLM's offset also threw the part sideways, off the model's
+ * lateral footprint — fall back to dropping the offset on the two non-anchor
+ * axes entirely and re-centering on the anchor's own coordinate there (tier 2).
+ * The anchor position itself always lies ON the target box by construction
+ * (autoManifest.ts derives anchors from its faces/center), so tier 2 always
+ * intersects.
+ */
+function snapPartOntoBox(
+  part: Part,
+  resolvedPos: [number, number, number],
+  anchorPos: [number, number, number],
+  anchorName: string,
+  targetBox: Box3,
+): [number, number, number] {
+  const dir = getAnchorDirection(anchorName);
+  const axis = dir[0] !== 0 ? 0 : dir[1] !== 0 ? 1 : 2;
+  const sign = dir[axis] >= 0 ? 1 : -1;
+  const half = worldHalfExtents(part)[axis];
+
+  // Tier 1: keep the LLM's lateral offset, but force the anchor axis so the
+  // part's near face sits just inside the target box (small overlap).
+  const tier1: [number, number, number] = [...resolvedPos];
+  tier1[axis] = anchorPos[axis] + sign * (half - SNAP_OVERLAP);
+
+  if (boxesTouch(partBox(part, tier1), targetBox)) return tier1;
+
+  // Tier 2: the lateral offset itself was the problem (pushed off the side of
+  // the model) — drop it and re-center on the anchor's own lateral coords.
+  const tier2: [number, number, number] = [...anchorPos];
+  tier2[axis] = anchorPos[axis] + sign * (half - SNAP_OVERLAP);
+  return tier2;
 }
 
 /**
@@ -261,9 +462,15 @@ function partHalfExtent(part: Part, axis: 0 | 1 | 2): number {
  * the base model's anchor map (plus the part's local offset). Parts without
  * `attachTo`, or when there's no base asset, keep their given position.
  *
- * Also validates that parts actually touch the base model after resolution;
- * logs warnings for parts that drift too far, and snaps floating parts to the
- * attachment anchor to ensure physical plausibility.
+ * Three guarantees enforced here, in order:
+ *  1. ORIENTATION — a cylinder/cone/capsule whose rotation doesn't actually
+ *     point along its own anchor's outward direction gets auto-corrected
+ *     (autoOrientToAnchor). Catches the LLM stating one intent in "reasoning"
+ *     but emitting a rotation that points somewhere else entirely.
+ *  2. POSITION — if the anchor + offset (given the part's TRUE, rotation-aware
+ *     bounding box) still doesn't touch the base model, it is forcibly
+ *     translated onto the surface (snapPartOntoBox).
+ * A learner must never see a floating or sideways-facing attached part.
  */
 function resolveAttachments(
   response: TutorResponse,
@@ -271,63 +478,44 @@ function resolveAttachments(
 ): TutorResponse {
   if (!asset) return response;
 
-  const assetBBox = asset.boundingBox;
+  const assetBox: Box3 = { min: asset.boundingBox.min, max: asset.boundingBox.max };
   const parts = response.parts.map((part) => {
     if (!part.attachTo) return part;
 
-    const { position: anchorPos } = resolveAnchor(asset.anchors, part.attachTo.anchor);
+    const { position: anchorPos, anchor: resolvedAnchorName } = resolveAnchor(
+      asset.anchors,
+      part.attachTo.anchor,
+    );
+
+    const oriented = autoOrientToAnchor(part, resolvedAnchorName);
+
     const off = part.attachTo.offset ?? [0, 0, 0];
-    const resolvedPos: Part["position"] = [
+    let resolvedPos: [number, number, number] = [
       anchorPos[0] + off[0],
       anchorPos[1] + off[1],
       anchorPos[2] + off[2],
     ];
 
-    // Check if the resolved part's bounding box touches the base model's bounding box.
-    // If not, snap it to the anchor position to avoid floating parts.
-    const partHalfX = partHalfExtent(part, 0);
-    const partHalfY = partHalfExtent(part, 1);
-    const partHalfZ = partHalfExtent(part, 2);
-
-    const partMin = [
-      resolvedPos[0] - partHalfX,
-      resolvedPos[1] - partHalfY,
-      resolvedPos[2] - partHalfZ,
-    ];
-    const partMax = [
-      resolvedPos[0] + partHalfX,
-      resolvedPos[1] + partHalfY,
-      resolvedPos[2] + partHalfZ,
-    ];
-
-    // AABB intersection test with a small tolerance for overlap.
-    const touches =
-      !(
-        partMax[0] < assetBBox.min[0] - 0.01 ||
-        partMin[0] > assetBBox.max[0] + 0.01 ||
-        partMax[1] < assetBBox.min[1] - 0.01 ||
-        partMin[1] > assetBBox.max[1] + 0.01 ||
-        partMax[2] < assetBBox.min[2] - 0.01 ||
-        partMin[2] > assetBBox.max[2] + 0.01
-      );
+    const touches = boxesTouch(partBox(oriented, resolvedPos), assetBox);
 
     if (!touches) {
+      const before = resolvedPos;
+      resolvedPos = snapPartOntoBox(oriented, resolvedPos, anchorPos, resolvedAnchorName, assetBox);
       console.warn(
-        `[tutor] part "${part.id}" (${part.shape}) at [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] does not touch base model bbox [${assetBBox.min.map((x) => x.toFixed(2)).join(", ")}]–[${assetBBox.max.map((x) => x.toFixed(2)).join(", ")}] — snapping to anchor [${anchorPos.map((x) => x.toFixed(2)).join(", ")}]`,
+        `[tutor] part "${oriented.id}" (${oriented.shape}) floated at [${before.map((x) => x.toFixed(2)).join(", ")}] ` +
+          `(anchor "${part.attachTo!.anchor}" -> "${resolvedAnchorName}" @ [${anchorPos.map((x) => x.toFixed(2)).join(", ")}], ` +
+          `bbox [${assetBox.min.map((x) => x.toFixed(2)).join(", ")}]-[${assetBox.max.map((x) => x.toFixed(2)).join(", ")}]) ` +
+          `— snapped to [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}]`,
       );
-      // Keep the resolved position; it should already be at the anchor. The warning
-      // helps debug if the LLM generated poor offsets.
-    }
-
-    if (process.env.NODE_ENV !== "production") {
+    } else if (process.env.NODE_ENV !== "production") {
       console.debug(
-        `[attachment] part "${part.id}" resolved to [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] via anchor "${part.attachTo.anchor}"`,
+        `[attachment] part "${oriented.id}" resolved to [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] via anchor "${resolvedAnchorName}" (touching, no snap needed)`,
       );
     }
 
     return {
-      ...part,
-      position: resolvedPos,
+      ...oriented,
+      position: resolvedPos as Part["position"],
     };
   });
 
@@ -519,11 +707,78 @@ function sanityPass(response: TutorResponse, currentParts: Part[]): TutorRespons
 }
 
 /**
- * Finish a validated build response: sanity-pass + attachment resolution, and
- * — for a primitive-fallback create_base only — one extra quality-focused
- * retry if the build fails the Task 3 bar (too few parts / monochrome /
- * near-black). Falls back to the original schema-valid build if the retry
- * itself fails, so a quality miss never turns into a failed turn.
+ * Task 3.2 contract enforcement: when a base MODEL is active and the tutor is
+ * adding new parts, every part MUST declare how it attaches (attachTo) — a
+ * bare "position" guess with no attachTo is exactly how parts end up floating
+ * beside the model instead of on it (resolveAttachments only ever touches
+ * parts that already carry attachTo). Returns a retry instruction, or null if
+ * the contract is satisfied or doesn't apply (no base asset / different action).
+ */
+function missingAttachToIssue(response: TutorResponse, asset: AssetEntry | null): string | null {
+  if (!asset) return null;
+  if (response.action !== "add_parts") return null;
+  const offenders = response.parts.filter((p) => !p.attachTo).map((p) => p.id);
+  if (offenders.length === 0) return null;
+  return (
+    `Every part must attach to the base model via "attachTo" (an anchor name from the list you were given, ` +
+    `optionally with a small local "offset") — these parts are missing it and would float free with nothing ` +
+    `holding them to the model: ${offenders.join(", ")}. Re-emit the SAME parts, unchanged except adding attachTo.`
+  );
+}
+
+/**
+ * Last-resort safety net: if a part is STILL missing attachTo after the one
+ * retry the contract check above buys it, force a default anchor ("center")
+ * onto it so resolveAttachments' snap logic still runs on it. This is the
+ * final guarantee that a learner can never see a truly unchecked, floating
+ * part — even an LLM that ignores the retry instruction gets overridden here.
+ */
+function forceDefaultAttachment(response: TutorResponse, asset: AssetEntry | null): TutorResponse {
+  if (!asset || response.action !== "add_parts") return response;
+  const parts = response.parts.map((part) => {
+    if (part.attachTo) return part;
+    console.warn(
+      `[tutor] part "${part.id}" still missing attachTo after retry — forcing attachTo:"center" so it can't float unchecked`,
+    );
+    return { ...part, attachTo: { anchor: "center" } };
+  });
+  return { ...response, parts };
+}
+
+/**
+ * The tutor LLM occasionally mislabels a new self-contained assembly (like an
+ * "engine" or "thruster" group) as action "create_base" even while a base GLB
+ * MODEL is already loaded and the request was clearly an addition. The client
+ * treats "create_base" as "wipe the whole scene, including the GLB base" —
+ * so this single mistake would silently delete the model the learner is
+ * working on, replacing it with just the new primitives floating at the
+ * origin. The intent router (lib/intentRouter.ts) already ran a dedicated
+ * classifier call for this exact question ("is this a fresh build or an
+ * addition?") and is far more reliable here than the tutor's self-reported
+ * action, so when they disagree and a base model is active, trust the router.
+ */
+function coerceActionToRouterIntent(
+  response: TutorResponse,
+  baseAsset: AssetEntry | null,
+  routerIntent: Intent | undefined,
+): TutorResponse {
+  if (!baseAsset) return response;
+  if (routerIntent !== "add_parts") return response;
+  if (response.action !== "create_base") return response;
+  console.warn(
+    `[tutor] LLM returned action "create_base" while base model "${baseAsset.name}" is active and the intent router classified this message as "add_parts" — correcting action to "add_parts" so the base model isn't wiped`,
+  );
+  return { ...response, action: "add_parts" };
+}
+
+/**
+ * Finish a validated build response: correct a mislabeled action (see
+ * coerceActionToRouterIntent), enforce the attachment contract (retry once,
+ * then force a safe default), sanity-pass + attachment resolution, and — for
+ * a primitive-fallback create_base only — one extra quality-focused retry if
+ * the build fails the Task 3 bar (too few parts / monochrome / near-black).
+ * Falls back to the original schema-valid build if a retry itself fails, so a
+ * quality or contract miss never turns into a failed turn.
  */
 async function finalizeBuildResponse(
   validated: TutorResponse,
@@ -533,17 +788,48 @@ async function finalizeBuildResponse(
   currentParts: Part[],
   primitiveFallback: boolean,
   signal: AbortSignal,
+  routerIntent?: Intent,
 ): Promise<TutorResponse> {
-  const finalized = sanityPass(resolveAttachments(validated, baseAsset), currentParts);
+  let working = coerceActionToRouterIntent(validated, baseAsset, routerIntent);
+  let lastRawText = rawText;
+
+  const attachIssue = missingAttachToIssue(working, baseAsset);
+  if (attachIssue) {
+    logFallback("add_parts missing attachTo — retrying once", rawText, attachIssue);
+    const retryMessages: LlmMessage[] = [
+      ...baseMessages,
+      { role: "assistant", content: rawText },
+      {
+        role: "user",
+        content: `${attachIssue}\n\nReply again with ONLY corrected JSON matching the schema exactly — the "reasoning" field first, no markdown, no prose.`,
+      },
+    ];
+    try {
+      const retryText = await callTutor(retryMessages, signal);
+      const retryValidated = validate(retryText) ?? salvage(retryText);
+      if (retryValidated) {
+        working = coerceActionToRouterIntent(retryValidated, baseAsset, routerIntent);
+        lastRawText = retryText;
+      }
+    } catch (err) {
+      if (err instanceof LlmError && err.reason === "aborted") throw err;
+      console.warn("[tutor] attachTo contract retry failed, forcing a default attachment instead:", err);
+    }
+    // Whether the retry produced attachTo or not, force a default onto
+    // whatever is STILL missing it so nothing can slip through unchecked.
+    working = forceDefaultAttachment(working, baseAsset);
+  }
+
+  const finalized = sanityPass(resolveAttachments(working, baseAsset), currentParts);
   if (!primitiveFallback) return finalized;
 
   const issue = primitivesQualityIssue(finalized);
   if (!issue) return finalized;
 
-  logFallback("primitive-fallback quality issue — retrying once", rawText, issue);
+  logFallback("primitive-fallback quality issue — retrying once", lastRawText, issue);
   const retryMessages: LlmMessage[] = [
     ...baseMessages,
-    { role: "assistant", content: rawText },
+    { role: "assistant", content: lastRawText },
     {
       role: "user",
       content: `Your build needs more work before it's ready: ${issue}\n\nReply again with ONLY corrected JSON matching the schema exactly — the "reasoning" field first, no markdown, no prose.`,
@@ -680,6 +966,7 @@ export async function POST(request: Request) {
         currentParts,
         !!primitiveFallback,
         signal,
+        routerIntent,
       );
       return NextResponse.json(finalResponse);
     }
@@ -708,6 +995,7 @@ export async function POST(request: Request) {
         currentParts,
         !!primitiveFallback,
         signal,
+        routerIntent,
       );
       return NextResponse.json(finalResponse);
     }

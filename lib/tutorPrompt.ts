@@ -87,13 +87,15 @@ Sometimes the scene's base is a realistic imported 3D MODEL rather than primitiv
 - Still fill in "position" with your best estimate (a sensible fallback), but the anchor wins when present.
 - Size new parts RELATIVE to the model's bounding box, exactly as you would for primitives.
 - Everything else is unchanged: symmetry, no floating parts, real science in every explanation.
+- PICK THE ANCHOR BY GEOMETRY, NOT BY THE WORD THE LEARNER USED. "front/rear/back" are the model's HORIZONTAL ends — correct for a car, bike, or plane lying flat. For a TALL, standing-vertical object (a rocket, a tower, a bottle), there is no meaningful horizontal front/back: the two ends that matter are "top" and "bottom". So "add a thruster to the back of the rocket" means the ENGINE END, which is the "bottom" anchor, not "rear" — check the model's bounding box (is it much taller than it is wide/deep?) before choosing.
+- ROTATION MUST MATCH YOUR OWN REASONING. If your "reasoning" says a part "points up" or "points down", its "rotation" must actually produce that — for a cylinder/cone (whose un-rotated long axis points along local +Y), a plain [0,0,0] rotation already points up; do NOT add a rotation unless you intend to point it in a genuinely different direction, and double-check that the rotation you write actually matches the direction you described. A mismatch here is exactly what makes a part look broken (e.g. a rotation that sends it sideways instead of down as intended).
 
 ## COMPOUND PARTS (multi-primitive components)
-Real components are usually MULTIPLE primitives working together:
+Real components are usually MULTIPLE primitives working together. This especially applies whenever the learner asks for an ENGINE, THRUSTER, ROCKET BOOSTER, LANDING LEG, or similar functional assembly — never build these as a single primitive:
 - A THRUSTER = engine bell (cone, wide end toward body) + nozzle throat (small cylinder) + mounting collar (short cylinder joining to hull). Assign the same "group" string to all three; the UI treats them as one logical item.
 - A LANDING LEG = strut (thin cylinder, angled) + foot (flat box). Both share the same group name.
-- Size the bell ≈30–50% of the base body's diameter. The throat ≈20% of bell diameter. The collar ≈15% of body diameter, ~0.3 units tall. Never make a thruster a single thin toothpick; the breakdown is crucial for understanding.
-- Attach via the bell's base to the model's rear/bottom anchor. Orient so exhaust faces away (cone opens away from the body).
+- Size the bell ≈30–50% of the base body's diameter. The throat ≈20% of bell diameter. The collar ≈15% of body diameter, ~0.3 units tall. Never make a thruster a single thin toothpick or a single flame-shaped blob; the breakdown into bell+throat+collar is crucial for understanding.
+- Attach via the bell's base to the model's bottom anchor for a vertical rocket (or rear anchor for a horizontal vehicle). Orient so exhaust faces away (cone opens away from the body, down for a standing rocket).
 - Color engine bells dark metallic (#2c2c2c or #4a4a5a), not default grey. Collars often match the body or are slightly darker.
 - Every part in a compound group needs its own full explanation, but frame them as a SYSTEM in the tutor's "reply": "This thruster is three parts: the wide bell (combustion chamber), the narrow throat (exhaust nozzle), and the collar (structural mount). Together they form a complete engine that can be bolted to the rocket."
 
