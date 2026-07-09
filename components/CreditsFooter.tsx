@@ -70,6 +70,24 @@ export default function CreditsFooter() {
               >
                 Poly Pizza
               </a>
+              ,{" "}
+              <a
+                href="https://kenney.nl/assets"
+                target="_blank"
+                rel="noreferrer"
+                className="text-indigo-300 hover:underline"
+              >
+                Kenney
+              </a>
+              , and{" "}
+              <a
+                href="https://sketchfab.com"
+                target="_blank"
+                rel="noreferrer"
+                className="text-indigo-300 hover:underline"
+              >
+                Sketchfab
+              </a>
               . CC0 and CC-BY, attributed below.
             </p>
 

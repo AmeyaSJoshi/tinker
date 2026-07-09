@@ -5,6 +5,7 @@
  * component names instead of junk like "Cone 1", "Mesh.001", etc.
  */
 import { NodeIO, getBounds, type Accessor, type Node as GltfNode, type mat4 } from "@gltf-transform/core";
+import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 import { callExplainer } from "./llm";
 
 /** Transform a point by a column-major glTF mat4 (standard glTF/gl-matrix convention). */
@@ -44,7 +45,7 @@ export interface SubmeshMetadata {
  * once mistakenly assumed, which silently matched zero meshes on every asset).
  */
 export async function extractSubmeshMetadata(glbPath: string): Promise<SubmeshMetadata[]> {
-  const io = new NodeIO();
+  const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
   const doc = await io.read(glbPath);
   const root = doc.getRoot();
   const scene = root.getDefaultScene() ?? root.listScenes()[0];

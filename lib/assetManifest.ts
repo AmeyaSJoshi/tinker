@@ -53,6 +53,8 @@ export interface AssetEntry {
   triCount?: number;
   /** How this entry got here — prefetched offline or fetched live at runtime. */
   source: "prefetch" | "live";
+  /** Which upstream library/provider produced this entry. Older rows may omit it. */
+  provenance?: "poly_pizza" | "kenney" | "sketchfab";
   /** Poly Pizza's own model id (the `m/<id>` in attributionUrl), for rejection-exclusion. */
   sourceModelId?: string;
   /** LLM-generated semantic names for submeshes (Phase 3.4B). Cached per asset. */

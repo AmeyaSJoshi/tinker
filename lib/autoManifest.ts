@@ -14,6 +14,7 @@
  * of the mesh rather than guessing coordinates.
  */
 import { NodeIO, getBounds } from "@gltf-transform/core";
+import { ALL_EXTENSIONS } from "@gltf-transform/extensions";
 
 export type Vec3 = [number, number, number];
 
@@ -57,7 +58,7 @@ export const TARGET_HEIGHT = 5;
 export async function computeAutoManifest(
   glbPath: string,
 ): Promise<AutoManifestGeometry> {
-  const io = new NodeIO();
+  const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
   const doc = await io.read(glbPath);
   const root = doc.getRoot();
   const scene = root.getDefaultScene() ?? root.listScenes()[0];

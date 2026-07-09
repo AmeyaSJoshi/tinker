@@ -57,6 +57,7 @@ export function toBaseAsset(entry: AssetEntry): BaseAsset {
     sourceModelId: sourceModelIdOf(entry) ?? undefined,
     componentMetadata: entry.componentMetadata,
     virtualComponents: entry.virtualComponents,
+    provenance: entry.provenance,
   };
 }
 
@@ -159,6 +160,7 @@ function startFetch(
           triCount: model.triCount,
           sourceModelId: model.id,
           source: "live",
+          provenance: "poly_pizza",
         };
         await appendAssetEntry(entry);
         await appendCredit(creditFor(model, slug));

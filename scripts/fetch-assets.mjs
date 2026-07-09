@@ -222,6 +222,7 @@ async function processItem(item, existing) {
     attributionUrl: `https://poly.pizza/m/${chosen.id}`,
     triCount: chosen.triCount,
     source: "prefetch",
+    provenance: "poly_pizza",
   };
 
   await appendCredit(creditFor(chosen, id));

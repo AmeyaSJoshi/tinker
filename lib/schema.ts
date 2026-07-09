@@ -143,6 +143,8 @@ export interface BaseAsset {
   boundingBox: { min: Vec3; max: Vec3; size: Vec3 };
   /** Poly Pizza's own model id, tracked so a rejected model is never re-picked. */
   sourceModelId?: string;
+  /** Library-building provider that produced the model, if known. */
+  provenance?: "poly_pizza" | "kenney" | "sketchfab";
   /** LLM-generated semantic names for submeshes (Phase 3.4B). */
   componentMetadata?: Array<{ rawName: string; semanticName: string }>;
   /** Virtual components for single-mesh models (Phase 3.4B). */
