@@ -378,6 +378,9 @@ function canonicalRotationForAnchor(anchorName: string): [number, number, number
 
 /** Shapes with a clear default long axis (local +Y) worth auto-orienting. Boxes/spheres/tori have no single "points this way" axis. */
 const ORIENTABLE_SHAPES = new Set(["cylinder", "cone", "capsule"]);
+const THRUSTER_WORD_RE = /\b(thruster|booster|engine|rocket\s+motor|motor)\b/i;
+const THRUSTER_PART_WORD_RE = /\b(thruster|booster|engine|motor|bell|throat|nozzle)\b/i;
+const WING_WORD_RE = /\b(wing|wings|fin|fins|stabilizer)\b/i;
 
 /**
  * If a part's rotation doesn't actually point its long axis along its own
@@ -417,6 +420,81 @@ function boxesTouch(a: Box3, b: Box3): boolean {
     a.max[2] < b.min[2] - TOUCH_TOLERANCE ||
     a.min[2] > b.max[2] + TOUCH_TOLERANCE
   );
+}
+
+function boxCenter(box: Box3): [number, number, number] {
+  return [
+    (box.min[0] + box.max[0]) / 2,
+    (box.min[1] + box.max[1]) / 2,
+    (box.min[2] + box.max[2]) / 2,
+  ];
+}
+
+function normalize(v: [number, number, number]): [number, number, number] | null {
+  const len = Math.hypot(v[0], v[1], v[2]);
+  if (len < 1e-6) return null;
+  return [v[0] / len, v[1] / len, v[2] / len];
+}
+
+/**
+ * Move a part along the vector from its current center toward the intended
+ * anchor/target point until its AABB intersects the target AABB. This is the
+ * generic anti-floating guarantee used before any axis-specific fallback: if
+ * the LLM placed a part near the right spot but left an air gap, the returned
+ * center is translated before JSON leaves the server.
+ */
+function snapPartTowardPoint(
+  part: Part,
+  resolvedPos: [number, number, number],
+  targetPoint: [number, number, number],
+  targetBox: Box3,
+): [number, number, number] | null {
+  const partBounds = partBox(part, resolvedPos);
+  if (boxesTouch(partBounds, targetBox)) return resolvedPos;
+
+  const dir =
+    normalize([
+      targetPoint[0] - resolvedPos[0],
+      targetPoint[1] - resolvedPos[1],
+      targetPoint[2] - resolvedPos[2],
+    ]) ??
+    normalize([
+      boxCenter(targetBox)[0] - resolvedPos[0],
+      boxCenter(targetBox)[1] - resolvedPos[1],
+      boxCenter(targetBox)[2] - resolvedPos[2],
+    ]);
+  if (!dir) return null;
+
+  let tMin = 0;
+  let tMax = Infinity;
+  for (let axis = 0; axis < 3; axis++) {
+    const d = dir[axis];
+    const aMin = partBounds.min[axis];
+    const aMax = partBounds.max[axis];
+    const bMin = targetBox.min[axis];
+    const bMax = targetBox.max[axis];
+
+    if (Math.abs(d) < 1e-6) {
+      if (aMax < bMin - TOUCH_TOLERANCE || aMin > bMax + TOUCH_TOLERANCE) {
+        return null;
+      }
+      continue;
+    }
+
+    const enter = d > 0 ? (bMin - aMax) / d : (bMax - aMin) / d;
+    const exit = d > 0 ? (bMax - aMin) / d : (bMin - aMax) / d;
+    tMin = Math.max(tMin, enter);
+    tMax = Math.min(tMax, exit);
+    if (tMin > tMax) return null;
+  }
+
+  const t = Math.max(0, tMin) + SNAP_OVERLAP;
+  const snapped: [number, number, number] = [
+    resolvedPos[0] + dir[0] * t,
+    resolvedPos[1] + dir[1] * t,
+    resolvedPos[2] + dir[2] * t,
+  ];
+  return boxesTouch(partBox(part, snapped), targetBox) ? snapped : null;
 }
 
 /**
@@ -475,12 +553,18 @@ function snapPartOntoBox(
 function resolveAttachments(
   response: TutorResponse,
   asset: AssetEntry | null,
+  currentParts: Part[] = [],
 ): TutorResponse {
-  if (!asset) return response;
+  const assetBox: Box3 | null = asset
+    ? { min: asset.boundingBox.min, max: asset.boundingBox.max }
+    : null;
+  const resolvedById = new Map<string, Part>();
+  for (const part of currentParts) resolvedById.set(part.id, part);
 
-  const assetBox: Box3 = { min: asset.boundingBox.min, max: asset.boundingBox.max };
-  const parts = response.parts.map((part) => {
+  const resolveAgainstBase = (part: Part): Part => {
     if (!part.attachTo) return part;
+    if (!("anchor" in part.attachTo)) return part;
+    if (!asset || !assetBox) return part;
 
     const { position: anchorPos, anchor: resolvedAnchorName } = resolveAnchor(
       asset.anchors,
@@ -500,7 +584,9 @@ function resolveAttachments(
 
     if (!touches) {
       const before = resolvedPos;
-      resolvedPos = snapPartOntoBox(oriented, resolvedPos, anchorPos, resolvedAnchorName, assetBox);
+      resolvedPos =
+        snapPartTowardPoint(oriented, resolvedPos, anchorPos, assetBox) ??
+        snapPartOntoBox(oriented, resolvedPos, anchorPos, resolvedAnchorName, assetBox);
       console.warn(
         `[tutor] part "${oriented.id}" (${oriented.shape}) floated at [${before.map((x) => x.toFixed(2)).join(", ")}] ` +
           `(anchor "${part.attachTo!.anchor}" -> "${resolvedAnchorName}" @ [${anchorPos.map((x) => x.toFixed(2)).join(", ")}], ` +
@@ -517,6 +603,64 @@ function resolveAttachments(
       ...oriented,
       position: resolvedPos as Part["position"],
     };
+  };
+
+  const resolveAgainstPart = (part: Part): Part => {
+    if (!part.attachTo) return part;
+    if (!("partId" in part.attachTo)) return part;
+
+    const target = resolvedById.get(part.attachTo.partId);
+    if (!target) {
+      console.warn(
+        `[tutor] part "${part.id}" wanted to attach to unknown part "${part.attachTo.partId}" — forcing a base-center attachment so it cannot float unchecked`,
+      );
+      return resolveAgainstBase({ ...part, attachTo: { anchor: "center" } });
+    }
+
+    const targetBox = partBox(target, target.position);
+    const targetCenter = boxCenter(targetBox);
+    const off = part.attachTo.offset ?? [0, 0, 0];
+    const resolvedPos: [number, number, number] = [
+      targetCenter[0] + off[0],
+      targetCenter[1] + off[1],
+      targetCenter[2] + off[2],
+    ];
+
+    if (boxesTouch(partBox(part, resolvedPos), targetBox)) {
+      if (process.env.NODE_ENV !== "production") {
+        console.debug(
+          `[attachment] part "${part.id}" resolved to [${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] via target part "${target.id}" (touching, no snap needed)`,
+        );
+      }
+      return { ...part, position: resolvedPos as Part["position"] };
+    }
+
+    const snapped = snapPartTowardPoint(part, resolvedPos, targetCenter, targetBox);
+    if (snapped) {
+      console.warn(
+        `[tutor] part "${part.id}" (${part.shape}) floated near target part "${target.id}" at ` +
+          `[${resolvedPos.map((x) => x.toFixed(2)).join(", ")}] — snapped to ` +
+          `[${snapped.map((x) => x.toFixed(2)).join(", ")}]`,
+      );
+      return { ...part, position: snapped as Part["position"] };
+    }
+
+    console.warn(
+      `[tutor] part "${part.id}" could not be swept onto target part "${target.id}" — using target-center fallback`,
+    );
+    return { ...part, position: targetCenter as Part["position"] };
+  };
+
+  const baseResolved = response.parts.map((part) => {
+    const resolved = resolveAgainstBase(part);
+    resolvedById.set(resolved.id, resolved);
+    return resolved;
+  });
+
+  const parts = baseResolved.map((part) => {
+    const resolved = resolveAgainstPart(part);
+    resolvedById.set(resolved.id, resolved);
+    return resolved;
   });
 
   return { ...response, parts };
@@ -674,7 +818,7 @@ function sanityPass(response: TutorResponse, currentParts: Part[]): TutorRespons
   const parts = response.parts.map((part) => {
     let position = part.position;
 
-    if (position[1] < -0.01) {
+    if (!part.attachTo && position[1] < -0.01) {
       const y = halfHeight(part);
       console.warn(
         `[tutor] part "${part.id}" was below ground (y=${position[1]}); clamping to y=${y}`,
@@ -745,6 +889,204 @@ function forceDefaultAttachment(response: TutorResponse, asset: AssetEntry | nul
   return { ...response, parts };
 }
 
+function hasCompoundThruster(parts: Part[]): boolean {
+  const groups = new Map<string, Part[]>();
+  for (const part of parts) {
+    if (!part.group) continue;
+    const bucket = groups.get(part.group) ?? [];
+    bucket.push(part);
+    groups.set(part.group, bucket);
+  }
+  for (const groupParts of groups.values()) {
+    if (groupParts.length < 3) continue;
+    const text = groupParts.map((p) => `${p.id} ${p.name}`).join(" ").toLowerCase();
+    if (
+      text.includes("bell") &&
+      (text.includes("throat") || text.includes("nozzle")) &&
+      (text.includes("collar") || text.includes("mount"))
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function mainRadius(part: Part): number {
+  const d = part.dimensions;
+  return Math.max(d.radius ?? 0, d.radiusTop ?? 0, d.radiusBottom ?? 0, 0.2);
+}
+
+function mainHeight(part: Part): number {
+  return Math.max(part.dimensions.height ?? mainRadius(part) * 3, 0.45);
+}
+
+function scaledOffset(
+  direction: [number, number, number],
+  distance: number,
+): [number, number, number] {
+  return [direction[0] * distance, direction[1] * distance, direction[2] * distance];
+}
+
+function sanitizeId(id: string): string {
+  return id.replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "") || "thruster";
+}
+
+function isTallVerticalAsset(asset: AssetEntry | null): boolean {
+  if (!asset) return false;
+  const [x, y, z] = asset.boundingBox.size;
+  return y > Math.max(x, z) * 1.4;
+}
+
+/**
+ * Contract safety net for functional propulsion parts. The prompt asks the LLM
+ * to build thrusters as a real assembly (bell + throat + collar), but demo
+ * verification showed a fallback model can still emit one plain cylinder. This
+ * deterministic pass expands that single primitive into a teachable three-part
+ * group while preserving the LLM's anchor choice, color, and reply.
+ */
+function ensureCompoundThruster(
+  response: TutorResponse,
+  userMessage: string,
+  asset: AssetEntry | null,
+): TutorResponse {
+  if (response.action !== "add_parts") return response;
+  if (!THRUSTER_WORD_RE.test(userMessage)) return response;
+  if (hasCompoundThruster(response.parts)) return response;
+
+  const index = response.parts.findIndex((part) =>
+    THRUSTER_WORD_RE.test(`${part.id} ${part.name} ${part.explanation}`),
+  );
+  if (index === -1) return response;
+
+  const original = response.parts[index];
+  const baseId = sanitizeId(original.id);
+  const group = `${baseId}-assembly`;
+  const radius = mainRadius(original);
+  const totalHeight = mainHeight(original);
+  const collarHeight = Math.max(0.16, totalHeight * 0.22);
+  const bellHeight = Math.max(0.28, totalHeight * 0.52);
+  const throatHeight = Math.max(0.18, totalHeight * 0.26);
+  const anchorName =
+    isTallVerticalAsset(asset) && THRUSTER_WORD_RE.test(userMessage)
+      ? "bottom"
+      : original.attachTo && "anchor" in original.attachTo
+        ? original.attachTo.anchor
+        : "bottom";
+  const direction = getAnchorDirection(anchorName);
+  const rotation = canonicalRotationForAnchor(anchorName);
+  const inheritedOffset =
+    original.attachTo && "anchor" in original.attachTo && original.attachTo.anchor === anchorName
+      ? original.attachTo.offset
+      : undefined;
+  const metal = original.color;
+  const darkMetal = "#2c2c2c";
+  const throatColor = "#4a4a5a";
+
+  const collar: Part = {
+    ...original,
+    id: `${baseId}-collar`,
+    shape: "cylinder",
+    dimensions: { radius: radius * 1.08, height: collarHeight },
+    rotation,
+    color: metal,
+    name: "Thruster mounting collar",
+    explanation:
+      "The mounting collar is the structural ring that bolts the engine to the rocket body and spreads thrust loads into the frame.",
+    concepts: Array.from(new Set([...original.concepts, "load transfer", "structural mount"])),
+    attachTo: { anchor: anchorName, offset: inheritedOffset },
+    group,
+  };
+
+  const bell: Part = {
+    ...original,
+    id: `${baseId}-bell`,
+    shape: "cone",
+    dimensions: {
+      radiusTop: radius * 0.45,
+      radiusBottom: radius * 1.55,
+      height: bellHeight,
+    },
+    position: original.position,
+    rotation,
+    color: darkMetal,
+    name: "Thruster engine bell",
+    explanation:
+      "The bell-shaped nozzle lets hot exhaust expand smoothly, converting pressure into fast-moving gas that creates thrust.",
+    concepts: Array.from(new Set([...original.concepts, "nozzle expansion", "thrust"])),
+    attachTo: { partId: collar.id, offset: scaledOffset(direction, (collarHeight + bellHeight) / 2 - SNAP_OVERLAP) },
+    group,
+  };
+
+  const throat: Part = {
+    ...original,
+    id: `${baseId}-throat`,
+    shape: "cylinder",
+    dimensions: { radius: radius * 0.42, height: throatHeight },
+    position: original.position,
+    rotation,
+    color: throatColor,
+    name: "Thruster nozzle throat",
+    explanation:
+      "The narrow throat pinches the exhaust stream so pressure turns into speed before the gas expands through the engine bell.",
+    concepts: Array.from(new Set([...original.concepts, "exhaust velocity", "pressure"])),
+    attachTo: { partId: bell.id, offset: scaledOffset(direction, (bellHeight + throatHeight) / 2 - SNAP_OVERLAP) },
+    group,
+  };
+
+  const parts = response.parts.flatMap((part, i) => {
+    if (i === index) return [collar, bell, throat];
+    if (THRUSTER_PART_WORD_RE.test(`${part.id} ${part.name}`)) return [];
+    return [part];
+  });
+  console.warn(
+    `[tutor] expanded single-part thruster "${original.id}" into compound group "${group}" (collar + bell + throat)`,
+  );
+  return { ...response, parts };
+}
+
+function ensureMirroredWings(
+  response: TutorResponse,
+  userMessage: string,
+  asset: AssetEntry | null,
+): TutorResponse {
+  if (!asset || response.action !== "add_parts") return response;
+  if (!WING_WORD_RE.test(userMessage)) return response;
+
+  const wingIndexes = response.parts
+    .map((part, index) => ({ part, index }))
+    .filter(({ part }) => WING_WORD_RE.test(`${part.id} ${part.name}`))
+    .map(({ index }) => index);
+  if (wingIndexes.length < 2) return response;
+
+  const [leftIndex, rightIndex] = wingIndexes;
+  const sideWidth = Math.max(asset.boundingBox.size[0] * 0.45, 0.75);
+  const chordDepth = Math.max(asset.boundingBox.size[2] * 0.35, 0.55);
+  const thickness = 0.08;
+
+  const parts: Part[] = response.parts.map((part, index): Part => {
+    if (index !== leftIndex && index !== rightIndex) return part;
+    const isLeft = index === leftIndex;
+    return {
+      ...part,
+      id: isLeft ? "wing_left" : "wing_right",
+      shape: "box" as const,
+      dimensions: { width: sideWidth, height: thickness, depth: chordDepth },
+      rotation: [0, 0, 0] as Part["rotation"],
+      name: isLeft ? "Wing (left)" : "Wing (right)",
+      explanation:
+        part.explanation ||
+        "A flat wing creates aerodynamic force by pushing air aside; matching wings on both sides keep the rocket balanced.",
+      concepts: Array.from(new Set([...part.concepts, "symmetry", "stability", "aerodynamics"])),
+      attachTo: { anchor: isLeft ? "left_side" : "right_side" },
+    };
+  });
+
+  console.warn(
+    `[tutor] enforced mirrored wing pair on left_side/right_side anchors (${parts[leftIndex]?.id}, ${parts[rightIndex]?.id})`,
+  );
+  return { ...response, parts };
+}
+
 /**
  * The tutor LLM occasionally mislabels a new self-contained assembly (like an
  * "engine" or "thruster" group) as action "create_base" even while a base GLB
@@ -789,6 +1131,7 @@ async function finalizeBuildResponse(
   primitiveFallback: boolean,
   signal: AbortSignal,
   routerIntent?: Intent,
+  userMessage = "",
 ): Promise<TutorResponse> {
   let working = coerceActionToRouterIntent(validated, baseAsset, routerIntent);
   let lastRawText = rawText;
@@ -820,7 +1163,12 @@ async function finalizeBuildResponse(
     working = forceDefaultAttachment(working, baseAsset);
   }
 
-  const finalized = sanityPass(resolveAttachments(working, baseAsset), currentParts);
+  working = ensureMirroredWings(
+    ensureCompoundThruster(working, userMessage, baseAsset),
+    userMessage,
+    baseAsset,
+  );
+  const finalized = sanityPass(resolveAttachments(working, baseAsset, currentParts), currentParts);
   if (!primitiveFallback) return finalized;
 
   const issue = primitivesQualityIssue(finalized);
@@ -839,7 +1187,18 @@ async function finalizeBuildResponse(
     const retryText = await callTutor(retryMessages, signal);
     const retryValidated = validate(retryText) ?? salvage(retryText);
     if (retryValidated) {
-      return sanityPass(resolveAttachments(retryValidated, baseAsset), currentParts);
+      return sanityPass(
+        resolveAttachments(
+          ensureMirroredWings(
+            ensureCompoundThruster(retryValidated, userMessage, baseAsset),
+            userMessage,
+            baseAsset,
+          ),
+          baseAsset,
+          currentParts,
+        ),
+        currentParts,
+      );
     }
   } catch (err) {
     if (err instanceof LlmError && err.reason === "aborted") throw err;
@@ -967,6 +1326,7 @@ export async function POST(request: Request) {
         !!primitiveFallback,
         signal,
         routerIntent,
+        message,
       );
       return NextResponse.json(finalResponse);
     }
@@ -996,6 +1356,7 @@ export async function POST(request: Request) {
         !!primitiveFallback,
         signal,
         routerIntent,
+        message,
       );
       return NextResponse.json(finalResponse);
     }

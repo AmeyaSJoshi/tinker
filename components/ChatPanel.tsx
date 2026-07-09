@@ -141,6 +141,7 @@ export default function ChatPanel() {
   // Which models are answering — shown as a small badge for A/B visibility.
   const [modelLabel, setModelLabel] = useState<string | null>(null);
   const [explainerLabel, setExplainerLabel] = useState<string | null>(null);
+  const [showVerifyControls, setShowVerifyControls] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   // The in-flight resolve-asset/tutor fetch for the current turn, if any —
@@ -164,6 +165,9 @@ export default function ChatPanel() {
 
   useEffect(() => {
     refreshModelBadge();
+    if (process.env.NODE_ENV !== "production") {
+      setShowVerifyControls(new URLSearchParams(window.location.search).get("verify") === "1");
+    }
   }, [refreshModelBadge]);
 
   // Keep the newest message in view as the conversation grows.
@@ -443,6 +447,25 @@ export default function ChatPanel() {
 
   return (
     <div className="flex h-full flex-col border-r border-lab-border bg-lab-panel">
+      {showVerifyControls && (
+        <div className="fixed left-0 top-0 z-50 flex gap-1 opacity-0">
+          <button data-testid="verify-build-rocket" onClick={() => void send("build a rocket")}>
+            build rocket
+          </button>
+          <button
+            data-testid="verify-add-thruster"
+            onClick={() => void send("add a bigger thruster to the back")}
+          >
+            add thruster
+          </button>
+          <button data-testid="verify-add-wings" onClick={() => void send("add two wings")}>
+            add wings
+          </button>
+          <button data-testid="verify-build-bike" onClick={() => void send("build a bike")}>
+            build bike
+          </button>
+        </div>
+      )}
       {/* Header */}
       <header className="border-b border-lab-border px-5 py-4">
         <div className="flex items-center justify-between gap-2">

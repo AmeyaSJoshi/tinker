@@ -82,19 +82,19 @@
       "componentMetadata": [
         {
           "rawName": "Cone",
-          "semanticName": "Nosecone"
+          "semanticName": "Fuselage"
         },
         {
           "rawName": "Cone",
-          "semanticName": "Nosecone"
+          "semanticName": "Nose cone"
+        },
+        {
+          "rawName": "Cone",
+          "semanticName": "Exhaust plume"
         },
         {
           "rawName": "Cone",
           "semanticName": "Engine bell"
-        },
-        {
-          "rawName": "Cone",
-          "semanticName": "Fuselage"
         }
       ]
     },
@@ -174,7 +174,71 @@
       "attributionUrl": "https://poly.pizza/m/htfBk9vPfw",
       "triCount": 540,
       "source": "prefetch",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Fuselage",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main structural body of the Space Shuttle."
+        },
+        {
+          "name": "Payload Bay Doors",
+          "position": [
+            0,
+            0.3,
+            -0.7
+          ],
+          "whatItIs": "Open and close to allow access to the cargo bay."
+        },
+        {
+          "name": "Orbital Maneuvering System (OMS) Pots",
+          "position": [
+            -0.4,
+            -0.2,
+            -0.3
+          ],
+          "whatItIs": "Provide thrust for orbit and re-entry maneuvers."
+        },
+        {
+          "name": "Solid Rocket Boosters (SRBs)",
+          "position": [
+            -0.8,
+            0,
+            -0.5
+          ],
+          "whatItIs": "Provide additional thrust during launch."
+        },
+        {
+          "name": "Main Engines",
+          "position": [
+            0,
+            0.2,
+            -0.4
+          ],
+          "whatItIs": "Provide primary thrust during launch and in space."
+        },
+        {
+          "name": "Control Moment Gyros (CMGs)",
+          "position": [
+            0.3,
+            0.4,
+            0.2
+          ],
+          "whatItIs": "Help control the Space Shuttle's orientation in space."
+        },
+        {
+          "name": "Heat Shield",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "Protects the Space Shuttle from heat generated during re-entry."
+        }
+      ]
     },
     "satellite": {
       "id": "satellite",
@@ -671,7 +735,80 @@
       "attributionUrl": "https://poly.pizza/m/5mPRPZkI3qt",
       "triCount": 3070,
       "source": "prefetch",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Cerebrum",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "whatItIs": "The largest part of the brain, responsible for cognitive functions like thought and memory."
+        },
+        {
+          "name": "Cerebellum",
+          "position": [
+            0,
+            -0.5,
+            -0.5
+          ],
+          "whatItIs": "Located under the cerebrum, it coordinates voluntary movements and balance."
+        },
+        {
+          "name": "Brainstem",
+          "position": [
+            0,
+            -0.8,
+            -0.8
+          ],
+          "whatItIs": "Connects the brain to the spinal cord, controlling vital functions like breathing and heartbeat."
+        },
+        {
+          "name": "Thalamus",
+          "position": [
+            0,
+            0.3,
+            -0.3
+          ],
+          "whatItIs": "A relay station for sensory and motor signals to the cerebral cortex."
+        },
+        {
+          "name": "Hypothalamus",
+          "position": [
+            0,
+            0.2,
+            -0.6
+          ],
+          "whatItIs": "Regulates hormones, temperature, hunger, and thirst."
+        },
+        {
+          "name": "Amygdala",
+          "position": [
+            -0.3,
+            0.1,
+            -0.5
+          ],
+          "whatItIs": "Processes emotions, particularly fear and pleasure."
+        },
+        {
+          "name": "Hippocampus",
+          "position": [
+            -0.4,
+            0.2,
+            -0.3
+          ],
+          "whatItIs": "Critical for forming and storing long-term memories."
+        },
+        {
+          "name": "Cortex",
+          "position": [
+            0,
+            0.7,
+            0.2
+          ],
+          "whatItIs": "The outer layer of the cerebrum, involved in complex functions like perception and reasoning."
+        }
+      ]
     },
     "skeleton": {
       "id": "skeleton",
@@ -749,7 +886,80 @@
       "attributionUrl": "https://poly.pizza/m/wODZYCgX5Z",
       "triCount": 1810,
       "source": "prefetch",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Skull",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The bony structure that encases and protects the brain."
+        },
+        {
+          "name": "Rib cage",
+          "position": [
+            0,
+            0.5,
+            0
+          ],
+          "whatItIs": "A bony cage that protects the thoracic organs like the heart and lungs."
+        },
+        {
+          "name": "Spine",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The central column of bones that supports the body and protects the spinal cord."
+        },
+        {
+          "name": "Pelvis",
+          "position": [
+            0,
+            -0.5,
+            0
+          ],
+          "whatItIs": "The bony structure that supports the lower limbs and protects reproductive organs."
+        },
+        {
+          "name": "Femur",
+          "position": [
+            0.5,
+            -0.8,
+            0
+          ],
+          "whatItIs": "The thigh bone, the longest and strongest bone in the body."
+        },
+        {
+          "name": "Humerus",
+          "position": [
+            0.8,
+            0.8,
+            0
+          ],
+          "whatItIs": "The bone of the upper arm, connecting the shoulder to the elbow."
+        },
+        {
+          "name": "Tibia",
+          "position": [
+            0.5,
+            -0.9,
+            0
+          ],
+          "whatItIs": "The shinbone, one of the two major bones of the lower leg."
+        },
+        {
+          "name": "Radius",
+          "position": [
+            0.8,
+            0.6,
+            0
+          ],
+          "whatItIs": "One of the two large bones of the forearm, located on the thumb side."
+        }
+      ]
     },
     "airplane": {
       "id": "airplane",
@@ -1431,7 +1641,71 @@
       "attributionUrl": "https://poly.pizza/m/Iw8iXLqVs5",
       "triCount": 486,
       "source": "prefetch",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Deck",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The surface for vehicles or pedestrians to cross."
+        },
+        {
+          "name": "Abutments",
+          "position": [
+            -1,
+            -1,
+            0
+          ],
+          "whatItIs": "Support structures at the ends of the bridge."
+        },
+        {
+          "name": "Piers",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "Vertical supports in the middle of the bridge."
+        },
+        {
+          "name": "Handrails",
+          "position": [
+            0,
+            0.8,
+            0
+          ],
+          "whatItIs": "Barriers for safety along the edges."
+        },
+        {
+          "name": "Girders",
+          "position": [
+            0,
+            -0.5,
+            0
+          ],
+          "whatItIs": "Horizontal beams supporting the deck."
+        },
+        {
+          "name": "Expansion Joints",
+          "position": [
+            -0.5,
+            0,
+            0
+          ],
+          "whatItIs": "Gaps allowing for thermal expansion."
+        },
+        {
+          "name": "Cables",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "Tension elements in suspension or cable-stayed bridges."
+        }
+      ]
     },
     "castle": {
       "id": "castle",
@@ -5194,7 +5468,80 @@
       "source": "live",
       "authorUrl": "",
       "sourceModelId": "1KRzEPIJwax",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Shell",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The outer protective casing of the peanut."
+        },
+        {
+          "name": "Left half",
+          "position": [
+            -0.3,
+            0,
+            0
+          ],
+          "whatItIs": "One of the two symmetrical halves of the peanut."
+        },
+        {
+          "name": "Right half",
+          "position": [
+            0.3,
+            0,
+            0
+          ],
+          "whatItIs": "The other symmetrical half of the peanut."
+        },
+        {
+          "name": "Seam",
+          "position": [
+            0,
+            0.1,
+            0
+          ],
+          "whatItIs": "The natural ridge where the two halves meet."
+        },
+        {
+          "name": "Tip",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "whatItIs": "The pointed end of the peanut."
+        },
+        {
+          "name": "Base",
+          "position": [
+            0,
+            -1,
+            0
+          ],
+          "whatItIs": "The rounded end opposite the tip."
+        },
+        {
+          "name": "Cotyledon",
+          "position": [
+            0,
+            0,
+            0.5
+          ],
+          "whatItIs": "The fleshy part inside the shell that stores nutrients."
+        },
+        {
+          "name": "Radicle",
+          "position": [
+            0,
+            0,
+            -0.5
+          ],
+          "whatItIs": "The embryonic root of the peanut seed."
+        }
+      ]
     },
     "peanut": {
       "id": "peanut",
@@ -8249,7 +8596,80 @@
       "triCount": 156,
       "sourceModelId": "Ia9S6Ut5yF",
       "source": "live",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Filter Housing",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main enclosure containing the filter media."
+        },
+        {
+          "name": "Inlet Port",
+          "position": [
+            -0.8,
+            0,
+            -1
+          ],
+          "whatItIs": "Where fluid enters the filter for processing."
+        },
+        {
+          "name": "Outlet Port",
+          "position": [
+            0.8,
+            0,
+            1
+          ],
+          "whatItIs": "Where filtered fluid exits the system."
+        },
+        {
+          "name": "Filter Media",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The material that traps contaminants from the fluid."
+        },
+        {
+          "name": "Seal Gasket",
+          "position": [
+            0,
+            0,
+            -1
+          ],
+          "whatItIs": "Ensures a leak-proof connection between components."
+        },
+        {
+          "name": "Pressure Gauge",
+          "position": [
+            0.5,
+            0.9,
+            0.5
+          ],
+          "whatItIs": "Monitors fluid pressure to indicate filter condition."
+        },
+        {
+          "name": "Bypass Valve",
+          "position": [
+            -0.3,
+            0,
+            0.5
+          ],
+          "whatItIs": "Allows fluid to bypass the filter if clogged."
+        },
+        {
+          "name": "Mounting Bracket",
+          "position": [
+            0,
+            -0.9,
+            0
+          ],
+          "whatItIs": "Secures the filter to the system framework."
+        }
+      ]
     },
     "gaming-setup": {
       "id": "gaming-setup",
@@ -9289,7 +9709,80 @@
       "triCount": 100,
       "sourceModelId": "V2Ebx3pvo4",
       "source": "live",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Left click button",
+          "position": [
+            -0.8,
+            0.2,
+            0.9
+          ],
+          "whatItIs": "Primary button for selection and interaction."
+        },
+        {
+          "name": "Right click button",
+          "position": [
+            0.8,
+            0.2,
+            0.9
+          ],
+          "whatItIs": "Secondary button for context menus and actions."
+        },
+        {
+          "name": "Scroll wheel",
+          "position": [
+            0,
+            0.2,
+            0.9
+          ],
+          "whatItIs": "Allows vertical scrolling and sometimes horizontal or button functions."
+        },
+        {
+          "name": "DPI switch",
+          "position": [
+            -0.4,
+            0.1,
+            0.5
+          ],
+          "whatItIs": "Adjusts the mouse's sensitivity for precision control."
+        },
+        {
+          "name": "Side buttons",
+          "position": [
+            -1,
+            0.5,
+            0.3
+          ],
+          "whatItIs": "Additional programmable buttons for gaming shortcuts."
+        },
+        {
+          "name": "Sensor",
+          "position": [
+            0,
+            -1,
+            0.1
+          ],
+          "whatItIs": "Tracks movement and translates it to cursor movement."
+        },
+        {
+          "name": "Cable port",
+          "position": [
+            0,
+            -1,
+            -1
+          ],
+          "whatItIs": "Connects the mouse to the computer via USB or other interfaces."
+        },
+        {
+          "name": "Weight adjustment bay",
+          "position": [
+            0,
+            -0.8,
+            0.3
+          ],
+          "whatItIs": "Allows adding or removing weights to adjust the mouse's balance."
+        }
+      ]
     },
     "gaming-desk": {
       "id": "gaming-desk",
@@ -9360,7 +9853,80 @@
       "triCount": 220,
       "sourceModelId": "dE6BqyF4Ws",
       "source": "live",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Desktop Surface",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The flat surface where the keyboard, mouse, and monitor are placed."
+        },
+        {
+          "name": "Keyboard Tray",
+          "position": [
+            0,
+            -0.3,
+            -0.8
+          ],
+          "whatItIs": "A pull-out or built-in shelf for holding the keyboard."
+        },
+        {
+          "name": "Mouse Pad",
+          "position": [
+            0.4,
+            -0.2,
+            -0.6
+          ],
+          "whatItIs": "A cushioned surface for smoother mouse movement."
+        },
+        {
+          "name": "Monitor Stand",
+          "position": [
+            0,
+            0.5,
+            -0.9
+          ],
+          "whatItIs": "A raised platform to support the monitor at eye level."
+        },
+        {
+          "name": "Cable Management System",
+          "position": [
+            -0.8,
+            -0.8,
+            -0.5
+          ],
+          "whatItIs": "Clips or channels to organize and hide cables."
+        },
+        {
+          "name": "Headphone Hook",
+          "position": [
+            0.8,
+            0.3,
+            -0.9
+          ],
+          "whatItIs": "A hook for hanging headphones when not in use."
+        },
+        {
+          "name": "Drawer",
+          "position": [
+            0,
+            -0.9,
+            -0.7
+          ],
+          "whatItIs": "A storage compartment for accessories or documents."
+        },
+        {
+          "name": "Cup Holder",
+          "position": [
+            -0.7,
+            -0.1,
+            -0.5
+          ],
+          "whatItIs": "A small holder for keeping drinks within reach."
+        }
+      ]
     },
     "mechanical-gaming-keyboard": {
       "id": "mechanical-gaming-keyboard",
@@ -9519,7 +10085,80 @@
       "triCount": 100,
       "sourceModelId": "V2Ebx3pvo4",
       "source": "live",
-      "virtualComponents": []
+      "virtualComponents": [
+        {
+          "name": "Main Board",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "whatItIs": "The main electronic circuit board of the computer mouse."
+        },
+        {
+          "name": "Optical Sensor",
+          "position": [
+            0,
+            0.4,
+            0.3
+          ],
+          "whatItIs": "Detects movement of the mouse on a surface."
+        },
+        {
+          "name": "Button Mechanism",
+          "position": [
+            0,
+            0.8,
+            0.4
+          ],
+          "whatItIs": "Registers clicks on the left and right mouse buttons."
+        },
+        {
+          "name": "Scroll Wheel",
+          "position": [
+            0,
+            0.4,
+            -0.3
+          ],
+          "whatItIs": "Enables vertical scrolling and zooming on a computer screen."
+        },
+        {
+          "name": "Sensor Lens",
+          "position": [
+            -0.3,
+            0.4,
+            0.3
+          ],
+          "whatItIs": "Focuses light onto the optical sensor for accurate tracking."
+        },
+        {
+          "name": "Microcontroller",
+          "position": [
+            0,
+            0,
+            -0.2
+          ],
+          "whatItIs": "Processes data from the sensor and controls the mouse's behavior."
+        },
+        {
+          "name": "Power Source",
+          "position": [
+            0,
+            -0.6,
+            -0.2
+          ],
+          "whatItIs": "Provides power to the computer mouse's electronic components."
+        },
+        {
+          "name": "Casing",
+          "position": [
+            0,
+            0,
+            -0.6
+          ],
+          "whatItIs": "Protects the internal components of the computer mouse from physical damage."
+        }
+      ]
     },
     "gaming-monitor": {
       "id": "gaming-monitor",

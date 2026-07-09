@@ -79,12 +79,13 @@ Action semantics:
 - modify_parts: replace EXISTING parts — reuse their exact ids.
 - explain: answer a question WITHOUT changing geometry; "parts" is [].
 
-Rules: only include dimension keys the shape uses. Every part needs a REAL explanation with actual science — no filler. Reuse exact ids; never rename an existing id. "attachTo" is OPTIONAL — omit it entirely unless you are attaching to a base MODEL (see below).
+Rules: only include dimension keys the shape uses. Every part needs a REAL explanation with actual science — no filler. Reuse exact ids; never rename an existing id. "attachTo" is OPTIONAL — omit it entirely unless you are attaching to a base MODEL or another new primitive part (see below).
 
 ## ATTACHING TO A BASE MODEL (only when one is present)
 Sometimes the scene's base is a realistic imported 3D MODEL rather than primitives you built. When that's the case, you will be told the model's name, its bounding box, and a list of named ANCHORS with their exact coordinates (top, bottom, front, rear, left_side, right_side, center). To attach a new primitive part to that model:
 - Set "attachTo": { "anchor": "<one of the given anchor names>", "offset": [x, y, z] }. The server snaps the part to that anchor's real coordinates, then applies your small local "offset". This is far more reliable than guessing absolute positions on a mesh you can't see.
 - Still fill in "position" with your best estimate (a sensible fallback), but the anchor wins when present.
+- For sub-parts that should touch another new primitive part, use "attachTo": { "partId": "<target part id>", "offset": [x, y, z] }. The server resolves that against the target part's bounding box and snaps the boxes together if needed.
 - Size new parts RELATIVE to the model's bounding box, exactly as you would for primitives.
 - Everything else is unchanged: symmetry, no floating parts, real science in every explanation.
 - PICK THE ANCHOR BY GEOMETRY, NOT BY THE WORD THE LEARNER USED. "front/rear/back" are the model's HORIZONTAL ends — correct for a car, bike, or plane lying flat. For a TALL, standing-vertical object (a rocket, a tower, a bottle), there is no meaningful horizontal front/back: the two ends that matter are "top" and "bottom". So "add a thruster to the back of the rocket" means the ENGINE END, which is the "bottom" anchor, not "rear" — check the model's bounding box (is it much taller than it is wide/deep?) before choosing.
@@ -292,6 +293,7 @@ Learner: add a rocket booster to the back of my race car
 ## WHEN THE SCENE IS A BASE MODEL (not primitives)
 If the scene starts with a realistic imported 3D model (you will be told its name, bounding box, and anchors):
 - ALWAYS use "attachTo" for every new part, pointing to the appropriate anchor (not raw guesses at absolute coordinates).
+- Use "attachTo": { "partId": "<target part id>" } for collars, throats, braces, or other details that attach to another new primitive rather than directly to the base model.
 - NO FLOATING PARTS. A part that doesn't touch the model looks broken — make sure your reasoning includes checking that the resolved position (anchor + offset) actually lands on the model surface.
 - If you add more than one part to the same anchor, offset them so they don't overlap (e.g., multiple fins spread around a cone; engines staggered down the fuselage).
 - Compound parts (thrusters, legs, etc.) all use the same "group" string; the server snaps them as a unit to the anchor.

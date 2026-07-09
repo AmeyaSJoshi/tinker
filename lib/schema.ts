@@ -36,23 +36,28 @@ const vec3 = z.tuple([z.number(), z.number(), z.number()]);
 export type Vec3 = z.infer<typeof vec3>;
 
 /**
- * Optional anchor-based attachment. When a part attaches to a GLB base MODEL,
- * the tutor may name one of the model's auto-anchors (top / bottom / front /
- * rear / left_side / right_side / center) instead of guessing coordinates; the
- * server resolves it to a real world position (plus an optional local offset)
- * before the part is rendered. Absent = use `position` verbatim (primitive-only
- * builds work exactly as before).
+ * Optional attachment. When a part attaches to a GLB base MODEL, the tutor may
+ * name one of the model's auto-anchors instead of guessing coordinates. When a
+ * detail attaches to another primitive part, the tutor may name that part id.
+ * The server resolves either form into a touching world-space position before
+ * the part is rendered. Absent = use `position` verbatim.
  */
-export const attachToSchema = z.object({
-  anchor: z.string().min(1),
-  offset: vec3.optional(),
-  /**
-   * Which entry of a compound scene's `baseAssets` array this attaches to
-   * (0-indexed; default 0 = the single/primary base). Schema-only for now —
-   * deeper multi-asset attachment resolution is a later phase.
-   */
-  assetIndex: z.number().int().nonnegative().optional(),
-});
+export const attachToSchema = z.union([
+  z.object({
+    anchor: z.string().min(1),
+    offset: vec3.optional(),
+    /**
+     * Which entry of a compound scene's `baseAssets` array this attaches to
+     * (0-indexed; default 0 = the single/primary base). Schema-only for now —
+     * deeper multi-asset attachment resolution is a later phase.
+     */
+    assetIndex: z.number().int().nonnegative().optional(),
+  }),
+  z.object({
+    partId: z.string().min(1),
+    offset: vec3.optional(),
+  }),
+]);
 export type AttachTo = z.infer<typeof attachToSchema>;
 
 export const partSchema = z.object({
